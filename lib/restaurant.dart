@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 
-class HomePage extends StatefulWidget {
-  static const routeName = '/home';
+class RestaurantPage extends StatefulWidget {
+  static const routeName = '/restaurant';
 
-  const HomePage({Key? key}) : super(key: key);
+  const RestaurantPage({Key? key}) : super(key: key);
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  State<RestaurantPage> createState() => _RestaurantPageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _RestaurantPageState extends State<RestaurantPage> {
   @override
   void initState() {
     super.initState();
