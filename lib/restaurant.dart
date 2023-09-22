@@ -52,15 +52,37 @@ class ImageWithCaptionSection extends StatelessWidget {
           ),
           Container(
             padding: const EdgeInsets.all(20),
-            width: 180,
-            color: Color.fromARGB(255, 131, 130, 130).withOpacity(0.5),
-            child: const Text(
-              'Cafetería Central Uniandes',
-              style: TextStyle(
-                fontSize: 16,
-                color: Colors.white,
-                fontFamily: 'Manrope',
-              ),
+            width: 346,
+            color: const Color.fromARGB(255, 131, 130, 130).withOpacity(0.5),
+            child: const Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Row(
+                  children: [
+                    Text(
+                      'Cafetería Central Uniandes',
+                      style: TextStyle(
+                        fontSize: 18,
+                        color: Colors.white,
+                        fontFamily: 'Manrope',
+                      ),
+                    ),
+                    SizedBox(width: 20),
+                    Icon(
+                      Icons.star,
+                      color: Color.fromARGB(255, 188, 91, 1),
+                    ),
+                    Text(
+                      '4.3',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontFamily: 'Manrope',
+                        color: Color.fromARGB(255, 255, 255, 255),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
             ),
           ),
         ],
