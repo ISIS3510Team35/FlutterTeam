@@ -77,7 +77,7 @@ class ImageWithCaptionSection extends StatelessWidget {
 }
 
 class OneCardSection extends StatelessWidget {
-  const OneCardSection({super.key});
+  const OneCardSection({Key? key});
 
   @override
   Widget build(BuildContext context) {
@@ -86,12 +86,29 @@ class OneCardSection extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
-            'Almuerzo del Día',
-            style: TextStyle(
-              fontSize: 25,
-              fontFamily: 'Manrope',
-            ),
+          const Row(
+            children: [
+              Text(
+                'Almuerzo del Día',
+                style: TextStyle(
+                  fontSize: 25,
+                  fontFamily: 'Manrope',
+                ),
+              ),
+              SizedBox(width: 50),
+              Icon(
+                Icons.star,
+                color: Color.fromARGB(255, 188, 91, 1),
+              ),
+              Text(
+                '4.3',
+                style: TextStyle(
+                  fontSize: 20,
+                  fontFamily: 'Manrope',
+                  color: Colors.black,
+                ),
+              ),
+            ],
           ),
           const SizedBox(height: 0),
           const Text(
@@ -106,10 +123,11 @@ class OneCardSection extends StatelessWidget {
           const Text(
             '13.9 K',
             style: TextStyle(
-                fontSize: 30,
-                fontWeight: FontWeight.bold,
-                fontFamily: 'Manrope',
-                color: Color.fromRGBO(255, 146, 45, 1)),
+              fontSize: 30,
+              fontWeight: FontWeight.bold,
+              fontFamily: 'Manrope',
+              color: Color.fromRGBO(255, 146, 45, 1),
+            ),
             textAlign: TextAlign.center,
           ),
           const SizedBox(height: 0),
@@ -152,24 +170,48 @@ class ButtonRow extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         SizedBox(
-          width: 135,
-          height: 50,
-          child: ElevatedButton.icon(
-            onPressed: () {},
-            label: const Text('Añadir a favoritos'),
-            icon: const Icon(Icons.favorite_border),
-          ),
-        ),
+            width: 135,
+            height: 50,
+            child: ElevatedButton.icon(
+              onPressed: () {},
+              label: const Text(
+                'Añadir a favoritos',
+                style: TextStyle(color: Colors.white), // White text color
+              ),
+              icon: const Icon(
+                Icons.favorite_border,
+                color: Colors.white, // White icon color
+              ),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.red, // Red background color
+                shape: RoundedRectangleBorder(
+                  borderRadius:
+                      BorderRadius.circular(8.0), // Optional: Rounded corners
+                ),
+              ),
+            )),
         const SizedBox(width: 8),
         SizedBox(
-          width: 120,
-          height: 50,
-          child: ElevatedButton.icon(
-            onPressed: () {},
-            label: const Text('¿Cómo llegar?'),
-            icon: const Icon(Icons.favorite_border),
-          ),
-        ),
+            width: 120,
+            height: 50,
+            child: ElevatedButton.icon(
+              onPressed: () {},
+              label: const Text(
+                '¿Cómo llegar?',
+                style: TextStyle(color: Colors.white), // White text color
+              ),
+              icon: const Icon(
+                Icons.favorite_border,
+                color: Colors.white, // White icon color
+              ),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.red, // Red background color
+                shape: RoundedRectangleBorder(
+                  borderRadius:
+                      BorderRadius.circular(8.0), // Optional: Rounded corners
+                ),
+              ),
+            )),
       ],
     );
   }
