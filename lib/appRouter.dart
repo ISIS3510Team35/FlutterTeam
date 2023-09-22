@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:fud/inicioSesion.dart';
+import 'package:fud/login.dart';
 
 class AppRouter {
-  String initialRoute = HomePage.routeName;
+  String initialRoute = LoginPage.routeName;
 
   static Map<String, Widget Function(BuildContext)> routes = {
-    HomePage.routeName: (BuildContext context) => const HomePage(),
+    LoginPage.routeName: (BuildContext context) => const LoginPage(),
   };
 }
