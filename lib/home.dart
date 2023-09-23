@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fud/appHeader.dart';
 
 class HomePage extends StatefulWidget {
   static const routeName = '/home';
@@ -18,6 +19,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppHeader(),
       body: ListView(
         children: const [
           CategorySection(),
