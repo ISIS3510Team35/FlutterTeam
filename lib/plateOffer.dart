@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fud/appHeader.dart';
 
 class PlateOfferPage extends StatefulWidget {
   static const routeName = '/PlateOffer';
@@ -18,9 +19,9 @@ class _PlateOfferPageState extends State<PlateOfferPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppHeader(),
       body: ListView(
         children: const [
-          HeaderSection(),
           ImageWithCaptionSection(),
           OneCardSection(),
           OthersSection()
