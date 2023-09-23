@@ -1,4 +1,4 @@
-#Thu Sep 21 20:54:24 COT 2023
-base.0=/Users/Meli/Documents/Moviles/FlutterTeam/build/app/intermediates/dex/debug/mergeDexDebug/classes.dex
-renamed.0=classes.dex
+#Sat Sep 23 00:36:08 COT 2023
+base.0=C\:\\Users\\Usuario\\Documents\\Universidad\\Semestre 11\\Moviles\\Proyecto\\Nueva carpeta\\v2\\FlutterTeam\\build\\app\\intermediates\\dex\\debug\\mergeDexDebug\\classes.dex
 path.0=classes.dex
+renamed.0=classes.dex
