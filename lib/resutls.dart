@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fud/appHeader.dart';
+import 'package:fud/restaurant.dart';
 
 class ResultsPage extends StatefulWidget {
   static const routeName = '/results';
@@ -30,8 +31,14 @@ class _ResultsPageState extends State<ResultsPage> {
             child: Row(
               mainAxisSize: MainAxisSize.max,
               children: [
-                Text("Ordenar por: ", style: TextStyle(fontSize: 18,color: Colors.grey),),
-                Text("Mejor calificados ", style: TextStyle(fontSize: 18,color: Colors.black),)
+                Text(
+                  "Ordenar por: ",
+                  style: TextStyle(fontSize: 18, color: Colors.grey),
+                ),
+                Text(
+                  "Mejor calificados ",
+                  style: TextStyle(fontSize: 18, color: Colors.black),
+                )
               ],
             ),
           ),
@@ -45,7 +52,7 @@ class _ResultsPageState extends State<ResultsPage> {
           Padding(
             padding: EdgeInsets.symmetric(
               horizontal: 25,
-            vertical: 25/2.5,
+              vertical: 25 / 2.5,
             ),
             child: Divider(),
           ),
@@ -53,100 +60,139 @@ class _ResultsPageState extends State<ResultsPage> {
           Padding(
             padding: EdgeInsets.symmetric(
               horizontal: 25,
-            vertical: 25/2.5,
+              vertical: 25 / 2.5,
             ),
             child: Divider(),
           ),
           RestaurantResume(),
-            
         ],
       ),
     );
   }
 }
 
-class RestaurantResume extends StatelessWidget{
+class RestaurantResume extends StatelessWidget {
   const RestaurantResume({
     Key? key,
   }) : super(key: key);
 
   @override
-  Widget build(BuildContext context){
-    return Container(
-      padding: const EdgeInsets.symmetric(
-              horizontal: 25,
-            vertical: 25/2.5,
-            ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          Row(
-            mainAxisSize: MainAxisSize.max,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              CircleAvatar(
-                radius: 60,
-                child: ClipOval( child: Image.asset('assets/5.png',height: 140,  fit: BoxFit.cover,)),
-                  ),
-                Row(
-                children: [
-                  const Column(
-                  
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.max,
-                  children: [
-                    Text("Restaurante", style: TextStyle(fontSize: 20),),
-                    Text("Dirección", style: TextStyle(fontSize: 16),)
-                  ],
-                ) ,
-                TextButton.icon(onPressed: () {}, icon: Icon(Icons.star), label: Text("4.3"))]
-                )
-            ],
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        // Navegar a la vista deseada aquí, por ejemplo:
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) =>
+                const RestaurantPage(), // Reemplaza 'TuOtraVista' con el nombre de tu vista
           ),
-          OthersSection(),
-          Row(
-            mainAxisSize: MainAxisSize.max,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              TextButton(onPressed: () {}, 
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children:  [
-                    Text("Añadir a favoritos", style: TextStyle(fontSize: 16, color: Colors.white ), ),
-                    Icon(Icons.favorite_border, color: Colors.white,)
-                  ],
+        );
+      },
+      child: Container(
+        padding: const EdgeInsets.symmetric(
+          horizontal: 25,
+          vertical: 25 / 2.5,
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Row(
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                CircleAvatar(
+                  radius: 60,
+                  child: ClipOval(
+                      child: Image.asset(
+                    'assets/5.png',
+                    height: 140,
+                    fit: BoxFit.cover,
+                  )),
                 ),
-                style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all<Color>(const Color.fromARGB(255, 255, 0, 0)),
-                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                      RoundedRectangleBorder(
+                Row(children: [
+                  const Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.max,
+                    children: [
+                      Text(
+                        "Restaurante",
+                        style: TextStyle(fontSize: 20),
+                      ),
+                      Text(
+                        "Dirección",
+                        style: TextStyle(fontSize: 16),
+                      )
+                    ],
+                  ),
+                  TextButton.icon(
+                      onPressed: () {},
+                      icon: Icon(Icons.star),
+                      label: Text("4.3"))
+                ])
+              ],
+            ),
+            OthersSection(),
+            Row(
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                TextButton(
+                    onPressed: () {},
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          "Añadir a favoritos",
+                          style: TextStyle(fontSize: 16, color: Colors.white),
+                        ),
+                        Icon(
+                          Icons.favorite_border,
+                          color: Colors.white,
+                        )
+                      ],
+                    ),
+                    style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.all<Color>(
+                          const Color.fromARGB(255, 255, 0, 0)),
+                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                          RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(7.0),
-                        
-                      )),)),
-              TextButton(onPressed: () {}, 
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children:  [
-                    Text("Como llegar", style: TextStyle(fontSize: 16, color: Colors.white ), ),
-                    Icon(Icons.favorite_border, color: Colors.white,)
-                  ],
-                ),
-                style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all<Color>(const Color.fromARGB(255, 255, 0, 0)),
-                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                      RoundedRectangleBorder(
+                      )),
+                    )),
+                TextButton(
+                    onPressed: () {},
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          "Como llegar",
+                          style: TextStyle(fontSize: 16, color: Colors.white),
+                        ),
+                        Icon(
+                          Icons.favorite_border,
+                          color: Colors.white,
+                        )
+                      ],
+                    ),
+                    style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.all<Color>(
+                          const Color.fromARGB(255, 255, 0, 0)),
+                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                          RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(7.0),
-                        
-                      )),))
-            ],
-          )
-
-        ],
+                      )),
+                    ))
+              ],
+            )
+          ],
+        ),
       ),
     );
   }
-} 
+}
+
 class OthersSection extends StatelessWidget {
   const OthersSection({Key? key});
 
@@ -159,7 +205,6 @@ class OthersSection extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          
           SizedBox(
             height: 160,
             child: ListView.builder(

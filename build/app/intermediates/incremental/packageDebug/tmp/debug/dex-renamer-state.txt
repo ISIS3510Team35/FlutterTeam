@@ -1,4 +1,4 @@
-#Sat Sep 23 02:19:30 COT 2023
+#Sat Sep 23 03:18:37 COT 2023
 base.0=/Users/Meli/Documents/Moviles/FlutterTeam/build/app/intermediates/dex/debug/mergeDexDebug/classes.dex
 renamed.0=classes.dex
 path.0=classes.dex

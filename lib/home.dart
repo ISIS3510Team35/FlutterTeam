@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fud/appHeader.dart';
+import 'package:fud/plateOffer.dart';
 
 class HomePage extends StatefulWidget {
   static const routeName = '/home';
@@ -78,54 +79,66 @@ class ItemWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(75.0),
-      child: Card(
-        elevation: 4,
-        margin: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
-        child: Container(
-          width: 200,
-          color: Colors.white,
-          padding: const EdgeInsets.all(8),
-          child: Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                CircleAvatar(
-                  radius: 80,
-                  backgroundImage: AssetImage('assets/$index.png'),
-                ),
-                const SizedBox(height: 10),
-                const Text(
-                  'Hamburguesa',
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 18,
-                    fontFamily: 'Manrope',
+    return GestureDetector(
+      onTap: () {
+        // Navegar a la vista deseada aquí, por ejemplo:
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) =>
+                const PlateOfferPage(), // Reemplaza 'TuOtraVista' con el nombre de tu vista
+          ),
+        );
+      },
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(75.0),
+        child: Card(
+          elevation: 4,
+          margin: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+          child: Container(
+            width: 200,
+            color: Colors.white,
+            padding: const EdgeInsets.all(8),
+            child: Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  CircleAvatar(
+                    radius: 80,
+                    backgroundImage: AssetImage('assets/$index.png'),
                   ),
-                  textAlign: TextAlign.center,
-                ),
-                Text(
-                  'Item $index',
-                  style: const TextStyle(
-                    fontSize: 16,
-                    color: Colors.grey,
-                    fontFamily: 'Manrope',
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-                const SizedBox(height: 10),
-                Text(
-                  '${index + 1 * 10} K ',
-                  style: const TextStyle(
-                      fontSize: 20,
+                  const SizedBox(height: 10),
+                  const Text(
+                    'Hamburguesa',
+                    style: TextStyle(
                       fontWeight: FontWeight.bold,
+                      fontSize: 18,
                       fontFamily: 'Manrope',
-                      color: Color.fromRGBO(255, 146, 45, 1)),
-                  textAlign: TextAlign.center,
-                ),
-              ],
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                  Text(
+                    'Item $index',
+                    style: const TextStyle(
+                      fontSize: 16,
+                      color: Colors.grey,
+                      fontFamily: 'Manrope',
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(height: 10),
+                  Text(
+                    '${index + 1 * 10} K ',
+                    style: const TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        fontFamily: 'Manrope',
+                        color: Color.fromRGBO(255, 146, 45, 1)),
+                    textAlign: TextAlign.center,
+                  ),
+                ],
+              ),
             ),
           ),
         ),

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:fud/appHeader.dart';
+import 'package:fud/plateOffer.dart';
 
 class RestaurantPage extends StatefulWidget {
   static const routeName = '/restaurant';
@@ -18,6 +20,7 @@ class _RestaurantPageState extends State<RestaurantPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppHeader(),
       body: ListView(
         children: const [
           ImageWithCaptionSection(),
@@ -99,30 +102,42 @@ class RecommendationsSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     const items = 3;
-    return Container(
-      padding: const EdgeInsets.all(8),
-      alignment: Alignment.bottomLeft,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const Text(
-            'Recomendados para ti',
-            style: TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
-              fontFamily: 'Manrope',
-            ),
-            textAlign: TextAlign.left,
+    return GestureDetector(
+      onTap: () {
+        // Navegar a la vista deseada aquí, por ejemplo:
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) =>
+                const PlateOfferPage(), // Reemplaza 'TuOtraVista' con el nombre de tu vista
           ),
-          SizedBox(
-            height: 321,
-            child: ListView.builder(
-              scrollDirection: Axis.horizontal,
-              itemCount: items,
-              itemBuilder: (context, index) => ItemWidget(index: index),
+        );
+      },
+      child: Container(
+        padding: const EdgeInsets.all(8),
+        alignment: Alignment.bottomLeft,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text(
+              'Recomendados para ti',
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+                fontFamily: 'Manrope',
+              ),
+              textAlign: TextAlign.left,
             ),
-          ),
-        ],
+            SizedBox(
+              height: 321,
+              child: ListView.builder(
+                scrollDirection: Axis.horizontal,
+                itemCount: items,
+                itemBuilder: (context, index) => ItemWidget(index: index),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
