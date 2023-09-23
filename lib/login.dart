@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:fud/home.dart';
 
 class LoginPage extends StatefulWidget {
   static const routeName = '/login';
@@ -138,14 +139,18 @@ class _LoginPageState extends State<LoginPage> {
                     height: 40), // Space between the TextField and the button
                 ElevatedButton(
                   onPressed: () {
-                    // Lógica para manejar el botón de inicio de sesión
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const HomePage(),
+                      ),
+                    );
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color.fromRGBO(
                         255, 146, 45, 1), // Cambia el color de fondo a naranja
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(
-                          20.0), // Haz las esquinas ovaladas
+                      borderRadius: BorderRadius.circular(20.0),
                     ),
                     minimumSize:
                         const Size(190, 50), // Cambia el tamaño del botón
