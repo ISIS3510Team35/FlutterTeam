@@ -20,19 +20,19 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       body: ListView(
         children: const [
-          OthersSection(),
+          CategorySection(),
           SizedBox(height: 7),
-          RecommendationsSection(),
+          LunchSection(),
         ],
       ),
     );
   }
 }
 
-// ------------------------------------------------------------------------------ RECOMENDACIONES
+// ------------------------------------------------------------------------------ Almuerzos para ti
 
-class RecommendationsSection extends StatelessWidget {
-  const RecommendationsSection({Key? key});
+class LunchSection extends StatelessWidget {
+  const LunchSection({Key? key});
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +44,7 @@ class RecommendationsSection extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const Text(
-            'Almuerzos para ti',
+            '    Almuerzos para ti',
             style: TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.bold,
@@ -132,10 +132,10 @@ class ItemWidget extends StatelessWidget {
   }
 }
 
-// ------------------------------------------------------------------------------ OTROS
+// ------------------------------------------------------------------------------ Categorias
 
-class OthersSection extends StatelessWidget {
-  const OthersSection({Key? key});
+class CategorySection extends StatelessWidget {
+  const CategorySection({Key? key});
 
   @override
   Widget build(BuildContext context) {
@@ -147,7 +147,7 @@ class OthersSection extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const Text(
-            'Categorias',
+            '    Categorias',
             style: TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.bold,
@@ -193,15 +193,8 @@ class OtherWidget extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Image.asset(
-                  'assets/$index.png',
-                  height: 80,
-                  width: 200,
-                  fit: BoxFit.cover,
-                ),
-                const SizedBox(height: 5),
                 const Text(
-                  'Hamburguesa',
+                  'Almuerzo',
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 12,
@@ -210,15 +203,13 @@ class OtherWidget extends StatelessWidget {
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(height: 5),
-                Text(
-                  ' ${index + 1 * 10} K',
-                  style: const TextStyle(
-                      fontSize: 12,
-                      fontWeight: FontWeight.bold,
-                      fontFamily: 'Manrope',
-                      color: Color.fromRGBO(255, 146, 45, 1)),
-                  textAlign: TextAlign.center,
+                Image.asset(
+                  'assets/$index.png',
+                  height: 80,
+                  width: 200,
+                  fit: BoxFit.cover,
                 ),
+                const SizedBox(height: 5),
               ],
             ),
           ),
