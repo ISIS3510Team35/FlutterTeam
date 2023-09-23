@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class LoginPage extends StatefulWidget {
   static const routeName = '/login';
@@ -19,15 +20,16 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        backgroundColor: Color.fromRGBO(255, 247, 235, 1),
+        backgroundColor: const Color.fromRGBO(255, 247, 235, 1),
         body: SafeArea(
           top: true,
           child: Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Image.asset('assets/Logo.png'),
-                const SizedBox(height: 70), // Space between image and text box
+                SvgPicture.asset('assets/Logo.svg'),
+                const SizedBox(
+                    height: 70), // Espacio entre la imagen y el cuadro de texto
                 const Align(
                   alignment: Alignment.topLeft,
                   child: Text(
@@ -52,8 +54,7 @@ class _LoginPageState extends State<LoginPage> {
                         color: Colors.grey.withOpacity(0.5),
                         spreadRadius: 3,
                         blurRadius: 3,
-                        offset: const Offset(
-                            0, 3), // Change the direction of the shadow
+                        offset: const Offset(0, 3),
                       ),
                     ],
                   ),
@@ -81,7 +82,6 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                   ),
                 ),
-
                 const SizedBox(height: 50),
                 const Align(
                   alignment: Alignment.topLeft,
@@ -132,6 +132,28 @@ class _LoginPageState extends State<LoginPage> {
                         color: Colors.black,
                       ),
                     ),
+                  ),
+                ),
+                const SizedBox(
+                    height: 40), // Space between the TextField and the button
+                ElevatedButton(
+                  onPressed: () {
+                    // Lógica para manejar el botón de inicio de sesión
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color.fromRGBO(
+                        255, 146, 45, 1), // Cambia el color de fondo a naranja
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(
+                          20.0), // Haz las esquinas ovaladas
+                    ),
+                    minimumSize:
+                        const Size(190, 50), // Cambia el tamaño del botón
+                  ),
+                  child: const Text(
+                    'INICIAR SESIÓN',
+                    style:
+                        TextStyle(fontSize: 18), // Cambia el tamaño del texto
                   ),
                 ),
               ],
