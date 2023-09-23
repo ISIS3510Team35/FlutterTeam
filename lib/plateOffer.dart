@@ -184,7 +184,7 @@ class ButtonRow extends StatelessWidget {
                 color: Colors.white, // White icon color
               ),
               style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.red, // Red background color
+                backgroundColor: Color.fromRGBO(255, 146, 45, 1), // Red background color
                 shape: RoundedRectangleBorder(
                   borderRadius:
                       BorderRadius.circular(8.0), // Optional: Rounded corners
@@ -206,7 +206,7 @@ class ButtonRow extends StatelessWidget {
                 color: Colors.white, // White icon color
               ),
               style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.red, // Red background color
+                backgroundColor: Color.fromRGBO(255, 146, 45, 1), // Red background color
                 shape: RoundedRectangleBorder(
                   borderRadius:
                       BorderRadius.circular(8.0), // Optional: Rounded corners

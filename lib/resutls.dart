@@ -118,7 +118,7 @@ class RestaurantResume extends StatelessWidget{
                   ],
                 ),
                 style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all<Color>(const Color.fromARGB(255, 255, 0, 0)),
+                  backgroundColor: MaterialStateProperty.all<Color>(const Color.fromRGBO(255, 146, 45, 1)),
                   shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                       RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(7.0),
@@ -133,7 +133,7 @@ class RestaurantResume extends StatelessWidget{
                   ],
                 ),
                 style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all<Color>(const Color.fromARGB(255, 255, 0, 0)),
+                  backgroundColor: MaterialStateProperty.all<Color>(const Color.fromRGBO(255, 146, 45,1)),
                   shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                       RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(7.0),
