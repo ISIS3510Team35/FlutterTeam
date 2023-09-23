@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fud/home.dart';
 import 'package:fud/login.dart';
 import 'package:fud/appRouter.dart';
 import 'package:fud/plateOffer.dart';
@@ -21,7 +22,7 @@ class MyApp extends StatelessWidget {
             ColorScheme.fromSeed(seedColor: Color.fromARGB(255, 114, 100, 94)),
         useMaterial3: true,
       ),
-      initialRoute: PlateOfferPage.routeName,
+      initialRoute: HomePage.routeName,
       routes: AppRouter.routes,
     );
   }
