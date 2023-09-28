@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "473546218661",
+    "project_id": "fudbd-6bec5",
+    "storage_bucket": "fudbd-6bec5.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:473546218661:android:57b9a346875f757855414c",
+        "android_client_info": {
+          "package_name": "com.example.fud"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBRbQ5qmIy0vpwCayydaE5goDEcQOXua9s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
