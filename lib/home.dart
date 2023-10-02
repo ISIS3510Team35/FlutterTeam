@@ -20,7 +20,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppHeader(),
+      appBar: const AppHeader(),
       body: ListView(
         children: const [
           CategorySection(),
