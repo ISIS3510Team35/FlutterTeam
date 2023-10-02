@@ -162,40 +162,11 @@ class _LoginPageState extends State<LoginPage> {
                         TextStyle(fontSize: 18), // Cambia el tamaño del texto
                   ),
                 ),
-                const TestFireBase(),
               ],
             ),
           ),
         ),
       ),
-    );
-  }
-}
-
-// -------------------------------------------------------------
-class TestFireBase extends StatelessWidget {
-  const TestFireBase({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return FutureBuilder(
-      future: getTest(),
-      builder: (context, snapshot) {
-        if (snapshot.hasData) {
-          return ListView.builder(
-            scrollDirection: Axis.vertical,
-            shrinkWrap: true,
-            itemCount: snapshot.data?.length,
-            itemBuilder: (context, index) {
-              return Text(snapshot.data?[index]['name']);
-            },
-          );
-        } else {
-          return const Center(
-            child: CircularProgressIndicator(),
-          );
-        }
-      },
     );
   }
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fud/appHeader.dart';
 import 'package:fud/plateOffer.dart';
+import 'package:fud/services/firebase_services.dart';
 
 class HomePage extends StatefulWidget {
   static const routeName = '/home';
@@ -26,6 +27,8 @@ class _HomePageState extends State<HomePage> {
           CategorySection(),
           SizedBox(height: 7),
           LunchSection(),
+          SizedBox(height: 7),
+          DiscountSection()
         ],
       ),
     );
@@ -154,7 +157,7 @@ class CategorySection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const items = 6;
+    const items = 3;
     return Container(
       padding: const EdgeInsets.all(8),
       alignment: Alignment.bottomLeft,
@@ -226,6 +229,179 @@ class OtherWidget extends StatelessWidget {
                 ),
                 const SizedBox(height: 5),
               ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+// ------------------------------------------------------------------------------ Almuerzos para ti
+
+class DiscountSection extends StatelessWidget {
+  const DiscountSection({Key? key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(8),
+      alignment: Alignment.bottomLeft,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Text(
+            '    Ofertas:',
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+              fontFamily: 'Manrope',
+            ),
+            textAlign: TextAlign.left,
+          ),
+          FutureBuilder(
+            future: getOffer(),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
+              } else if (snapshot.hasError) {
+                return const Center(
+                  child: Text('Error loading data'),
+                );
+              } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                return const Center(
+                  child: Text('No data available'),
+                );
+              } else {
+                final items = snapshot.data?.length;
+                return SizedBox(
+                  height: 321,
+                  child: ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    itemCount: items,
+                    itemBuilder: (context, index) {
+                      final itemData = snapshot.data?[index];
+                      return ItemWidgetOffers(
+                        index: index,
+                        itemName: itemData['name'],
+                        itemDescription: itemData['restaurant'],
+                        itemPrice: itemData['price'],
+                        itemPriceOffer: itemData['offerPrice'],
+                        itemPhoto: itemData['photo'],
+                      );
+                    },
+                  ),
+                );
+              }
+            },
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class ItemWidgetOffers extends StatelessWidget {
+  const ItemWidgetOffers({
+    Key? key,
+    required this.index,
+    required this.itemName,
+    required this.itemDescription,
+    required this.itemPrice,
+    required this.itemPriceOffer,
+    required this.itemPhoto,
+  }) : super(key: key);
+
+  final int index;
+  final String itemName;
+  final String itemDescription;
+  final double itemPrice;
+  final double itemPriceOffer;
+  final String itemPhoto;
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        // Navegar a la vista deseada aquí, por ejemplo:
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) =>
+                const PlateOfferPage(), // Reemplaza 'TuOtraVista' con el nombre de tu vista
+          ),
+        );
+      },
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(75.0),
+        child: Card(
+          elevation: 4,
+          margin: const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+          child: Container(
+            width: 200,
+            color: Colors.white,
+            padding: const EdgeInsets.all(8),
+            child: Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  CircleAvatar(
+                    radius: 80,
+                    backgroundImage: NetworkImage(itemPhoto),
+                  ),
+                  const SizedBox(height: 10),
+                  Text(
+                    itemName,
+                    style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 18,
+                      fontFamily: 'Manrope',
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                  Text(
+                    itemDescription,
+                    style: const TextStyle(
+                      fontSize: 16,
+                      color: Colors.grey,
+                      fontFamily: 'Manrope',
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(height: 10),
+                  RichText(
+                    textAlign: TextAlign.center,
+                    text: TextSpan(
+                      children: <TextSpan>[
+                        TextSpan(
+                          text: '$itemPrice K  ',
+                          style: const TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: 'Manrope',
+                            color: Color.fromRGBO(255, 146, 45, 1),
+                            decoration:
+                                TextDecoration.lineThrough, // Add strikethrough
+                          ),
+                        ),
+                        TextSpan(
+                          text: '  $itemPriceOffer K ',
+                          style: const TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: 'Manrope',
+                            color: Color.fromARGB(255, 201, 69,
+                                69), // Change the color for the new price
+                          ),
+                        ),
+                      ],
+                    ),
+                  )
+                ],
+              ),
             ),
           ),
         ),
