@@ -16,9 +16,11 @@ class _AppHeaderState extends State<AppHeader> {
   @override
   void initState() {
     super.initState();
+    gps.liveLocation();
   }
-
-  double _price = 0.0;
+  double lat_u = 4.6031;
+  double lon_u = -74.0659;
+  double _price = 100.0;
   double _time = 0.0;
   bool vegano = false;
   bool vegetariano = false;
@@ -44,16 +46,30 @@ class _AppHeaderState extends State<AppHeader> {
                 children: [
                   const Icon(
                     Icons.filter_list,
-                    size: 40,
+                    size: 30,
                   ),
                   Image.asset(
                     'assets/Logo.png',
                     height: 40,
                   ),
-                  const Icon(
-                    Icons.location_on,
-                    size: 40,
+                  if(gps.getLat()==0 || gps.getLong()==0)
+                    const Icon(
+                      Icons.my_location,
+                      size: 25,
+                      color: Colors.green,
+                    )
+                  else if(calculateDistance(gps.getLat(), lat_u, gps.getLong(), lon_u)<0.5)
+                    const Icon(
+                    Icons.my_location,
+                    size: 25,
+                    color: Colors.green,
                   )
+                  else
+                     const Icon(
+                      Icons.location_searching,
+                      size: 25,
+                    ),
+                  
                 ],
               ),
             ),
@@ -122,20 +138,20 @@ class _AppHeaderState extends State<AppHeader> {
                   vertical: 10,
                 ),
                 height: 300,
-                color: Colors.white,
+                color: Color.fromRGBO(253, 249, 242, 1),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     const Text("Filtrar por precio",
-                        style: TextStyle(fontSize: 18, fontFamily: "Manrope")),
+                        style: TextStyle(fontSize: 18, fontFamily: "Manrope",fontWeight: FontWeight.bold,)),
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisSize: MainAxisSize.max,
                       children: [
-                        Text('${gps.getLat()}',
+                        const Text('10 K',
                             style:
-                                TextStyle(fontSize: 18, fontFamily: "Manrope")),
+                                TextStyle(fontSize: 18, fontFamily: "Manrope", fontStyle: FontStyle.italic)),
                         Flexible(
                             child: Slider(
                                 max: 100.0,
@@ -150,11 +166,11 @@ class _AppHeaderState extends State<AppHeader> {
                                 })),
                         const Text("100K",
                             style:
-                                TextStyle(fontSize: 18, fontFamily: "Manrope")),
+                                TextStyle(fontSize: 18, fontFamily: "Manrope", fontStyle: FontStyle.italic)),
                       ],
                     ),
                     const Text("Filtrar por tipo de comida",
-                        style: TextStyle(fontSize: 18, fontFamily: "Manrope")),
+                        style: TextStyle(fontSize: 18, fontFamily: "Manrope",fontWeight: FontWeight.bold,)),
                     Row(
                       mainAxisSize: MainAxisSize.max,
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -176,7 +192,7 @@ class _AppHeaderState extends State<AppHeader> {
                         ),
                         const Text("Vegana",
                             style:
-                                TextStyle(fontSize: 18, fontFamily: "Manrope")),
+                                TextStyle(fontSize: 18, fontFamily: "Manrope",fontStyle: FontStyle.italic)),
                         Switch(
                           value: vegetariano,
                           onChanged: (value) {
@@ -194,7 +210,7 @@ class _AppHeaderState extends State<AppHeader> {
                         ),
                         const Text("Vegetariana",
                             style:
-                                TextStyle(fontSize: 18, fontFamily: "Manrope")),
+                                TextStyle(fontSize: 18, fontFamily: "Manrope",fontStyle: FontStyle.italic)),
                       ],
                     ),
                     const Text("Filtrar por tiempo de espera máximo",
@@ -235,7 +251,7 @@ class _AppHeaderState extends State<AppHeader> {
                           backgroundColor: const Color.fromRGBO(255, 146, 45,
                               1), // Cambia el color de fondo a naranja
                           shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20.0),
+                            borderRadius: BorderRadius.circular(7.0),
                           ),
                           minimumSize:
                               const Size(190, 50), // Cambia el tamaño del botón

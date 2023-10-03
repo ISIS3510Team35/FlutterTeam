@@ -119,9 +119,9 @@ class ImageWithCaptionSection extends StatelessWidget {
 
 class OneCardSection extends StatelessWidget {
   final String title;
-  final double rating;
+  final num rating;
   final String cafeteriaName;
-  final double ratingCount;
+  final num ratingCount;
   final String description;
   final GeoPoint location;
 
