@@ -5,6 +5,7 @@ import 'package:fud/services/firebase_services.dart';
 import 'package:fud/services/gps_service.dart';
 
 var gps = GPS();
+
 class LoginPage extends StatefulWidget {
   static const routeName = '/login';
 
@@ -146,20 +147,12 @@ class _LoginPageState extends State<LoginPage> {
                 const SizedBox(height: 40),
                 ElevatedButton(
                   onPressed: () {
-
-                    gps.getCurrentLocation();
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const HomePage(),
-                      ),
-                    );
-
                     String username = _usernameController.text;
                     String password = _passwordController.text;
 
                     doesUserExist(username, password).then((bool exists) {
                       if (exists) {
+                        gps.getCurrentLocation();
                         Navigator.push(
                           context,
                           MaterialPageRoute(
