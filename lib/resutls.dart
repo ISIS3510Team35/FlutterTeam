@@ -1,6 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:fud/appHeader.dart';
 import 'package:fud/restaurant.dart';
+import 'package:fud/services/firebase_services.dart';
+import 'package:fud/services/google_maps.dart';
 
 class ResultsPage extends StatefulWidget {
   static const routeName = '/results';
@@ -12,68 +15,117 @@ class ResultsPage extends StatefulWidget {
 }
 
 class _ResultsPageState extends State<ResultsPage> {
+  late Future<Map<String, List>> filterFuture;
+
   @override
   void initState() {
     super.initState();
+    filterFuture = getFilter();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppHeader(),
-      body: ListView(
-        children: const [
-          Padding(
-            padding: EdgeInsets.symmetric(
-              horizontal: 25,
-              vertical: 10,
-            ),
-            child: Row(
-              mainAxisSize: MainAxisSize.max,
+      appBar: const AppHeader(),
+      body: FutureBuilder<Map<String, List>>(
+        future: filterFuture,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const CircularProgressIndicator();
+          } else if (snapshot.hasError) {
+            return Text('Error: ${snapshot.error}');
+          } else {
+            final filterResult =
+                snapshot.data ?? {}; // Use {} for default value
+
+            return ListView(
               children: [
-                Text(
-                  "Ordenar por: ",
-                  style: TextStyle(fontSize: 18, color: Colors.grey),
+                const Padding(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 25,
+                    vertical: 10,
+                  ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.max,
+                    children: [
+                      Text(
+                        "Ordenar por ",
+                        style: TextStyle(fontSize: 18, color: Colors.grey),
+                      ),
+                      Text(
+                        "Cercania ",
+                        style: TextStyle(fontSize: 18, color: Colors.black),
+                      )
+                    ],
+                  ),
                 ),
-                Text(
-                  "Mejor calificados ",
-                  style: TextStyle(fontSize: 18, color: Colors.black),
-                )
+                const Padding(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 25,
+                  ),
+                ),
+                buildPaddingAndRestaurantWidgets(filterResult),
               ],
-            ),
-          ),
-          Padding(
-            padding: EdgeInsets.symmetric(
-              horizontal: 25,
-            ),
-            child: Divider(),
-          ),
-          RestaurantResume(),
-          Padding(
-            padding: EdgeInsets.symmetric(
-              horizontal: 25,
-              vertical: 25 / 2.5,
-            ),
-            child: Divider(),
-          ),
-          RestaurantResume(),
-          Padding(
-            padding: EdgeInsets.symmetric(
-              horizontal: 25,
-              vertical: 25 / 2.5,
-            ),
-            child: Divider(),
-          ),
-          RestaurantResume(),
-        ],
+            );
+          }
+        },
       ),
     );
+  }
+
+  Widget buildPaddingAndRestaurantWidgets(Map<String, List> filterResult) {
+    List<Widget> widgets = [];
+
+    for (var data in filterResult.entries) {
+      String restaurantName = data.value[0]['restaurant_name']
+          .toString(); // Get the restaurant name
+
+      GeoPoint addressPoint = data.value[0]['restaurant_location'];
+      double latitude = addressPoint.latitude;
+      double longitude = addressPoint.longitude;
+
+      String address = data.value[0]['distancia'].toStringAsFixed(4) +
+          ' Km'; // Get the restaurant name
+
+      String photo = data.value[0]['restaurant_photo'].toString();
+
+      widgets.addAll([
+        const Padding(
+          padding: EdgeInsets.symmetric(
+            horizontal: 25,
+          ),
+          child: Divider(),
+        ),
+        RestaurantResume(
+            restaurantName: restaurantName,
+            address: address,
+            photo: photo,
+            data: data.value,
+            latitude: latitude,
+            longitude: longitude),
+      ]);
+    }
+
+    return Column(children: widgets);
   }
 }
 
 class RestaurantResume extends StatelessWidget {
+  final String restaurantName;
+  final String address;
+  final String photo;
+  final List data;
+  final double latitude;
+  final double longitude;
+
   const RestaurantResume({
     Key? key,
+    required this.restaurantName,
+    required this.address,
+    required this.photo,
+    required this.data,
+    required this.latitude,
+    required this.longitude,
   }) : super(key: key);
 
   @override
@@ -104,43 +156,47 @@ class RestaurantResume extends StatelessWidget {
                 CircleAvatar(
                   radius: 60,
                   child: ClipOval(
-                      child: Image.asset(
-                    'assets/5.png',
+                      child: Image.network(
+                    photo,
                     height: 140,
                     fit: BoxFit.cover,
                   )),
                 ),
                 Row(children: [
-                  const Column(
+                  Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.start,
                     mainAxisSize: MainAxisSize.max,
                     children: [
                       Text(
-                        "Restaurante",
-                        style: TextStyle(fontSize: 20),
+                        restaurantName,
+                        style: const TextStyle(fontSize: 20),
                       ),
                       Text(
-                        "Dirección",
-                        style: TextStyle(fontSize: 16),
+                        address,
+                        style: const TextStyle(fontSize: 16),
                       )
                     ],
                   ),
-                  TextButton.icon(
-                      onPressed: () {},
-                      icon: Icon(Icons.star),
-                      label: Text("4.3"))
                 ])
               ],
             ),
-            OthersSection(),
+            OthersSection(data: data),
             Row(
               mainAxisSize: MainAxisSize.max,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 TextButton(
                     onPressed: () {},
-                    child: Row(
+                    style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.all<Color>(
+                          const Color.fromRGBO(245, 90, 81, 1)),
+                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                          RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(7.0),
+                      )),
+                    ),
+                    child: const Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
@@ -152,18 +208,20 @@ class RestaurantResume extends StatelessWidget {
                           color: Colors.white,
                         )
                       ],
-                    ),
+                    )),
+                TextButton(
+                    onPressed: () {
+                      MapUtils.openMap(latitude, longitude);
+                    },
                     style: ButtonStyle(
                       backgroundColor: MaterialStateProperty.all<Color>(
-                          const Color.fromARGB(255, 146, 45, 1)),
+                          const Color.fromRGBO(245, 90, 81, 1)),
                       shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                           RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(7.0),
                       )),
-                    )),
-                TextButton(
-                    onPressed: () {},
-                    child: Row(
+                    ),
+                    child: const Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
@@ -175,14 +233,6 @@ class RestaurantResume extends StatelessWidget {
                           color: Colors.white,
                         )
                       ],
-                    ),
-                    style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all<Color>(
-                          const Color.fromRGBO(255, 146, 45, 1)),
-                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                          RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(7.0),
-                      )),
                     ))
               ],
             )
@@ -194,11 +244,12 @@ class RestaurantResume extends StatelessWidget {
 }
 
 class OthersSection extends StatelessWidget {
-  const OthersSection({Key? key});
+  final List<dynamic> data; // Change data to List<Map<String, dynamic>>
+
+  const OthersSection({Key? key, required this.data}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    const items = 6;
     return Container(
       padding: const EdgeInsets.all(8),
       alignment: Alignment.bottomLeft,
@@ -209,8 +260,12 @@ class OthersSection extends StatelessWidget {
             height: 160,
             child: ListView.builder(
               scrollDirection: Axis.horizontal,
-              itemCount: items,
-              itemBuilder: (context, index) => OtherWidget(index: index),
+              itemCount: data.length,
+              itemBuilder: (context, index) => OtherWidget(
+                asset: data[index]['photo'],
+                name: data[index]['name'],
+                price: data[index]['price'],
+              ),
             ),
           ),
         ],
@@ -222,10 +277,14 @@ class OthersSection extends StatelessWidget {
 class OtherWidget extends StatelessWidget {
   const OtherWidget({
     Key? key,
-    required this.index,
+    required this.asset,
+    required this.name,
+    required this.price,
   }) : super(key: key);
 
-  final int index;
+  final String asset;
+  final String name;
+  final double price;
 
   @override
   Widget build(BuildContext context) {
@@ -233,7 +292,7 @@ class OtherWidget extends StatelessWidget {
       borderRadius: BorderRadius.circular(75.0),
       child: Card(
         elevation: 4,
-        margin: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+        margin: const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
         child: Container(
           width: 120,
           color: Colors.white,
@@ -243,16 +302,16 @@ class OtherWidget extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Image.asset(
-                  'assets/$index.png',
+                Image.network(
+                  asset, // Use the user-defined asset parameter
                   height: 80,
                   width: 200,
                   fit: BoxFit.cover,
                 ),
                 const SizedBox(height: 5),
-                const Text(
-                  'Hamburguesa',
-                  style: TextStyle(
+                Text(
+                  name, // Use the user-defined hamburger name parameter
+                  style: const TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 12,
                     fontFamily: 'Manrope',
@@ -261,7 +320,7 @@ class OtherWidget extends StatelessWidget {
                 ),
                 const SizedBox(height: 5),
                 Text(
-                  ' ${index + 1 * 10} K',
+                  '$price K', // Use the user-defined price parameter
                   style: const TextStyle(
                       fontSize: 12,
                       fontWeight: FontWeight.bold,

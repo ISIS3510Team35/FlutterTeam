@@ -1,8 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 import 'package:fud/services/factories.dart';
+import 'package:collection/collection.dart';
+import 'package:fud/services/gps_service.dart';
 
 FirebaseFirestore db = FirebaseFirestore.instance;
+var gps = GPS();
 
 Future<List> getOffer() async {
   List test = [];
@@ -139,4 +142,64 @@ Future<List> getBest() async {
   test = test.take(3).toList();
 
   return test;
+}
+
+Future<Map<String, List>> getFilter() async {
+  List test = [];
+
+  CollectionReference collectionReferenceTest = db.collection('Producto');
+  QuerySnapshot queryTest = await collectionReferenceTest.get();
+
+  for (var element in queryTest.docs) {
+    var i, e;
+    String name;
+    GeoPoint location;
+    String idRestaurant;
+    String restaurantPhoto;
+
+    try {
+      QuerySnapshot collectionReferenceRest = await db
+          .collection('Restaurante')
+          .where('id', isEqualTo: element['restaurant'])
+          .get();
+
+      if (collectionReferenceRest.docs.isNotEmpty) {
+        i = collectionReferenceRest.docs[0].data();
+      }
+
+      if (i?.containsKey('name')) {
+        name = i['name'];
+        location = i['location'];
+        idRestaurant = i['id'];
+        restaurantPhoto = i['photo'];
+
+        e = element.data();
+        e['restaurant_name'] = name;
+        e['restaurant_id'] = idRestaurant;
+        e['restaurant_photo'] = restaurantPhoto;
+        e['restaurant_location'] = location;
+
+        double latRes = location.latitude;
+        double longRes = location.longitude;
+
+        double latNow = gps.getLat();
+        double longNow = gps.getLong();
+
+        double dist = calculateDistance(latNow, latRes, longNow, longRes);
+        e['distancia'] = dist;
+      }
+    } catch (e) {
+      if (kDebugMode) {
+        print("Error: $e");
+      }
+    }
+
+    test.add(e);
+  }
+
+  test.sort((a, b) => a['distancia'].compareTo(b['distancia']));
+  Map<String, List> groupedData =
+      groupBy(test, (element) => element['restaurant_id']);
+
+  return groupedData;
 }
