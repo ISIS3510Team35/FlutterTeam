@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:fud/appHeader.dart';
+import 'package:fud/plateOffer.dart';
+import 'package:fud/services/firebase_services.dart';
 
 class HomePage extends StatefulWidget {
   static const routeName = '/home';
@@ -18,21 +21,24 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: const AppHeader(),
       body: ListView(
         children: const [
-          OthersSection(),
+          CategorySection(),
           SizedBox(height: 7),
-          RecommendationsSection(),
+          LunchSection(),
+          SizedBox(height: 7),
+          DiscountSection()
         ],
       ),
     );
   }
 }
 
-// ------------------------------------------------------------------------------ RECOMENDACIONES
+// ------------------------------------------------------------------------------ Almuerzos para ti
 
-class RecommendationsSection extends StatelessWidget {
-  const RecommendationsSection({Key? key});
+class LunchSection extends StatelessWidget {
+  const LunchSection({Key? key});
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +50,7 @@ class RecommendationsSection extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const Text(
-            'Almuerzos para ti',
+            '    Almuerzos para ti',
             style: TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.bold,
@@ -76,54 +82,66 @@ class ItemWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(75.0),
-      child: Card(
-        elevation: 4,
-        margin: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
-        child: Container(
-          width: 200,
-          color: Colors.white,
-          padding: const EdgeInsets.all(8),
-          child: Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                CircleAvatar(
-                  radius: 80,
-                  backgroundImage: AssetImage('assets/$index.png'),
-                ),
-                const SizedBox(height: 10),
-                const Text(
-                  'Hamburguesa',
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 18,
-                    fontFamily: 'Manrope',
+    return GestureDetector(
+      onTap: () {
+        // Navegar a la vista deseada aquí, por ejemplo:
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) =>
+                const PlateOfferPage(), // Reemplaza 'TuOtraVista' con el nombre de tu vista
+          ),
+        );
+      },
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(75.0),
+        child: Card(
+          elevation: 4,
+          margin: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+          child: Container(
+            width: 200,
+            color: Colors.white,
+            padding: const EdgeInsets.all(8),
+            child: Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  CircleAvatar(
+                    radius: 80,
+                    backgroundImage: AssetImage('assets/$index.png'),
                   ),
-                  textAlign: TextAlign.center,
-                ),
-                Text(
-                  'Item $index',
-                  style: const TextStyle(
-                    fontSize: 16,
-                    color: Colors.grey,
-                    fontFamily: 'Manrope',
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-                const SizedBox(height: 10),
-                Text(
-                  '${index + 1 * 10} K ',
-                  style: const TextStyle(
-                      fontSize: 20,
+                  const SizedBox(height: 10),
+                  const Text(
+                    'Hamburguesa',
+                    style: TextStyle(
                       fontWeight: FontWeight.bold,
+                      fontSize: 18,
                       fontFamily: 'Manrope',
-                      color: Color.fromRGBO(255, 146, 45, 1)),
-                  textAlign: TextAlign.center,
-                ),
-              ],
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                  Text(
+                    'Item $index',
+                    style: const TextStyle(
+                      fontSize: 16,
+                      color: Colors.grey,
+                      fontFamily: 'Manrope',
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(height: 10),
+                  Text(
+                    '${index + 1 * 10} K ',
+                    style: const TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        fontFamily: 'Manrope',
+                        color: Color.fromRGBO(255, 146, 45, 1)),
+                    textAlign: TextAlign.center,
+                  ),
+                ],
+              ),
             ),
           ),
         ),
@@ -132,14 +150,14 @@ class ItemWidget extends StatelessWidget {
   }
 }
 
-// ------------------------------------------------------------------------------ OTROS
+// ------------------------------------------------------------------------------ Categorias
 
-class OthersSection extends StatelessWidget {
-  const OthersSection({Key? key});
+class CategorySection extends StatelessWidget {
+  const CategorySection({Key? key});
 
   @override
   Widget build(BuildContext context) {
-    const items = 6;
+    const items = 3;
     return Container(
       padding: const EdgeInsets.all(8),
       alignment: Alignment.bottomLeft,
@@ -147,7 +165,7 @@ class OthersSection extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const Text(
-            'Categorias',
+            '    Categorias',
             style: TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.bold,
@@ -193,15 +211,8 @@ class OtherWidget extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Image.asset(
-                  'assets/$index.png',
-                  height: 80,
-                  width: 200,
-                  fit: BoxFit.cover,
-                ),
-                const SizedBox(height: 5),
                 const Text(
-                  'Hamburguesa',
+                  'Almuerzo',
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 12,
@@ -210,16 +221,187 @@ class OtherWidget extends StatelessWidget {
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(height: 5),
-                Text(
-                  ' ${index + 1 * 10} K',
-                  style: const TextStyle(
-                      fontSize: 12,
-                      fontWeight: FontWeight.bold,
-                      fontFamily: 'Manrope',
-                      color: Color.fromRGBO(255, 146, 45, 1)),
-                  textAlign: TextAlign.center,
+                Image.asset(
+                  'assets/$index.png',
+                  height: 80,
+                  width: 200,
+                  fit: BoxFit.cover,
                 ),
+                const SizedBox(height: 5),
               ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+// ------------------------------------------------------------------------------ Almuerzos para ti
+
+class DiscountSection extends StatelessWidget {
+  const DiscountSection({Key? key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(8),
+      alignment: Alignment.bottomLeft,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Text(
+            '    Ofertas:',
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+              fontFamily: 'Manrope',
+            ),
+            textAlign: TextAlign.left,
+          ),
+          FutureBuilder(
+            future: getOffer(),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
+              } else if (snapshot.hasError) {
+                return const Center(
+                  child: Text('Error loading data'),
+                );
+              } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                return const Center(
+                  child: Text('No data available'),
+                );
+              } else {
+                final items = snapshot.data?.length;
+                return SizedBox(
+                  height: 321,
+                  child: ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    itemCount: items,
+                    itemBuilder: (context, index) {
+                      final itemData = snapshot.data?[index];
+                      return ItemWidgetOffers(
+                        index: index,
+                        itemName: itemData['name'],
+                        itemDescription: itemData['restaurant'],
+                        itemPrice: itemData['price'],
+                        itemPriceOffer: itemData['offerPrice'],
+                        itemPhoto: itemData['photo'],
+                      );
+                    },
+                  ),
+                );
+              }
+            },
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class ItemWidgetOffers extends StatelessWidget {
+  const ItemWidgetOffers({
+    Key? key,
+    required this.index,
+    required this.itemName,
+    required this.itemDescription,
+    required this.itemPrice,
+    required this.itemPriceOffer,
+    required this.itemPhoto,
+  }) : super(key: key);
+
+  final int index;
+  final String itemName;
+  final String itemDescription;
+  final double itemPrice;
+  final double itemPriceOffer;
+  final String itemPhoto;
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        // Navegar a la vista deseada aquí, por ejemplo:
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) =>
+                const PlateOfferPage(), // Reemplaza 'TuOtraVista' con el nombre de tu vista
+          ),
+        );
+      },
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(75.0),
+        child: Card(
+          elevation: 4,
+          margin: const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+          child: Container(
+            width: 200,
+            color: Colors.white,
+            padding: const EdgeInsets.all(8),
+            child: Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  CircleAvatar(
+                    radius: 80,
+                    backgroundImage: NetworkImage(itemPhoto),
+                  ),
+                  const SizedBox(height: 10),
+                  Text(
+                    itemName,
+                    style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 18,
+                      fontFamily: 'Manrope',
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                  Text(
+                    itemDescription,
+                    style: const TextStyle(
+                      fontSize: 16,
+                      color: Colors.grey,
+                      fontFamily: 'Manrope',
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(height: 10),
+                  RichText(
+                    textAlign: TextAlign.center,
+                    text: TextSpan(
+                      children: <TextSpan>[
+                        TextSpan(
+                          text: '$itemPrice K  ',
+                          style: const TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: 'Manrope',
+                            color: Color.fromRGBO(255, 146, 45, 1),
+                            decoration:
+                                TextDecoration.lineThrough, // Add strikethrough
+                          ),
+                        ),
+                        TextSpan(
+                          text: '  $itemPriceOffer K ',
+                          style: const TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: 'Manrope',
+                            color: Color.fromARGB(255, 201, 69,
+                                69), // Change the color for the new price
+                          ),
+                        ),
+                      ],
+                    ),
+                  )
+                ],
+              ),
             ),
           ),
         ),
