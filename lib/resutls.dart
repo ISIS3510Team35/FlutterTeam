@@ -151,7 +151,7 @@ class RestaurantResume extends StatelessWidget {
           children: [
             Row(
               mainAxisSize: MainAxisSize.max,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 CircleAvatar(
                   radius: 60,
@@ -284,7 +284,7 @@ class OtherWidget extends StatelessWidget {
 
   final String asset;
   final String name;
-  final double price;
+  final num price;
 
   @override
   Widget build(BuildContext context) {

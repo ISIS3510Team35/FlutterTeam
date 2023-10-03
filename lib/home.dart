@@ -119,9 +119,9 @@ class ItemWidget extends StatelessWidget {
   final int index;
   final String itemName;
   final String itemDescription;
-  final double itemPrice;
+  final num itemPrice;
   final String itemPhoto;
-  final double itemRating;
+  final num itemRating;
   final String itemId;
   final String itemIdRes;
 
@@ -385,8 +385,8 @@ class ItemWidgetOffers extends StatelessWidget {
   final int index;
   final String itemName;
   final String itemDescription;
-  final double itemPrice;
-  final double itemPriceOffer;
+  final num itemPrice;
+  final num itemPriceOffer;
   final String itemPhoto;
   final String itemId;
   final String itemIdRes;
