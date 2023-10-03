@@ -108,8 +108,10 @@ class RecommendationsSection extends StatelessWidget {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) =>
-                const PlateOfferPage(), // Reemplaza 'TuOtraVista' con el nombre de tu vista
+            builder: (context) => const PlateOfferPage(
+                idPlate: "Arc8UbbD19smegpKKhjE",
+                idRestaurant:
+                    "Ax1RN0EsKCFeAVDKdLhI"), // Reemplaza 'TuOtraVista' con el nombre de tu vista
           ),
         );
       },
