@@ -4,19 +4,6 @@ import 'package:fud/services/factories.dart';
 
 FirebaseFirestore db = FirebaseFirestore.instance;
 
-Future<List> getTest() async {
-  List test = [];
-
-  CollectionReference collectionReferenceTest = db.collection('Usuario');
-  QuerySnapshot queryTest = await collectionReferenceTest.get();
-
-  for (var element in queryTest.docs) {
-    test.add(element.data());
-  }
-
-  return test;
-}
-
 Future<List> getOffer() async {
   List test = [];
 
@@ -99,11 +86,8 @@ Future<Restaurant?> getRestaurant({required id}) async {
 // Autenticación !!!
 
 Future<bool> doesUserExist(String username, String password) async {
-  // Initialize Firebase Firestore
-  FirebaseFirestore firestore = FirebaseFirestore.instance;
-
   // Query the 'Usuario' collection for a document with the given username and password
-  QuerySnapshot querySnapshot = await firestore
+  QuerySnapshot querySnapshot = await db
       .collection('Usuario')
       .where('username', isEqualTo: username)
       .where('password', isEqualTo: password)
@@ -140,7 +124,7 @@ Future<List> getBest() async {
       if (i?.containsKey('name')) {
         name = i['name'];
         e = element.data();
-        e['restaurant'] = name;
+        e['restaurant_name'] = name;
       }
     } catch (e) {
       if (kDebugMode) {
@@ -152,7 +136,7 @@ Future<List> getBest() async {
   }
 
   test.sort((a, b) => b['rating'].compareTo(a['rating']));
-  //test = test.take(3).toList();
+  test = test.take(3).toList();
 
   return test;
 }

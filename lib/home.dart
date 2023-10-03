@@ -49,7 +49,7 @@ class LunchSection extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const Text(
-            '    Platos:',
+            '    Top 3:',
             style: TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.bold,
@@ -75,7 +75,7 @@ class LunchSection extends StatelessWidget {
               } else {
                 final items = snapshot.data?.length;
                 return SizedBox(
-                  height: 321,
+                  height: 332,
                   child: ListView.builder(
                     scrollDirection: Axis.horizontal,
                     itemCount: items,
@@ -84,9 +84,12 @@ class LunchSection extends StatelessWidget {
                       return ItemWidget(
                         index: index,
                         itemName: itemData['name'],
-                        itemDescription: itemData['restaurant'],
+                        itemDescription: itemData['restaurant_name'],
                         itemPrice: itemData['price'],
                         itemPhoto: itemData['photo'],
+                        itemRating: itemData['rating'],
+                        itemIdRes: itemData['restaurant'],
+                        itemId: itemData['id'],
                       );
                     },
                   ),
@@ -108,6 +111,9 @@ class ItemWidget extends StatelessWidget {
     required this.itemDescription,
     required this.itemPrice,
     required this.itemPhoto,
+    required this.itemRating,
+    required this.itemId,
+    required this.itemIdRes,
   }) : super(key: key);
 
   final int index;
@@ -115,19 +121,20 @@ class ItemWidget extends StatelessWidget {
   final String itemDescription;
   final double itemPrice;
   final String itemPhoto;
+  final double itemRating;
+  final String itemId;
+  final String itemIdRes;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        // Navegar a la vista deseada aquí, por ejemplo:
+        // Navigate to the desired view here, for example:
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => PlateOfferPage(
-                idPlate: "1",
-                idRestaurant:
-                    "1"), // Reemplaza 'TuOtraVista' con el nombre de tu vista
+            builder: (context) =>
+                PlateOfferPage(idPlate: itemId, idRestaurant: itemIdRes),
           ),
         );
       },
@@ -172,11 +179,30 @@ class ItemWidget extends StatelessWidget {
                   Text(
                     '$itemPrice K',
                     style: const TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                        fontFamily: 'Manrope',
-                        color: Color.fromRGBO(255, 146, 45, 1)),
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      fontFamily: 'Manrope',
+                      color: Color.fromRGBO(255, 146, 45, 1),
+                    ),
                     textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(height: 2),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Icon(
+                        Icons.star,
+                        color: Color.fromRGBO(255, 146, 45, 1),
+                      ),
+                      Text(
+                        itemRating.toString(),
+                        style: const TextStyle(
+                          fontSize: 16,
+                          fontFamily: 'Manrope',
+                          color: Colors.black,
+                        ),
+                      ),
+                    ],
                   ),
                 ],
               ),
