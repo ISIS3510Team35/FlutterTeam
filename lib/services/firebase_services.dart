@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
+import 'package:fud/services/factories.dart';
 
 FirebaseFirestore db = FirebaseFirestore.instance;
 
@@ -40,7 +41,7 @@ Future<List> getOffer() async {
       if (i?.containsKey('name')) {
         name = i['name'];
         e = element.data();
-        e['restaurant'] = name;
+        e['restaurant_name'] = name;
       }
     } catch (e) {
       if (kDebugMode) {
@@ -54,13 +55,52 @@ Future<List> getOffer() async {
   return test;
 }
 
+Future<Plate?> getPlate({required id}) async {
+  try {
+    CollectionReference collectionReferenceTest = db.collection('Producto');
+    QuerySnapshot queryTest =
+        await collectionReferenceTest.where('id', isEqualTo: id).get();
+    if (queryTest.docs.isNotEmpty) {
+      final plateData = queryTest.docs[0].data() as Map<String, dynamic>;
+      final plate = Plate.fromJson(plateData);
+      return plate;
+    } else {
+      return null;
+      // No matching document found
+    }
+  } catch (e) {
+    if (kDebugMode) {
+      print("Error: $e");
+    }
+    return null; // Handle the error as needed
+  }
+}
+
+Future<Restaurant?> getRestaurant({required id}) async {
+  try {
+    CollectionReference collectionReferenceTest = db.collection('Restaurante');
+    QuerySnapshot queryTest =
+        await collectionReferenceTest.where('id', isEqualTo: id).get();
+
+    if (queryTest.docs.isNotEmpty) {
+      final restaurantData = queryTest.docs[0].data() as Map<String, dynamic>;
+      final restaurant = Restaurant.fromJson(restaurantData);
+      return restaurant;
+    } else {
+      return null;
+    }
+  } catch (e) {
+    if (kDebugMode) {
+      print("Error: $e");
+    }
+    return null; // Handle the error as needed
+  }
+}
 // Autenticación !!!
 
 Future<bool> doesUserExist(String username, String password) async {
   // Initialize Firebase Firestore
   FirebaseFirestore firestore = FirebaseFirestore.instance;
-  print(password);
-  print(username);
 
   // Query the 'Usuario' collection for a document with the given username and password
   QuerySnapshot querySnapshot = await firestore

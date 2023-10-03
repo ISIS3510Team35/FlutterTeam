@@ -124,8 +124,10 @@ class ItemWidget extends StatelessWidget {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) =>
-                const PlateOfferPage(), // Reemplaza 'TuOtraVista' con el nombre de tu vista
+            builder: (context) => PlateOfferPage(
+                idPlate: "1",
+                idRestaurant:
+                    "1"), // Reemplaza 'TuOtraVista' con el nombre de tu vista
           ),
         );
       },
@@ -322,10 +324,12 @@ class DiscountSection extends StatelessWidget {
                       return ItemWidgetOffers(
                         index: index,
                         itemName: itemData['name'],
-                        itemDescription: itemData['restaurant'],
+                        itemIdRes: itemData['restaurant'],
+                        itemDescription: itemData['restaurant_name'],
                         itemPrice: itemData['price'],
                         itemPriceOffer: itemData['offerPrice'],
                         itemPhoto: itemData['photo'],
+                        itemId: itemData['id'],
                       );
                     },
                   ),
@@ -348,6 +352,8 @@ class ItemWidgetOffers extends StatelessWidget {
     required this.itemPrice,
     required this.itemPriceOffer,
     required this.itemPhoto,
+    required this.itemId,
+    required this.itemIdRes,
   }) : super(key: key);
 
   final int index;
@@ -356,6 +362,8 @@ class ItemWidgetOffers extends StatelessWidget {
   final double itemPrice;
   final double itemPriceOffer;
   final String itemPhoto;
+  final String itemId;
+  final String itemIdRes;
 
   @override
   Widget build(BuildContext context) {
@@ -365,8 +373,10 @@ class ItemWidgetOffers extends StatelessWidget {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) =>
-                const PlateOfferPage(), // Reemplaza 'TuOtraVista' con el nombre de tu vista
+            builder: (context) => PlateOfferPage(
+                idPlate: itemId,
+                idRestaurant:
+                    itemIdRes), // Reemplaza 'TuOtraVista' con el nombre de tu vista
           ),
         );
       },
