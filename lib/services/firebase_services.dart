@@ -116,3 +116,43 @@ Future<bool> doesUserExist(String username, String password) async {
     return false; // User does not exist or password is incorrect
   }
 }
+
+Future<List> getBest() async {
+  List test = [];
+
+  CollectionReference collectionReferenceTest = db.collection('Producto');
+  QuerySnapshot queryTest = await collectionReferenceTest.get();
+
+  for (var element in queryTest.docs) {
+    var i, e;
+    String name;
+
+    try {
+      QuerySnapshot collectionReferenceRest = await db
+          .collection('Restaurante')
+          .where('id', isEqualTo: element['restaurant'])
+          .get();
+
+      if (collectionReferenceRest.docs.isNotEmpty) {
+        i = collectionReferenceRest.docs[0].data();
+      }
+
+      if (i?.containsKey('name')) {
+        name = i['name'];
+        e = element.data();
+        e['restaurant'] = name;
+      }
+    } catch (e) {
+      if (kDebugMode) {
+        print("Error: $e");
+      }
+    }
+
+    test.add(e);
+  }
+
+  test.sort((a, b) => b['rating'].compareTo(a['rating']));
+  //test = test.take(3).toList();
+
+  return test;
+}
