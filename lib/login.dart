@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fud/home.dart';
+import 'package:fud/services/firebase_services.dart';
 
 class LoginPage extends StatefulWidget {
   static const routeName = '/login';

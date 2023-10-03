@@ -39,7 +39,7 @@ class HeaderSection extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(16),
       alignment: Alignment.center,
-      color: Colors.deepOrange,
+      color: Color.fromRGBO(255, 146, 45, 1),
       child: const Text(
         'Header Title',
         style: TextStyle(
@@ -99,7 +99,7 @@ class OneCardSection extends StatelessWidget {
               SizedBox(width: 50),
               Icon(
                 Icons.star,
-                color: Color.fromARGB(255, 188, 91, 1),
+                color: Color.fromRGBO(255, 146, 45, 1),
               ),
               Text(
                 '4.3',
@@ -184,7 +184,7 @@ class ButtonRow extends StatelessWidget {
                 color: Colors.white, // White icon color
               ),
               style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.red, // Red background color
+                backgroundColor: const Color.fromRGBO(255, 146, 45, 1),
                 shape: RoundedRectangleBorder(
                   borderRadius:
                       BorderRadius.circular(8.0), // Optional: Rounded corners
@@ -206,7 +206,8 @@ class ButtonRow extends StatelessWidget {
                 color: Colors.white, // White icon color
               ),
               style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.red, // Red background color
+                backgroundColor: const Color.fromRGBO(
+                    255, 146, 45, 1), // Red background color
                 shape: RoundedRectangleBorder(
                   borderRadius:
                       BorderRadius.circular(8.0), // Optional: Rounded corners
