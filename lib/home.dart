@@ -35,14 +35,13 @@ class _HomePageState extends State<HomePage> {
   }
 }
 
-// ------------------------------------------------------------------------------ Almuerzos para ti
+// ------------------------------------------------------------------------------ Best 3
 
 class LunchSection extends StatelessWidget {
   const LunchSection({Key? key});
 
   @override
   Widget build(BuildContext context) {
-    const items = 3;
     return Container(
       padding: const EdgeInsets.all(8),
       alignment: Alignment.bottomLeft,
@@ -50,7 +49,7 @@ class LunchSection extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const Text(
-            '    Almuerzos para ti',
+            '    Platos:',
             style: TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.bold,
@@ -58,13 +57,42 @@ class LunchSection extends StatelessWidget {
             ),
             textAlign: TextAlign.left,
           ),
-          SizedBox(
-            height: 321,
-            child: ListView.builder(
-              scrollDirection: Axis.horizontal,
-              itemCount: items,
-              itemBuilder: (context, index) => ItemWidget(index: index),
-            ),
+          FutureBuilder(
+            future: getBest(),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
+              } else if (snapshot.hasError) {
+                return const Center(
+                  child: Text('Error loading data'),
+                );
+              } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                return const Center(
+                  child: Text('No data available'),
+                );
+              } else {
+                final items = snapshot.data?.length;
+                return SizedBox(
+                  height: 321,
+                  child: ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    itemCount: items,
+                    itemBuilder: (context, index) {
+                      final itemData = snapshot.data?[index];
+                      return ItemWidget(
+                        index: index,
+                        itemName: itemData['name'],
+                        itemDescription: itemData['restaurant'],
+                        itemPrice: itemData['price'],
+                        itemPhoto: itemData['photo'],
+                      );
+                    },
+                  ),
+                );
+              }
+            },
           ),
         ],
       ),
@@ -76,9 +104,17 @@ class ItemWidget extends StatelessWidget {
   const ItemWidget({
     Key? key,
     required this.index,
+    required this.itemName,
+    required this.itemDescription,
+    required this.itemPrice,
+    required this.itemPhoto,
   }) : super(key: key);
 
   final int index;
+  final String itemName;
+  final String itemDescription;
+  final double itemPrice;
+  final String itemPhoto;
 
   @override
   Widget build(BuildContext context) {
@@ -97,7 +133,7 @@ class ItemWidget extends StatelessWidget {
         borderRadius: BorderRadius.circular(75.0),
         child: Card(
           elevation: 4,
-          margin: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+          margin: const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
           child: Container(
             width: 200,
             color: Colors.white,
@@ -109,12 +145,12 @@ class ItemWidget extends StatelessWidget {
                 children: [
                   CircleAvatar(
                     radius: 80,
-                    backgroundImage: AssetImage('assets/$index.png'),
+                    backgroundImage: NetworkImage(itemPhoto),
                   ),
                   const SizedBox(height: 10),
-                  const Text(
-                    'Hamburguesa',
-                    style: TextStyle(
+                  Text(
+                    itemName,
+                    style: const TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 18,
                       fontFamily: 'Manrope',
@@ -122,7 +158,7 @@ class ItemWidget extends StatelessWidget {
                     textAlign: TextAlign.center,
                   ),
                   Text(
-                    'Item $index',
+                    itemDescription,
                     style: const TextStyle(
                       fontSize: 16,
                       color: Colors.grey,
@@ -132,7 +168,7 @@ class ItemWidget extends StatelessWidget {
                   ),
                   const SizedBox(height: 10),
                   Text(
-                    '${index + 1 * 10} K ',
+                    '$itemPrice K',
                     style: const TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
