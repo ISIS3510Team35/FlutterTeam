@@ -1,31 +1,69 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:fud/appHeader.dart';
+import 'package:fud/services/factories.dart';
+import 'package:fud/services/firebase_services.dart';
+import 'package:fud/services/google_maps.dart';
 
 class PlateOfferPage extends StatefulWidget {
   static const routeName = '/PlateOffer';
 
-  const PlateOfferPage({Key? key}) : super(key: key);
+  final String idPlate;
+  final String idRestaurant;
+
+  const PlateOfferPage({
+    Key? key,
+    required this.idPlate,
+    required this.idRestaurant,
+  }) : super(key: key);
 
   @override
   State<PlateOfferPage> createState() => _PlateOfferPageState();
 }
 
 class _PlateOfferPageState extends State<PlateOfferPage> {
+  late Future<Plate?> plateFuture;
+  late Future<Restaurant?> restaurantFuture;
+
   @override
   void initState() {
     super.initState();
+    plateFuture = getPlate(id: widget.idPlate);
+    restaurantFuture = getRestaurant(id: widget.idRestaurant);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppHeader(),
-      body: ListView(
-        children: const [
-          ImageWithCaptionSection(),
-          OneCardSection(),
-          OthersSection()
-        ],
+      appBar: const AppHeader(),
+      body: FutureBuilder(
+        future: Future.wait([plateFuture, restaurantFuture]),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const CircularProgressIndicator();
+          } else if (snapshot.hasError) {
+            return Text('Error: ${snapshot.error}');
+          } else {
+            final plate = snapshot.data?[0] as Plate?;
+            final restaurant = snapshot.data?[1] as Restaurant?;
+
+            return ListView(
+              children: [
+                if (restaurant != null)
+                  ImageWithCaptionSection(imageUrl: restaurant.photo),
+                if (restaurant != null && plate != null)
+                  OneCardSection(
+                      title: plate.name,
+                      rating: plate.rating,
+                      cafeteriaName: restaurant.name,
+                      ratingCount: plate.price,
+                      description: plate.description,
+                      location: restaurant.location),
+                const OthersSection()
+              ],
+            );
+          }
+        },
       ),
     );
   }
@@ -39,7 +77,7 @@ class HeaderSection extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(16),
       alignment: Alignment.center,
-      color: Color.fromRGBO(255, 146, 45, 1),
+      color: const Color.fromRGBO(255, 146, 45, 1),
       child: const Text(
         'Header Title',
         style: TextStyle(
@@ -53,7 +91,9 @@ class HeaderSection extends StatelessWidget {
 }
 
 class ImageWithCaptionSection extends StatelessWidget {
-  const ImageWithCaptionSection({super.key});
+  final String imageUrl;
+  const ImageWithCaptionSection({Key? key, required this.imageUrl})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -64,8 +104,8 @@ class ImageWithCaptionSection extends StatelessWidget {
         children: [
           Opacity(
             opacity: 0.9,
-            child: Image.asset(
-              'assets/1.png',
+            child: Image.network(
+              imageUrl,
               width: double.infinity,
               height: 140,
               fit: BoxFit.cover,
@@ -78,7 +118,22 @@ class ImageWithCaptionSection extends StatelessWidget {
 }
 
 class OneCardSection extends StatelessWidget {
-  const OneCardSection({Key? key});
+  final String title;
+  final double rating;
+  final String cafeteriaName;
+  final double ratingCount;
+  final String description;
+  final GeoPoint location;
+
+  const OneCardSection({
+    Key? key,
+    required this.title,
+    required this.rating,
+    required this.cafeteriaName,
+    required this.ratingCount,
+    required this.description,
+    required this.location,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -87,23 +142,23 @@ class OneCardSection extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Row(
+          Row(
             children: [
               Text(
-                'Almuerzo del Día',
-                style: TextStyle(
+                title,
+                style: const TextStyle(
                   fontSize: 25,
                   fontFamily: 'Manrope',
                 ),
               ),
-              SizedBox(width: 50),
-              Icon(
+              const SizedBox(width: 50),
+              const Icon(
                 Icons.star,
                 color: Color.fromRGBO(255, 146, 45, 1),
               ),
               Text(
-                '4.3',
-                style: TextStyle(
+                rating.toString(),
+                style: const TextStyle(
                   fontSize: 20,
                   fontFamily: 'Manrope',
                   color: Colors.black,
@@ -112,18 +167,18 @@ class OneCardSection extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 0),
-          const Text(
-            'Cafeteria Central Uniandes',
-            style: TextStyle(
+          Text(
+            cafeteriaName,
+            style: const TextStyle(
               fontSize: 18,
               color: Colors.grey,
               fontFamily: 'Manrope',
             ),
           ),
           const SizedBox(height: 0),
-          const Text(
-            '13.9 K',
-            style: TextStyle(
+          Text(
+            '$ratingCount K',
+            style: const TextStyle(
               fontSize: 30,
               fontWeight: FontWeight.bold,
               fontFamily: 'Manrope',
@@ -139,12 +194,12 @@ class OneCardSection extends StatelessWidget {
               width: double.infinity,
               color: Colors.white,
               padding: const EdgeInsets.all(16),
-              child: const Column(
+              child: Column(
                 children: [
-                  SizedBox(height: 8),
+                  const SizedBox(height: 8),
                   Text(
-                    'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.',
-                    style: TextStyle(
+                    description,
+                    style: const TextStyle(
                       fontSize: 12,
                       fontFamily: 'Manrope',
                     ),
@@ -154,8 +209,12 @@ class OneCardSection extends StatelessWidget {
             ),
           ),
           const SizedBox(
-              height: 16), // Add some space between the card and the buttons
-          ButtonRow(), // Include the ButtonRow widget here
+            height: 16,
+          ), // Add some space between the card and the buttons
+          ButtonRow(
+              latitude: location.latitude,
+              longitude:
+                  location.longitude), // Include the ButtonRow widget here
         ],
       ),
     );
@@ -163,7 +222,14 @@ class OneCardSection extends StatelessWidget {
 }
 
 class ButtonRow extends StatelessWidget {
-  const ButtonRow({Key? key});
+  final double latitude;
+  final double longitude;
+
+  const ButtonRow({
+    Key? key,
+    required this.latitude,
+    required this.longitude,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -171,49 +237,50 @@ class ButtonRow extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         SizedBox(
-            width: 135,
-            height: 50,
-            child: ElevatedButton.icon(
-              onPressed: () {},
-              label: const Text(
-                'Añadir a favoritos',
-                style: TextStyle(color: Colors.white), // White text color
+          width: 135,
+          height: 50,
+          child: ElevatedButton.icon(
+            onPressed: () {},
+            label: const Text(
+              'Añadir a favoritos',
+              style: TextStyle(color: Colors.white), // White text color
+            ),
+            icon: const Icon(
+              Icons.favorite_border,
+              color: Colors.white, // White icon color
+            ),
+            style: ElevatedButton.styleFrom(
+              backgroundColor: const Color.fromRGBO(245, 90, 81, 1),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8.0),
               ),
-              icon: const Icon(
-                Icons.favorite_border,
-                color: Colors.white, // White icon color
-              ),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: const Color.fromRGBO(255, 146, 45, 1),
-                shape: RoundedRectangleBorder(
-                  borderRadius:
-                      BorderRadius.circular(8.0), // Optional: Rounded corners
-                ),
-              ),
-            )),
+            ),
+          ),
+        ),
         const SizedBox(width: 8),
         SizedBox(
-            width: 120,
-            height: 50,
-            child: ElevatedButton.icon(
-              onPressed: () {},
-              label: const Text(
-                '¿Cómo llegar?',
-                style: TextStyle(color: Colors.white), // White text color
+          width: 120,
+          height: 50,
+          child: ElevatedButton.icon(
+            onPressed: () {
+              MapUtils.openMap(latitude, longitude);
+            },
+            label: const Text(
+              '¿Cómo llegar?',
+              style: TextStyle(color: Colors.white), // White text color
+            ),
+            icon: const Icon(
+              Icons.favorite_border,
+              color: Colors.white, // White icon color
+            ),
+            style: ElevatedButton.styleFrom(
+              backgroundColor: const Color.fromRGBO(245, 90, 81, 1),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8.0),
               ),
-              icon: const Icon(
-                Icons.favorite_border,
-                color: Colors.white, // White icon color
-              ),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: const Color.fromRGBO(
-                    255, 146, 45, 1), // Red background color
-                shape: RoundedRectangleBorder(
-                  borderRadius:
-                      BorderRadius.circular(8.0), // Optional: Rounded corners
-                ),
-              ),
-            )),
+            ),
+          ),
+        ),
       ],
     );
   }
