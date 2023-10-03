@@ -15,9 +15,14 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  final TextEditingController _usernameController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+
   @override
-  void initState() {
-    super.initState();
+  void dispose() {
+    _usernameController.dispose();
+    _passwordController.dispose();
+    super.dispose();
   }
 
   @override
@@ -32,8 +37,7 @@ class _LoginPageState extends State<LoginPage> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 SvgPicture.asset('assets/Logo.svg'),
-                const SizedBox(
-                    height: 70), // Espacio entre la imagen y el cuadro de texto
+                const SizedBox(height: 70),
                 const Align(
                   alignment: Alignment.topLeft,
                   child: Text(
@@ -45,7 +49,6 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                 ),
                 const SizedBox(height: 5),
-                // Text box with shadow
                 Container(
                   width: 300,
                   height: 50,
@@ -62,9 +65,10 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                     ],
                   ),
-                  child: const TextField(
+                  child: TextField(
+                    controller: _usernameController,
                     autocorrect: true,
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       hintText: 'df.gomezb',
                       hintStyle: TextStyle(color: Colors.grey),
                       filled: true,
@@ -114,9 +118,10 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                     ],
                   ),
-                  child: const TextField(
+                  child: TextField(
+                    controller: _passwordController,
                     autocorrect: true,
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       hintText: '************',
                       hintStyle: TextStyle(color: Colors.grey),
                       filled: true,
@@ -138,10 +143,10 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                   ),
                 ),
-                const SizedBox(
-                    height: 40), // Space between the TextField and the button
+                const SizedBox(height: 40),
                 ElevatedButton(
                   onPressed: () {
+
                     gps.getCurrentLocation();
                     Navigator.push(
                       context,
@@ -149,56 +154,58 @@ class _LoginPageState extends State<LoginPage> {
                         builder: (context) => const HomePage(),
                       ),
                     );
+
+                    String username = _usernameController.text;
+                    String password = _passwordController.text;
+
+                    doesUserExist(username, password).then((bool exists) {
+                      if (exists) {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const HomePage(),
+                          ),
+                        );
+                      } else {
+                        showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                              title: const Text('🤔'),
+                              content: const Text(
+                                  'User does not exist or the password is incorrect.'),
+                              actions: [
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.of(context)
+                                        .pop(); // Close the dialog
+                                  },
+                                  child: const Text('OK'),
+                                ),
+                              ],
+                            );
+                          },
+                        );
+                      }
+                    });
                   },
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color.fromRGBO(
-                        255, 146, 45, 1), // Cambia el color de fondo a naranja
+                    backgroundColor: const Color.fromRGBO(255, 146, 45, 1),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(20.0),
                     ),
-                    minimumSize:
-                        const Size(190, 50), // Cambia el tamaño del botón
+                    minimumSize: const Size(190, 50),
                   ),
                   child: const Text(
                     'INICIAR SESIÓN',
-                    style:
-                        TextStyle(fontSize: 18), // Cambia el tamaño del texto
+                    style: TextStyle(fontSize: 18),
                   ),
                 ),
-                const TestFireBase(),
               ],
             ),
           ),
         ),
       ),
-    );
-  }
-}
-
-// -------------------------------------------------------------
-class TestFireBase extends StatelessWidget {
-  const TestFireBase({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return FutureBuilder(
-      future: getTest(),
-      builder: (context, snapshot) {
-        if (snapshot.hasData) {
-          return ListView.builder(
-            scrollDirection: Axis.vertical,
-            shrinkWrap: true,
-            itemCount: snapshot.data?.length,
-            itemBuilder: (context, index) {
-              return Text(snapshot.data?[index]['name']);
-            },
-          );
-        } else {
-          return const Center(
-            child: CircularProgressIndicator(),
-          );
-        }
-      },
     );
   }
 }
