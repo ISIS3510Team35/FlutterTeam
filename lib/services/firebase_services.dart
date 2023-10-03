@@ -6,7 +6,7 @@ FirebaseFirestore db = FirebaseFirestore.instance;
 Future<List> getTest() async {
   List test = [];
 
-  CollectionReference collectionReferenceTest = db.collection('Test');
+  CollectionReference collectionReferenceTest = db.collection('Usuario');
   QuerySnapshot queryTest = await collectionReferenceTest.get();
 
   for (var element in queryTest.docs) {
@@ -52,4 +52,27 @@ Future<List> getOffer() async {
   }
 
   return test;
+}
+
+// Autenticación !!!
+
+Future<bool> doesUserExist(String username, String password) async {
+  // Initialize Firebase Firestore
+  FirebaseFirestore firestore = FirebaseFirestore.instance;
+  print(password);
+  print(username);
+
+  // Query the 'Usuario' collection for a document with the given username and password
+  QuerySnapshot querySnapshot = await firestore
+      .collection('Usuario')
+      .where('username', isEqualTo: username)
+      .where('password', isEqualTo: password)
+      .get();
+
+  // Check if any documents match the query
+  if (querySnapshot.docs.isNotEmpty) {
+    return true; // User with the given username and password exists
+  } else {
+    return false; // User does not exist or password is incorrect
+  }
 }
