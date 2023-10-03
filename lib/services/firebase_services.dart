@@ -94,14 +94,13 @@ Future<Restaurant?> getRestaurant({required id}) async {
       print("Error: $e");
     }
     return null; // Handle the error as needed
-
+  }
+}
 // Autenticación !!!
 
 Future<bool> doesUserExist(String username, String password) async {
   // Initialize Firebase Firestore
   FirebaseFirestore firestore = FirebaseFirestore.instance;
-  print(password);
-  print(username);
 
   // Query the 'Usuario' collection for a document with the given username and password
   QuerySnapshot querySnapshot = await firestore
