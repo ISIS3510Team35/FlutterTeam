@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fud/resutls.dart';
+import 'package:fud/services/gps_service.dart';
 
 class AppHeader extends StatefulWidget implements PreferredSizeWidget {
   const AppHeader({Key? key}) : super(key: key);
@@ -10,7 +11,7 @@ class AppHeader extends StatefulWidget implements PreferredSizeWidget {
   @override
   Size get preferredSize => const Size.fromHeight(500);
 }
-
+var gps = GPS();
 class _AppHeaderState extends State<AppHeader> {
   @override
   void initState() {
@@ -132,7 +133,7 @@ class _AppHeaderState extends State<AppHeader> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisSize: MainAxisSize.max,
                       children: [
-                        const Text("10K",
+                        Text('${gps.getLat()}',
                             style:
                                 TextStyle(fontSize: 18, fontFamily: "Manrope")),
                         Flexible(

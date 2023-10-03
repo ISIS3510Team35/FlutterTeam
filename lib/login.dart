@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fud/home.dart';
 import 'package:fud/services/firebase_services.dart';
+import 'package:fud/services/gps_service.dart';
 
+var gps = GPS();
 class LoginPage extends StatefulWidget {
   static const routeName = '/login';
 
@@ -144,6 +146,15 @@ class _LoginPageState extends State<LoginPage> {
                 const SizedBox(height: 40),
                 ElevatedButton(
                   onPressed: () {
+
+                    gps.getCurrentLocation();
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const HomePage(),
+                      ),
+                    );
+
                     String username = _usernameController.text;
                     String password = _passwordController.text;
 
