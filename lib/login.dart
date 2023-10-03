@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fud/home.dart';
 import 'package:fud/services/firebase_services.dart';
+import 'package:fud/services/gps_service.dart';
 
+var gps = GPS();
 class LoginPage extends StatefulWidget {
   static const routeName = '/login';
 
@@ -140,6 +142,7 @@ class _LoginPageState extends State<LoginPage> {
                     height: 40), // Space between the TextField and the button
                 ElevatedButton(
                   onPressed: () {
+                    gps.getCurrentLocation();
                     Navigator.push(
                       context,
                       MaterialPageRoute(
@@ -162,11 +165,40 @@ class _LoginPageState extends State<LoginPage> {
                         TextStyle(fontSize: 18), // Cambia el tamaño del texto
                   ),
                 ),
+                const TestFireBase(),
               ],
             ),
           ),
         ),
       ),
+    );
+  }
+}
+
+// -------------------------------------------------------------
+class TestFireBase extends StatelessWidget {
+  const TestFireBase({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder(
+      future: getTest(),
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          return ListView.builder(
+            scrollDirection: Axis.vertical,
+            shrinkWrap: true,
+            itemCount: snapshot.data?.length,
+            itemBuilder: (context, index) {
+              return Text(snapshot.data?[index]['name']);
+            },
+          );
+        } else {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        }
+      },
     );
   }
 }
