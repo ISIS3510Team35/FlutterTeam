@@ -1,4 +1,4 @@
-#Mon Oct 02 20:42:27 EST 2023
+#Mon Oct 02 20:24:28 EST 2023
 base.2=/Users/Meli/Documents/Moviles/FlutterTeam/build/app/intermediates/dex/debug/mergeDexDebug/classes3.dex
 path.2=classes3.dex
 base.1=/Users/Meli/Documents/Moviles/FlutterTeam/build/app/intermediates/dex/debug/mergeDexDebug/classes2.dex

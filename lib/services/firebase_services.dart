@@ -6,7 +6,7 @@ FirebaseFirestore db = FirebaseFirestore.instance;
 Future<List> getTest() async {
   List test = [];
 
-  CollectionReference collectionReferenceTest = db.collection('Test');
+  CollectionReference collectionReferenceTest = db.collection('Usuario');
   QuerySnapshot queryTest = await collectionReferenceTest.get();
 
   for (var element in queryTest.docs) {
@@ -54,42 +54,25 @@ Future<List> getOffer() async {
   return test;
 }
 
-Future<List> getBest() async {
-  List test = [];
+// Autenticación !!!
 
-  CollectionReference collectionReferenceTest = db.collection('Producto');
-  QuerySnapshot queryTest = await collectionReferenceTest.get();
+Future<bool> doesUserExist(String username, String password) async {
+  // Initialize Firebase Firestore
+  FirebaseFirestore firestore = FirebaseFirestore.instance;
+  print(password);
+  print(username);
 
-  for (var element in queryTest.docs) {
-    var i, e;
-    String name;
+  // Query the 'Usuario' collection for a document with the given username and password
+  QuerySnapshot querySnapshot = await firestore
+      .collection('Usuario')
+      .where('username', isEqualTo: username)
+      .where('password', isEqualTo: password)
+      .get();
 
-    try {
-      QuerySnapshot collectionReferenceRest = await db
-          .collection('Restaurante')
-          .where('id', isEqualTo: element['restaurant'])
-          .get();
-
-      if (collectionReferenceRest.docs.isNotEmpty) {
-        i = collectionReferenceRest.docs[0].data();
-      }
-
-      if (i?.containsKey('name')) {
-        name = i['name'];
-        e = element.data();
-        e['restaurant'] = name;
-      }
-    } catch (e) {
-      if (kDebugMode) {
-        print("Error: $e");
-      }
-    }
-
-    test.add(e);
+  // Check if any documents match the query
+  if (querySnapshot.docs.isNotEmpty) {
+    return true; // User with the given username and password exists
+  } else {
+    return false; // User does not exist or password is incorrect
   }
-
-  test.sort((a, b) => b['rating'].compareTo(a['rating']));
-  test = test.take(3).toList();
-
-  return test;
 }
