@@ -8,7 +8,13 @@ import 'package:fud/services/google_maps.dart';
 class ResultsPage extends StatefulWidget {
   static const routeName = '/results';
 
-  const ResultsPage({Key? key}) : super(key: key);
+  final double max_price;
+  final bool vegano;
+  final bool vegetariano;
+  const ResultsPage({Key? key, 
+  required this.max_price,
+  required this.vegano,
+  required this.vegetariano}) : super(key: key);
 
   @override
   State<ResultsPage> createState() => _ResultsPageState();
@@ -20,7 +26,7 @@ class _ResultsPageState extends State<ResultsPage> {
   @override
   void initState() {
     super.initState();
-    filterFuture = getFilter();
+    filterFuture = getFilter(widget.max_price, widget.vegetariano, widget.vegano);
   }
 
   @override

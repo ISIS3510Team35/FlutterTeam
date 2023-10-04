@@ -14,6 +14,6 @@ class AppRouter {
     RestaurantPage.routeName: (BuildContext context) => const RestaurantPage(),
     PlateOfferPage.routeName: (BuildContext context) => const PlateOfferPage(
         idPlate: "Arc8UbbD19smegpKKhjE", idRestaurant: "Ax1RN0EsKCFeAVDKdLhI"),
-    ResultsPage.routeName: (BuildContext context) => const ResultsPage(),
+    ResultsPage.routeName: (BuildContext context) =>  ResultsPage(max_price: 100.0, vegano: false, vegetariano: false),
   };
 }

@@ -144,13 +144,33 @@ Future<List> getBest() async {
   return test;
 }
 
-Future<Map<String, List>> getFilter() async {
+Future<Map<String, List>> getFilter(double max_price, bool vegetariano, bool vegano) async {
   List test = [];
-
-  CollectionReference collectionReferenceTest = db.collection('Producto');
-  QuerySnapshot queryTest = await collectionReferenceTest.get();
-
-  for (var element in queryTest.docs) {
+  List cont = [''];
+  if(vegetariano){
+    cont.add('Vegetariano');
+  }
+  if(vegano){
+    cont.add('Vegano');
+  }
+  if(!vegano && !vegetariano){
+    cont.add('Normal');
+    cont.add('Vegano');
+    cont.add('Vegetariano');
+  }
+  print(cont);
+  await db.collection('Filter_Analytics').add(
+    {'Price':max_price!=100.0,
+    'Vegano':vegano,
+    'Vegetariano':vegetariano}
+  );
+  QuerySnapshot collectionReferenceTest = await db
+    .collection('Producto')
+    .where('price', isLessThan: max_price)
+    .where('type',whereIn: cont)
+    .get();
+  
+  for (var element in collectionReferenceTest.docs) {
     var i, e;
     String name;
     GeoPoint location;
@@ -190,13 +210,13 @@ Future<Map<String, List>> getFilter() async {
       }
     } catch (e) {
       if (kDebugMode) {
-        print("Error: $e");
+        print('No hay elementos con la condición dada');
       }
     }
 
     test.add(e);
   }
-
+  print(test);
   test.sort((a, b) => a['distancia'].compareTo(b['distancia']));
   Map<String, List> groupedData =
       groupBy(test, (element) => element['restaurant_id']);
