@@ -143,8 +143,13 @@ class _AppHeaderState extends State<AppHeader> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    const Text("Filtrar por precio",
+                    Row(  mainAxisSize: MainAxisSize.max,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children:[
+                        const Text("Filtrar por precio",
                         style: TextStyle(fontSize: 18, fontFamily: "Manrope",fontWeight: FontWeight.bold,)),
+                        _price!=100?Text('max ${double.parse(_price.toStringAsFixed(1))} K',
+                        style: const TextStyle(fontSize: 18, fontFamily: "Manrope",fontWeight: FontWeight.bold,)):widget]),
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisSize: MainAxisSize.max,
@@ -155,7 +160,7 @@ class _AppHeaderState extends State<AppHeader> {
                         Flexible(
                             child: Slider(
                                 max: 100.0,
-                                min: 0.0,
+                                min: 10.0,
                                 value: _price,
                                 thumbColor: Color.fromRGBO(253, 218, 168, 1),
                                 activeColor: Color.fromRGBO(255, 188, 91, 1),
@@ -243,7 +248,7 @@ class _AppHeaderState extends State<AppHeader> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => const ResultsPage(),
+                              builder: (context) => ResultsPage(max_price: _price, vegano: vegano, vegetariano: vegetariano,),
                             ),
                           );
                         },
