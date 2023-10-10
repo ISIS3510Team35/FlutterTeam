@@ -54,9 +54,9 @@ class _AppHeaderState extends State<AppHeader> {
                   ),
                   if(gps.getLat()==0 || gps.getLong()==0)
                     const Icon(
-                      Icons.my_location,
+                      Icons.location_disabled,
                       size: 25,
-                      color: Colors.green,
+                      //color: Color.fromRGBO(183, 28, 28, 1),
                     )
                   else if(calculateDistance(gps.getLat(), lat_u, gps.getLong(), lon_u)<0.5)
                     const Icon(
@@ -149,7 +149,9 @@ class _AppHeaderState extends State<AppHeader> {
                         const Text("Filtrar por precio",
                         style: TextStyle(fontSize: 18, fontFamily: "Manrope",fontWeight: FontWeight.bold,)),
                         _price!=100?Text('max ${double.parse(_price.toStringAsFixed(1))} K',
-                        style: const TextStyle(fontSize: 18, fontFamily: "Manrope",fontWeight: FontWeight.bold,)):widget]),
+                        style: const TextStyle(fontSize: 18, fontFamily: "Manrope",fontWeight: FontWeight.bold,)):
+                        const Text('sin filtro',
+                        style: TextStyle(fontSize: 18, fontFamily: "Manrope",fontWeight: FontWeight.bold,))]),
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisSize: MainAxisSize.max,

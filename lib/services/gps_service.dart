@@ -12,17 +12,23 @@ class GPS {
   void getCurrentLocation() async {
     bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
     if (!serviceEnabled) {
+        lat = 0.0;
+        long = 0.0;
       return Future.error('Servicio de localización deshabilitado');
     }
     LocationPermission permission = await Geolocator.checkPermission();
     if (permission == LocationPermission.denied) {
       permission = await Geolocator.requestPermission();
       if (permission == LocationPermission.denied) {
+        lat = 0.0;
+        long = 0.0;
         return Future.error(
             'La app no tiene permiso para acceder a la ubicación');
       }
     }
     if (permission == LocationPermission.deniedForever) {
+      lat = 0.0;
+      long = 0.0;
       return Future.error(
           'La app no tiene permiso para acceder a la ubicación');
     }
