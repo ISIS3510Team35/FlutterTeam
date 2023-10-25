@@ -122,6 +122,7 @@ class _LoginPageState extends State<LoginPage> {
                   child: TextField(
                     controller: _passwordController,
                     autocorrect: true,
+                    obscureText: true,
                     decoration: const InputDecoration(
                       hintText: '************',
                       hintStyle: TextStyle(color: Colors.grey),
