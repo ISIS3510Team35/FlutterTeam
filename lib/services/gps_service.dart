@@ -1,50 +1,52 @@
 import 'package:geolocator/geolocator.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'dart:math';
-
+ 
 class GPS {
   factory GPS() => _singleton;
   static final GPS _singleton = GPS._internal();
-  static var lat = 0.0;
-  static var long = 0.0;
+  static ValueNotifier<double>  lat = ValueNotifier<double>(0.0);
+  static ValueNotifier<double>  long = ValueNotifier<double>(0.0);
 
   GPS._internal();
 
   void getCurrentLocation() async {
     bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
     if (!serviceEnabled) {
-        lat = 0.0;
-        long = 0.0;
+        lat.value = 0.0;
+        long.value = 0.0;
       return Future.error('Servicio de localización deshabilitado');
     }
     LocationPermission permission = await Geolocator.checkPermission();
     if (permission == LocationPermission.denied) {
       permission = await Geolocator.requestPermission();
       if (permission == LocationPermission.denied) {
-        lat = 0.0;
-        long = 0.0;
+        lat.value = 0.0;
+        long.value = 0.0;
         return Future.error(
             'La app no tiene permiso para acceder a la ubicación');
       }
     }
     if (permission == LocationPermission.deniedForever) {
-      lat = 0.0;
-      long = 0.0;
+      lat.value = 0.0;
+      long.value = 0.0;
       return Future.error(
           'La app no tiene permiso para acceder a la ubicación');
     }
     Geolocator.getCurrentPosition().then((value) {
-      lat = value.latitude;
-      long = value.longitude;
+      lat.value = value.latitude;
+      long.value = value.longitude;
       liveLocation();
     });
   }
 
   double getLat() {
-    return lat;
+    return lat.value;
   }
 
   double getLong() {
-    return long;
+    return long.value;
   }
 
   void liveLocation() {
@@ -54,9 +56,13 @@ class GPS {
     );
     Geolocator.getPositionStream(locationSettings: locationSettings)
         .listen((Position position) {
-      lat = position.latitude;
-      long = position.longitude;
-    });
+      lat.value = position.latitude;
+      long.value = position.longitude;
+      
+    },onError: (Object error){
+      lat.value = 0.0;
+      long.value = 0.0;
+    } );
   }
 }
 

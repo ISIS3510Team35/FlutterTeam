@@ -52,7 +52,16 @@ class _AppHeaderState extends State<AppHeader> {
                     'assets/Logo.png',
                     height: 40,
                   ),
-                  if(gps.getLat()==0 || gps.getLong()==0)
+                  ValueListenableBuilder<double>(
+                    valueListenable: GPS.lat,
+              builder: (BuildContext context, double value, Widget? child) {
+                // This builder will only get called when the _counter
+                // is updated.
+                return Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  // ignore: prefer_const_literals_to_create_immutables
+                  children: [
+                    if(gps.getLat()==0.0 || gps.getLong()==0.0)
                     const Icon(
                       Icons.location_disabled,
                       size: 25,
@@ -68,9 +77,11 @@ class _AppHeaderState extends State<AppHeader> {
                      const Icon(
                       Icons.location_searching,
                       size: 25,
-                    ),
-                  
-                ],
+                    )],
+                  );
+                })
+              ],
+                
               ),
             ),
             Container(
@@ -127,11 +138,12 @@ class _AppHeaderState extends State<AppHeader> {
                           RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(7.0)),
                         ),
-                      )),
+                      )
+                  ),
                 ],
+                )
               ),
-            ),
-            if (filter == true)
+              if(filter == true)
               Container(
                 padding: const EdgeInsets.symmetric(
                   horizontal: 20,
@@ -220,7 +232,7 @@ class _AppHeaderState extends State<AppHeader> {
                                 TextStyle(fontSize: 18, fontFamily: "Manrope",fontStyle: FontStyle.italic)),
                       ],
                     ),
-                    const Text("Filtrar por tiempo de espera máximo",
+                    /*const Text("Filtrar por tiempo de espera máximo",
                         style: TextStyle(fontSize: 18, fontFamily: "Manrope")),
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
@@ -242,7 +254,7 @@ class _AppHeaderState extends State<AppHeader> {
                             style:
                                 TextStyle(fontSize: 18, fontFamily: "Manrope")),
                       ],
-                    ),
+                    ),*/
                     Align(
                       alignment: Alignment.center,
                       child: ElevatedButton(
