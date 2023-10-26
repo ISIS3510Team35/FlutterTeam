@@ -307,7 +307,7 @@ class OthersSection extends StatelessWidget {
             textAlign: TextAlign.left,
           ),
           SizedBox(
-            height: 160,
+            height: 150,
             child: ListView.builder(
               scrollDirection: Axis.horizontal,
               itemCount: items,
@@ -330,47 +330,49 @@ class OtherWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(75.0),
-      child: Card(
+    return Container(
+      margin: EdgeInsets.all(10.0), // Espacio entre las tarjetas
+      child: Material(
         elevation: 4,
-        margin: const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
-        child: Container(
-          width: 120,
-          color: Colors.white,
-          //padding: const EdgeInsets.all(8),
-          child: Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Image.asset(
-                  'assets/$index.png',
-                  height: 80,
-                  width: 200,
-                  fit: BoxFit.cover,
-                ),
-                const SizedBox(height: 5),
-                const Text(
-                  'Hamburguesa',
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 12,
-                    fontFamily: 'Manrope',
+        borderRadius: BorderRadius.circular(10.0),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(10.0),
+          child: Container(
+            width: 100,
+            color: Colors.white,
+            child: Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Image.asset(
+                    'assets/$index.png',
+                    height: 85,
+                    width: 100,
+                    fit: BoxFit.cover,
                   ),
-                  textAlign: TextAlign.center,
-                ),
-                const SizedBox(height: 5),
-                Text(
-                  ' ${index + 1 * 10} K',
-                  style: const TextStyle(
-                      fontSize: 12,
+                  const SizedBox(height: 5),
+                  const Text(
+                    'Hamburguesa',
+                    style: TextStyle(
                       fontWeight: FontWeight.bold,
+                      fontSize: 12,
                       fontFamily: 'Manrope',
-                      color: Color.fromRGBO(255, 146, 45, 1)),
-                  textAlign: TextAlign.center,
-                ),
-              ],
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(height: 5),
+                  Text(
+                    ' ${index + 1 * 10} K',
+                    style: const TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.bold,
+                        fontFamily: 'Manrope',
+                        color: Color.fromRGBO(255, 146, 45, 1)),
+                    textAlign: TextAlign.center,
+                  ),
+                ],
+              ),
             ),
           ),
         ),

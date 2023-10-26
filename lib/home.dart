@@ -49,7 +49,7 @@ class LunchSection extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const Text(
-            '    Top 3:',
+            '    Top 3',
             style: TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.bold,
@@ -138,73 +138,75 @@ class ItemWidget extends StatelessWidget {
           ),
         );
       },
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(75.0),
-        child: Card(
+      child: Container(
+        margin: EdgeInsets.all(12.0), // Espacio entre las tarjetas
+        child: Material(
           elevation: 4,
-          margin: const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
-          child: Container(
-            width: 200,
-            color: Colors.white,
-            padding: const EdgeInsets.all(8),
-            child: Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  CircleAvatar(
-                    radius: 80,
-                    backgroundImage: NetworkImage(itemPhoto),
-                  ),
-                  const SizedBox(height: 10),
-                  Text(
-                    itemName,
-                    style: const TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 18,
-                      fontFamily: 'Manrope',
+          borderRadius: BorderRadius.circular(10.0),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(10.0),
+            child: Container(
+              width: 200,
+              color: Colors.white,
+              child: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    CircleAvatar(
+                      radius: 80,
+                      backgroundImage: NetworkImage(itemPhoto),
                     ),
-                    textAlign: TextAlign.center,
-                  ),
-                  Text(
-                    itemDescription,
-                    style: const TextStyle(
-                      fontSize: 16,
-                      color: Colors.grey,
-                      fontFamily: 'Manrope',
+                    const SizedBox(height: 10),
+                    Text(
+                      itemName,
+                      style: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18,
+                        fontFamily: 'Manrope',
+                      ),
+                      textAlign: TextAlign.center,
                     ),
-                    textAlign: TextAlign.center,
-                  ),
-                  const SizedBox(height: 10),
-                  Text(
-                    '$itemPrice K',
-                    style: const TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                      fontFamily: 'Manrope',
-                      color: Color.fromRGBO(255, 146, 45, 1),
+                    Text(
+                      itemDescription,
+                      style: const TextStyle(
+                        fontSize: 16,
+                        color: Colors.grey,
+                        fontFamily: 'Manrope',
+                      ),
+                      textAlign: TextAlign.center,
                     ),
-                    textAlign: TextAlign.center,
-                  ),
-                  const SizedBox(height: 2),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const Icon(
-                        Icons.star,
+                    const SizedBox(height: 10),
+                    Text(
+                      '$itemPrice K',
+                      style: const TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        fontFamily: 'Manrope',
                         color: Color.fromRGBO(255, 146, 45, 1),
                       ),
-                      Text(
-                        itemRating.toString(),
-                        style: const TextStyle(
-                          fontSize: 16,
-                          fontFamily: 'Manrope',
-                          color: Colors.black,
+                      textAlign: TextAlign.center,
+                    ),
+                    const SizedBox(height: 2),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const Icon(
+                          Icons.star,
+                          color: Color.fromRGBO(255, 146, 45, 1),
                         ),
-                      ),
-                    ],
-                  ),
-                ],
+                        Text(
+                          itemRating.toString(),
+                          style: const TextStyle(
+                            fontSize: 16,
+                            fontFamily: 'Manrope',
+                            color: Colors.black,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
@@ -261,38 +263,43 @@ class OtherWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(75.0),
+    return Container(
+      margin: EdgeInsets.all(10.0),
       child: Card(
         elevation: 4,
-        margin: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
-        child: Container(
-          width: 120,
-          color: Colors.white,
-          //padding: const EdgeInsets.all(8),
-          child: Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                const Text(
-                  'Almuerzo',
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 12,
-                    fontFamily: 'Manrope',
-                  ),
-                  textAlign: TextAlign.center,
+        child: Material(
+          elevation: 4,
+          borderRadius: BorderRadius.circular(10.0),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(10.0),
+            child: Container(
+              width: 120,
+              color: Colors.white,
+              child: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    const Text(
+                      'Almuerzo',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 12,
+                        fontFamily: 'Manrope',
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                    const SizedBox(height: 5),
+                    Image.asset(
+                      'assets/$index.png',
+                      height: 95,
+                      width: 120,
+                      fit: BoxFit.cover,
+                    ),
+                    const SizedBox(height: 5),
+                  ],
                 ),
-                const SizedBox(height: 5),
-                Image.asset(
-                  'assets/$index.png',
-                  height: 80,
-                  width: 200,
-                  fit: BoxFit.cover,
-                ),
-                const SizedBox(height: 5),
-              ],
+              ),
             ),
           ),
         ),
@@ -315,7 +322,7 @@ class DiscountSection extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const Text(
-            '    Ofertas:',
+            '    Ofertas',
             style: TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.bold,
@@ -406,16 +413,16 @@ class ItemWidgetOffers extends StatelessWidget {
           ),
         );
       },
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(75.0),
-        child: Card(
+      child: Container(
+        margin: EdgeInsets.all(12.0), // Espacio entre las tarjetas
+        child: Material(
           elevation: 4,
-          margin: const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
-          child: Container(
-            width: 200,
-            color: Colors.white,
-            padding: const EdgeInsets.all(8),
-            child: Center(
+          borderRadius: BorderRadius.circular(10.0),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(10.0),
+            child: Container(
+              width: 200,
+              color: Colors.white,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
