@@ -11,33 +11,38 @@ class ResultsPage extends StatefulWidget {
   final double max_price;
   final bool vegano;
   final bool vegetariano;
-  const ResultsPage({Key? key, 
-  required this.max_price,
-  required this.vegano,
-  required this.vegetariano}) : super(key: key);
+  const ResultsPage(
+      {Key? key,
+      required this.max_price,
+      required this.vegano,
+      required this.vegetariano})
+      : super(key: key);
 
   @override
   State<ResultsPage> createState() => _ResultsPageState();
 }
 
 class _ResultsPageState extends State<ResultsPage> {
-  late Future<Map<String, List>> filterFuture;
+  late Future<Map<num, List>> filterFuture;
 
   @override
   void initState() {
     super.initState();
-    filterFuture = getFilter(widget.max_price, widget.vegetariano, widget.vegano);
+    filterFuture =
+        getFilter(widget.max_price, widget.vegetariano, widget.vegano);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: const AppHeader(),
-      body: FutureBuilder<Map<String, List>>(
+      body: FutureBuilder<Map<num, List>>(
         future: filterFuture,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator(),);
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
           } else if (snapshot.hasError) {
             return Text('Error: ${snapshot.error}');
           } else {
@@ -79,7 +84,7 @@ class _ResultsPageState extends State<ResultsPage> {
     );
   }
 
-  Widget buildPaddingAndRestaurantWidgets(Map<String, List> filterResult) {
+  Widget buildPaddingAndRestaurantWidgets(Map<num, List> filterResult) {
     List<Widget> widgets = [];
 
     for (var data in filterResult.entries) {
@@ -268,7 +273,7 @@ class OthersSection extends StatelessWidget {
               scrollDirection: Axis.horizontal,
               itemCount: data.length,
               itemBuilder: (context, index) => OtherWidget(
-                asset: data[index]['photo'],
+                asset: data[index]['image'],
                 name: data[index]['name'],
                 price: data[index]['price'],
               ),

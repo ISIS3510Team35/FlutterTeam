@@ -11,17 +11,20 @@ class AppHeader extends StatefulWidget implements PreferredSizeWidget {
   @override
   Size get preferredSize => const Size.fromHeight(500);
 }
+
 var gps = GPS();
+
 class _AppHeaderState extends State<AppHeader> {
   @override
   void initState() {
     super.initState();
     gps.liveLocation();
   }
+
   double lat_u = 4.6031;
   double lon_u = -74.0659;
   double _price = 100.0;
-  double _time = 0.0;
+
   bool vegano = false;
   bool vegetariano = false;
   bool filter = false;
@@ -53,97 +56,99 @@ class _AppHeaderState extends State<AppHeader> {
                     height: 40,
                   ),
                   ValueListenableBuilder<double>(
-                    valueListenable: GPS.lat,
-              builder: (BuildContext context, double value, Widget? child) {
-                // This builder will only get called when the _counter
-                // is updated.
-                return Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  // ignore: prefer_const_literals_to_create_immutables
-                  children: [
-                    if(gps.getLat()==0.0 || gps.getLong()==0.0)
-                    const Icon(
-                      Icons.location_disabled,
-                      size: 25,
-                      //color: Color.fromRGBO(183, 28, 28, 1),
-                    )
-                  else if(calculateDistance(gps.getLat(), lat_u, gps.getLong(), lon_u)<0.5)
-                    const Icon(
-                    Icons.my_location,
-                    size: 25,
-                    color: Colors.green,
-                  )
-                  else
-                     const Icon(
-                      Icons.location_searching,
-                      size: 25,
-                    )],
-                  );
-                })
-              ],
-                
+                      valueListenable: GPS.lat,
+                      builder:
+                          (BuildContext context, double value, Widget? child) {
+                        // This builder will only get called when the _counter
+                        // is updated.
+                        return Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          // ignore: prefer_const_literals_to_create_immutables
+                          children: [
+                            if (gps.getLat() == 0.0 || gps.getLong() == 0.0)
+                              const Icon(
+                                Icons.location_disabled,
+                                size: 25,
+                                //color: Color.fromRGBO(183, 28, 28, 1),
+                              )
+                            else if (calculateDistance(
+                                    gps.getLat(), lat_u, gps.getLong(), lon_u) <
+                                0.5)
+                              const Icon(
+                                Icons.my_location,
+                                size: 25,
+                                color: Colors.green,
+                              )
+                            else
+                              const Icon(
+                                Icons.location_searching,
+                                size: 25,
+                              )
+                          ],
+                        );
+                      })
+                ],
               ),
             ),
             Container(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 15,
-                vertical: 25 / 2.5,
-              ),
-              height: 80,
-              color: Color.fromRGBO(255, 247, 235, 1),
-              child: Row(
-                mainAxisSize: MainAxisSize.max,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const Flexible(
-                    child: TextField(
-                      autocorrect: true,
-                      decoration: InputDecoration(
-                        hintText: 'Busca tu almuerzo de hoy',
-                        hintStyle: TextStyle(color: Colors.grey),
-                        filled: true,
-                        fillColor: Colors.white,
-                        contentPadding: EdgeInsets.fromLTRB(10, 0, 0, 0),
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(7.0)),
-                          borderSide:
-                              BorderSide(color: Colors.transparent, width: 2),
-                        ),
-                        focusedBorder: OutlineInputBorder(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 15,
+                  vertical: 25 / 2.5,
+                ),
+                height: 80,
+                color: Color.fromRGBO(255, 247, 235, 1),
+                child: Row(
+                  mainAxisSize: MainAxisSize.max,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Flexible(
+                      child: TextField(
+                        autocorrect: true,
+                        decoration: InputDecoration(
+                          hintText: 'Busca tu almuerzo de hoy',
+                          hintStyle: TextStyle(color: Colors.grey),
+                          filled: true,
+                          fillColor: Colors.white,
+                          contentPadding: EdgeInsets.fromLTRB(10, 0, 0, 0),
+                          enabledBorder: OutlineInputBorder(
                             borderRadius:
-                                BorderRadius.all(Radius.circular(7.0))),
-                        prefixIcon: Icon(
-                          Icons.search,
-                          color: Colors.grey,
+                                BorderRadius.all(Radius.circular(7.0)),
+                            borderSide:
+                                BorderSide(color: Colors.transparent, width: 2),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(7.0))),
+                          prefixIcon: Icon(
+                            Icons.search,
+                            color: Colors.grey,
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                  IconButton.filled(
-                      onPressed: () {
-                        setState(() {
-                          filter = !filter;
-                        });
-                      },
-                      icon: const Icon(
-                        Icons.tune,
-                      ),
-                      style: ButtonStyle(
-                        foregroundColor:
-                            MaterialStateProperty.all<Color>(Colors.white),
-                        backgroundColor:
-                            MaterialStateProperty.all<Color>(Colors.black),
-                        shape:
-                            MaterialStateProperty.all<RoundedRectangleBorder>(
-                          RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(7.0)),
+                    IconButton.filled(
+                        onPressed: () {
+                          setState(() {
+                            filter = !filter;
+                          });
+                        },
+                        icon: const Icon(
+                          Icons.tune,
                         ),
-                      )
-                  ),
-                ],
-                )
-              ),
-              if(filter == true)
+                        style: ButtonStyle(
+                          foregroundColor:
+                              MaterialStateProperty.all<Color>(Colors.white),
+                          backgroundColor:
+                              MaterialStateProperty.all<Color>(Colors.black),
+                          shape:
+                              MaterialStateProperty.all<RoundedRectangleBorder>(
+                            RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(7.0)),
+                          ),
+                        )),
+                  ],
+                )),
+            if (filter == true)
               Container(
                 padding: const EdgeInsets.symmetric(
                   horizontal: 20,
@@ -155,22 +160,40 @@ class _AppHeaderState extends State<AppHeader> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    Row(  mainAxisSize: MainAxisSize.max,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children:[
-                        const Text("Filtrar por precio",
-                        style: TextStyle(fontSize: 18, fontFamily: "Manrope",fontWeight: FontWeight.bold,)),
-                        _price!=100?Text('max ${double.parse(_price.toStringAsFixed(1))} K',
-                        style: const TextStyle(fontSize: 18, fontFamily: "Manrope",fontWeight: FontWeight.bold,)):
-                        const Text('sin filtro',
-                        style: TextStyle(fontSize: 18, fontFamily: "Manrope",fontWeight: FontWeight.bold,))]),
+                    Row(
+                        mainAxisSize: MainAxisSize.max,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          const Text("Filtrar por precio",
+                              style: TextStyle(
+                                fontSize: 18,
+                                fontFamily: "Manrope",
+                                fontWeight: FontWeight.bold,
+                              )),
+                          _price != 100
+                              ? Text(
+                                  'max ${double.parse(_price.toStringAsFixed(1))} K',
+                                  style: const TextStyle(
+                                    fontSize: 18,
+                                    fontFamily: "Manrope",
+                                    fontWeight: FontWeight.bold,
+                                  ))
+                              : const Text('sin filtro',
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    fontFamily: "Manrope",
+                                    fontWeight: FontWeight.bold,
+                                  ))
+                        ]),
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisSize: MainAxisSize.max,
                       children: [
                         const Text('10 K',
-                            style:
-                                TextStyle(fontSize: 18, fontFamily: "Manrope", fontStyle: FontStyle.italic)),
+                            style: TextStyle(
+                                fontSize: 18,
+                                fontFamily: "Manrope",
+                                fontStyle: FontStyle.italic)),
                         Flexible(
                             child: Slider(
                                 max: 100.0,
@@ -184,12 +207,18 @@ class _AppHeaderState extends State<AppHeader> {
                                   });
                                 })),
                         const Text("100K",
-                            style:
-                                TextStyle(fontSize: 18, fontFamily: "Manrope", fontStyle: FontStyle.italic)),
+                            style: TextStyle(
+                                fontSize: 18,
+                                fontFamily: "Manrope",
+                                fontStyle: FontStyle.italic)),
                       ],
                     ),
                     const Text("Filtrar por tipo de comida",
-                        style: TextStyle(fontSize: 18, fontFamily: "Manrope",fontWeight: FontWeight.bold,)),
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontFamily: "Manrope",
+                          fontWeight: FontWeight.bold,
+                        )),
                     Row(
                       mainAxisSize: MainAxisSize.max,
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -210,8 +239,10 @@ class _AppHeaderState extends State<AppHeader> {
                               Color.fromRGBO(253, 218, 168, 0.4),
                         ),
                         const Text("Vegana",
-                            style:
-                                TextStyle(fontSize: 18, fontFamily: "Manrope",fontStyle: FontStyle.italic)),
+                            style: TextStyle(
+                                fontSize: 18,
+                                fontFamily: "Manrope",
+                                fontStyle: FontStyle.italic)),
                         Switch(
                           value: vegetariano,
                           onChanged: (value) {
@@ -228,8 +259,10 @@ class _AppHeaderState extends State<AppHeader> {
                               Color.fromRGBO(253, 218, 168, 0.4),
                         ),
                         const Text("Vegetariana",
-                            style:
-                                TextStyle(fontSize: 18, fontFamily: "Manrope",fontStyle: FontStyle.italic)),
+                            style: TextStyle(
+                                fontSize: 18,
+                                fontFamily: "Manrope",
+                                fontStyle: FontStyle.italic)),
                       ],
                     ),
                     /*const Text("Filtrar por tiempo de espera máximo",
@@ -262,7 +295,11 @@ class _AppHeaderState extends State<AppHeader> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => ResultsPage(max_price: _price, vegano: vegano, vegetariano: vegetariano,),
+                              builder: (context) => ResultsPage(
+                                max_price: _price,
+                                vegano: vegano,
+                                vegetariano: vegetariano,
+                              ),
                             ),
                           );
                         },

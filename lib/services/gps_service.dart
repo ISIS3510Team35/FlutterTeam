@@ -1,21 +1,20 @@
 import 'package:geolocator/geolocator.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'dart:math';
- 
+
 class GPS {
   factory GPS() => _singleton;
   static final GPS _singleton = GPS._internal();
-  static ValueNotifier<double>  lat = ValueNotifier<double>(0.0);
-  static ValueNotifier<double>  long = ValueNotifier<double>(0.0);
+  static ValueNotifier<double> lat = ValueNotifier<double>(0.0);
+  static ValueNotifier<double> long = ValueNotifier<double>(0.0);
 
   GPS._internal();
 
   void getCurrentLocation() async {
     bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
     if (!serviceEnabled) {
-        lat.value = 0.0;
-        long.value = 0.0;
+      lat.value = 0.0;
+      long.value = 0.0;
       return Future.error('Servicio de localización deshabilitado');
     }
     LocationPermission permission = await Geolocator.checkPermission();
@@ -54,15 +53,14 @@ class GPS {
       accuracy: LocationAccuracy.high,
       distanceFilter: 10,
     );
-    Geolocator.getPositionStream(locationSettings: locationSettings)
-        .listen((Position position) {
+    Geolocator.getPositionStream(locationSettings: locationSettings).listen(
+        (Position position) {
       lat.value = position.latitude;
       long.value = position.longitude;
-      
-    },onError: (Object error){
+    }, onError: (Object error) {
       lat.value = 0.0;
       long.value = 0.0;
-    } );
+    });
   }
 }
 

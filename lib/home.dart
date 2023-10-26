@@ -86,9 +86,9 @@ class LunchSection extends StatelessWidget {
                         itemName: itemData['name'],
                         itemDescription: itemData['restaurant_name'],
                         itemPrice: itemData['price'],
-                        itemPhoto: itemData['photo'],
+                        itemPhoto: itemData['image'],
                         itemRating: itemData['rating'],
-                        itemIdRes: itemData['restaurant'],
+                        itemIdRes: itemData['restaurantId'],
                         itemId: itemData['id'],
                       );
                     },
@@ -122,8 +122,8 @@ class ItemWidget extends StatelessWidget {
   final num itemPrice;
   final String itemPhoto;
   final num itemRating;
-  final String itemId;
-  final String itemIdRes;
+  final num itemId;
+  final num itemIdRes;
 
   @override
   Widget build(BuildContext context) {
@@ -350,11 +350,11 @@ class DiscountSection extends StatelessWidget {
                       return ItemWidgetOffers(
                         index: index,
                         itemName: itemData['name'],
-                        itemIdRes: itemData['restaurant'],
+                        itemIdRes: itemData['restaurantId'],
                         itemDescription: itemData['restaurant_name'],
                         itemPrice: itemData['price'],
                         itemPriceOffer: itemData['offerPrice'],
-                        itemPhoto: itemData['photo'],
+                        itemPhoto: itemData['image'],
                         itemId: itemData['id'],
                       );
                     },
@@ -388,8 +388,8 @@ class ItemWidgetOffers extends StatelessWidget {
   final num itemPrice;
   final num itemPriceOffer;
   final String itemPhoto;
-  final String itemId;
-  final String itemIdRes;
+  final num itemId;
+  final num itemIdRes;
 
   @override
   Widget build(BuildContext context) {

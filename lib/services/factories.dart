@@ -4,13 +4,13 @@ class Plate {
   final String category;
   final String description;
   final bool discount;
-  final String id;
+  final num id;
   final String name;
   final double offerPrice;
   final String photo;
   final double price;
   final double rating;
-  final String restaurant;
+  final num restaurant;
   final String type;
 
   Plate({
@@ -31,21 +31,21 @@ class Plate {
     return Plate(
       category: json['category'] as String,
       description: json['description'] as String,
-      discount: json['discount'] as bool,
-      id: json['id'] as String,
+      discount: json['inOffer'] as bool,
+      id: json['id'] as num,
       name: json['name'] as String,
       offerPrice: (json['offerPrice'] as num).toDouble(),
-      photo: json['photo'] as String,
+      photo: json['image'] as String,
       price: (json['price'] as num).toDouble(),
       rating: (json['rating'] as num).toDouble(),
-      restaurant: json['restaurant'] as String,
+      restaurant: json['restaurantId'] as num,
       type: json['type'] as String,
     );
   }
 }
 
 class Restaurant {
-  final String id;
+  final num id;
   final String name;
   final String photo;
   final GeoPoint location; // Change the type to GeoPoint
@@ -62,9 +62,9 @@ class Restaurant {
         json['location'] as GeoPoint; // Change the type here
 
     return Restaurant(
-      id: json['id'] as String,
+      id: json['id'] as num,
       name: json['name'] as String,
-      photo: json['photo'] as String,
+      photo: json['image'] as String,
       location: location,
     );
   }

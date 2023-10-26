@@ -8,8 +8,8 @@ import 'package:fud/services/google_maps.dart';
 class PlateOfferPage extends StatefulWidget {
   static const routeName = '/PlateOffer';
 
-  final String idPlate;
-  final String idRestaurant;
+  final num idPlate;
+  final num idRestaurant;
 
   const PlateOfferPage({
     Key? key,
@@ -46,7 +46,6 @@ class _PlateOfferPageState extends State<PlateOfferPage> {
           } else {
             final plate = snapshot.data?[0] as Plate?;
             final restaurant = snapshot.data?[1] as Restaurant?;
-
             return ListView(
               children: [
                 if (restaurant != null)

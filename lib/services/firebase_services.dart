@@ -10,9 +10,9 @@ var gps = GPS();
 Future<List> getOffer() async {
   List test = [];
 
-  CollectionReference collectionReferenceTest = db.collection('Producto');
+  CollectionReference collectionReferenceTest = db.collection('Product');
   QuerySnapshot queryTest =
-      await collectionReferenceTest.where('discount', isEqualTo: true).get();
+      await collectionReferenceTest.where('inOffer', isEqualTo: true).get();
 
   for (var element in queryTest.docs) {
     var i, e;
@@ -20,8 +20,8 @@ Future<List> getOffer() async {
 
     try {
       QuerySnapshot collectionReferenceRest = await db
-          .collection('Restaurante')
-          .where('id', isEqualTo: element['restaurant'])
+          .collection('Restaurant')
+          .where('id', isEqualTo: element['restaurantId'])
           .get();
 
       if (collectionReferenceRest.docs.isNotEmpty) {
@@ -47,7 +47,7 @@ Future<List> getOffer() async {
 
 Future<Plate?> getPlate({required id}) async {
   try {
-    CollectionReference collectionReferenceTest = db.collection('Producto');
+    CollectionReference collectionReferenceTest = db.collection('Product');
     QuerySnapshot queryTest =
         await collectionReferenceTest.where('id', isEqualTo: id).get();
     if (queryTest.docs.isNotEmpty) {
@@ -56,19 +56,18 @@ Future<Plate?> getPlate({required id}) async {
       return plate;
     } else {
       return null;
-      // No matching document found
     }
   } catch (e) {
     if (kDebugMode) {
       print("Error: $e");
     }
-    return null; // Handle the error as needed
+    return null;
   }
 }
 
 Future<Restaurant?> getRestaurant({required id}) async {
   try {
-    CollectionReference collectionReferenceTest = db.collection('Restaurante');
+    CollectionReference collectionReferenceTest = db.collection('Restaurant');
     QuerySnapshot queryTest =
         await collectionReferenceTest.where('id', isEqualTo: id).get();
 
@@ -83,31 +82,29 @@ Future<Restaurant?> getRestaurant({required id}) async {
     if (kDebugMode) {
       print("Error: $e");
     }
-    return null; // Handle the error as needed
+    return null;
   }
 }
 // Autenticación !!!
 
 Future<bool> doesUserExist(String username, String password) async {
-  // Query the 'Usuario' collection for a document with the given username and password
   QuerySnapshot querySnapshot = await db
-      .collection('Usuario')
+      .collection('User')
       .where('username', isEqualTo: username)
       .where('password', isEqualTo: password)
       .get();
 
-  // Check if any documents match the query
   if (querySnapshot.docs.isNotEmpty) {
-    return true; // User with the given username and password exists
+    return true;
   } else {
-    return false; // User does not exist or password is incorrect
+    return false;
   }
 }
 
 Future<List> getBest() async {
   List test = [];
 
-  CollectionReference collectionReferenceTest = db.collection('Producto');
+  CollectionReference collectionReferenceTest = db.collection('Product');
   QuerySnapshot queryTest = await collectionReferenceTest.get();
 
   for (var element in queryTest.docs) {
@@ -116,8 +113,8 @@ Future<List> getBest() async {
 
     try {
       QuerySnapshot collectionReferenceRest = await db
-          .collection('Restaurante')
-          .where('id', isEqualTo: element['restaurant'])
+          .collection('Restaurant')
+          .where('id', isEqualTo: element['restaurantId'])
           .get();
 
       if (collectionReferenceRest.docs.isNotEmpty) {
@@ -144,43 +141,47 @@ Future<List> getBest() async {
   return test;
 }
 
-Future<Map<String, List>> getFilter(double max_price, bool vegetariano, bool vegano) async {
+Future<Map<num, List>> getFilter(
+    double max_price, bool vegetariano, bool vegano) async {
   List test = [];
   List cont = [''];
-  if(vegetariano){
+  if (vegetariano) {
     cont.add('Vegetariano');
   }
-  if(vegano){
+  if (vegano) {
     cont.add('Vegano');
   }
-  if(!vegano && !vegetariano){
+  if (!vegano && !vegetariano) {
     cont.add('Normal');
     cont.add('Vegano');
     cont.add('Vegetariano');
   }
-  print(cont);
-  await db.collection('Filter_Analytics').add(
-    {'Price':max_price!=100.0,
-    'Vegano':vegano,
-    'Vegetariano':vegetariano}
-  );
+
+  await db.collection('Filter_Analytics').add({
+    'Price': max_price != 100.0,
+    'Vegano': vegano,
+    'Vegetariano': vegetariano
+  });
+
+  // -- Distance with filter
+
   QuerySnapshot collectionReferenceTest = await db
-    .collection('Producto')
-    .where('price', isLessThan: max_price)
-    .where('type',whereIn: cont)
-    .get();
-  
+      .collection('Product')
+      .where('price', isLessThan: max_price)
+      .where('type', whereIn: cont)
+      .get();
+
   for (var element in collectionReferenceTest.docs) {
     var i, e;
     String name;
     GeoPoint location;
-    String idRestaurant;
+    num idRestaurant;
     String restaurantPhoto;
 
     try {
       QuerySnapshot collectionReferenceRest = await db
-          .collection('Restaurante')
-          .where('id', isEqualTo: element['restaurant'])
+          .collection('Restaurant')
+          .where('id', isEqualTo: element['restaurantId'])
           .get();
 
       if (collectionReferenceRest.docs.isNotEmpty) {
@@ -191,7 +192,7 @@ Future<Map<String, List>> getFilter(double max_price, bool vegetariano, bool veg
         name = i['name'];
         location = i['location'];
         idRestaurant = i['id'];
-        restaurantPhoto = i['photo'];
+        restaurantPhoto = i['image'];
 
         e = element.data();
         e['restaurant_name'] = name;
@@ -216,9 +217,12 @@ Future<Map<String, List>> getFilter(double max_price, bool vegetariano, bool veg
 
     test.add(e);
   }
-  print(test);
+
+  //print(test);
+
   test.sort((a, b) => a['distancia'].compareTo(b['distancia']));
-  Map<String, List> groupedData =
+
+  Map<num, List> groupedData =
       groupBy(test, (element) => element['restaurant_id']);
 
   return groupedData;
