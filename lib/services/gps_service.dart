@@ -50,16 +50,17 @@ class GPS {
 
   void liveLocation() {
     LocationSettings locationSettings = const LocationSettings(
-      accuracy: LocationAccuracy.high,
+      accuracy: LocationAccuracy.best,
       distanceFilter: 10,
     );
     Geolocator.getPositionStream(locationSettings: locationSettings).listen(
         (Position position) {
       lat.value = position.latitude;
       long.value = position.longitude;
-    }, onError: (Object error) {
+    },onError: (Object error, StackTrace) {
       lat.value = 0.0;
       long.value = 0.0;
+      //print(StackTrace);
     });
   }
 }
