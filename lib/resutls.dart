@@ -95,8 +95,9 @@ class _ResultsPageState extends State<ResultsPage> {
       double latitude = addressPoint.latitude;
       double longitude = addressPoint.longitude;
 
-      String address = data.value[0]['distancia'].toStringAsFixed(4) +
-          ' Km'; // Get the restaurant name
+      String address = "A " +
+          data.value[0]['distancia'].toStringAsFixed(3) +
+          ' Km de ti'; // Get the restaurant name
 
       String photo = data.value[0]['restaurant_photo'].toString();
 
