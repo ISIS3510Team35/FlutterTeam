@@ -17,18 +17,21 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
   }
-
+  
   @override
   Widget build(BuildContext context) {
+    
     return Scaffold(
       appBar: const AppHeader(),
       body: ListView(
-        children: const [
+        children: [
           CategorySection(),
           SizedBox(height: 7),
           LunchSection(),
           SizedBox(height: 7),
-          DiscountSection()
+          DiscountSection(),
+          SizedBox(height: 7),
+          FavouritesSection()
         ],
       ),
     );
@@ -102,7 +105,72 @@ class LunchSection extends StatelessWidget {
     );
   }
 }
-
+// ignore: must_be_immutable
+class FavouritesSection extends StatelessWidget {
+  FavouritesSection({Key? key});
+  
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(8),
+      alignment: Alignment.bottomLeft,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Text(
+            '    Favoritos',
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+              fontFamily: 'Manrope',
+            ),
+            textAlign: TextAlign.left,
+          ),
+          FutureBuilder(
+            future: Favourites(),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
+              } else if (snapshot.hasError) {
+                return const Center(
+                  child: Text('Error loading data'),
+                );
+              } else if (!snapshot.hasData || snapshot.data!.isEmpty || snapshot.data ==[]) {
+                return const Center(
+                  child: Text('No hay platos en favoritos :('),
+                );
+              } else {
+                final items = snapshot.data?.length;
+                return SizedBox(
+                  height: 332,
+                  child: ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    itemCount: items,
+                    itemBuilder: (context, index) {
+                      final itemData = snapshot.data?[index];
+                      return ItemWidget(
+                        index: index,
+                        itemName: itemData['name'],
+                        itemDescription: itemData['restaurant_name'],
+                        itemPrice: itemData['price'],
+                        itemPhoto: itemData['image'],
+                        itemRating: itemData['rating'],
+                        itemIdRes: itemData['restaurantId'],
+                        itemId: itemData['id'],
+                      );
+                    },
+                  ),
+                );
+              }
+            },
+          ),
+        ],
+      ),
+    );
+  }
+}
 class ItemWidget extends StatelessWidget {
   const ItemWidget({
     Key? key,

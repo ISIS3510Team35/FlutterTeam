@@ -57,7 +57,8 @@ class _PlateOfferPageState extends State<PlateOfferPage> {
                       cafeteriaName: restaurant.name,
                       ratingCount: plate.price,
                       description: plate.description,
-                      location: restaurant.location),
+                      location: restaurant.location,
+                      idPlate:plate.id,),
                 const OthersSection()
               ],
             );
@@ -123,6 +124,7 @@ class OneCardSection extends StatelessWidget {
   final num ratingCount;
   final String description;
   final GeoPoint location;
+  final num idPlate;
 
   const OneCardSection({
     Key? key,
@@ -132,6 +134,7 @@ class OneCardSection extends StatelessWidget {
     required this.ratingCount,
     required this.description,
     required this.location,
+    required this.idPlate
   }) : super(key: key);
 
   @override
@@ -213,25 +216,64 @@ class OneCardSection extends StatelessWidget {
           ButtonRow(
               latitude: location.latitude,
               longitude:
-                  location.longitude), // Include the ButtonRow widget here
+                  location.longitude,
+              idPlate: idPlate), // Include the ButtonRow widget here
         ],
       ),
     );
   }
 }
 
-class ButtonRow extends StatelessWidget {
+class ButtonRow extends StatefulWidget {
+
   final double latitude;
   final double longitude;
+  final num idPlate;
 
   const ButtonRow({
     Key? key,
     required this.latitude,
     required this.longitude,
+    required this.idPlate,
   }) : super(key: key);
+  
+  @override
+  State<ButtonRow> createState() => _ButtonRow();
+  
+}
+class _ButtonRow extends State<ButtonRow>{
+  int user_id=0;
 
   @override
+  void initState(){
+    if(mounted){
+      setState((){
+        isFavourite(widget.idPlate).then((value) => {
+        if(mounted){setState((){
+          if(value){
+            favourite='Eliminar favorito';
+          }
+          else{
+            favourite = 'Añadir a favoritos';
+          }
+        })}
+        
+      });});
+      };
+      super.initState();
+    }
+    
+  
+  @override
+  void dispose(){
+    favourite = '';
+    super.dispose();
+  }
+  String favourite = 'Añadir a favoritos'; 
+  
+  @override
   Widget build(BuildContext context) {
+    
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
@@ -239,9 +281,21 @@ class ButtonRow extends StatelessWidget {
           width: 135,
           height: 50,
           child: ElevatedButton.icon(
-            onPressed: () {},
-            label: const Text(
-              'Añadir a favoritos',
+            onPressed: () {
+              addFavourites(widget.idPlate).then((value) => {
+                if(mounted){setState((){
+                  
+                  if(value){
+                    favourite='Eliminar favorito';
+                  }
+                  else{
+                    favourite = 'Añadir a favoritos';
+                  }
+                })}
+              });
+            },
+            label: Text(
+              favourite,
               style: TextStyle(color: Colors.white), // White text color
             ),
             icon: const Icon(
@@ -262,7 +316,7 @@ class ButtonRow extends StatelessWidget {
           height: 50,
           child: ElevatedButton.icon(
             onPressed: () {
-              MapUtils.openMap(latitude, longitude);
+              MapUtils.openMap(widget.latitude, widget.longitude);
             },
             label: const Text(
               '¿Cómo llegar?',
@@ -283,8 +337,8 @@ class ButtonRow extends StatelessWidget {
       ],
     );
   }
-}
 
+}
 class OthersSection extends StatelessWidget {
   const OthersSection({Key? key});
 
