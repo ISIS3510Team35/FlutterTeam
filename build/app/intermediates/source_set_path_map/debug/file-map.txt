@@ -19,4 +19,7 @@ com.example.fud.app-packaged_res-17 C:\Users\Usuario\Documents\Universidad\Semes
 com.example.fud.app-packaged_res-18 C:\Users\Usuario\Documents\Universidad\Semestre 11\Moviles\Proyecto\_\v6\FlutterTeam\build\firebase_core\intermediates\packaged_res\debug
 com.example.fud.app-packaged_res-19 C:\Users\Usuario\Documents\Universidad\Semestre 11\Moviles\Proyecto\_\v6\FlutterTeam\build\geolocator_android\intermediates\packaged_res\debug
 com.example.fud.app-packaged_res-20 C:\Users\Usuario\Documents\Universidad\Semestre 11\Moviles\Proyecto\_\v6\FlutterTeam\build\maps_launcher\intermediates\packaged_res\debug
-com.example.fud.app-packaged_res-21 C:\Users\Usuario\Documents\Universidad\Semestre 11\Moviles\Proyecto\_\v6\FlutterTeam\build\url_launcher_android\intermediates\packaged_res\debug
+com.example.fud.app-packaged_res-21 C:\Users\Usuario\Documents\Universidad\Semestre 11\Moviles\Proyecto\_\v6\FlutterTeam\build\path_provider_android\intermediates\packaged_res\debug
+com.example.fud.app-packaged_res-22 C:\Users\Usuario\Documents\Universidad\Semestre 11\Moviles\Proyecto\_\v6\FlutterTeam\build\shared_preferences_android\intermediates\packaged_res\debug
+com.example.fud.app-packaged_res-23 C:\Users\Usuario\Documents\Universidad\Semestre 11\Moviles\Proyecto\_\v6\FlutterTeam\build\sqflite\intermediates\packaged_res\debug
+com.example.fud.app-packaged_res-24 C:\Users\Usuario\Documents\Universidad\Semestre 11\Moviles\Proyecto\_\v6\FlutterTeam\build\url_launcher_android\intermediates\packaged_res\debug

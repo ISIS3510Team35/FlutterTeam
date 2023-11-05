@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:fud/appHeader.dart';
@@ -104,8 +105,8 @@ class ImageWithCaptionSection extends StatelessWidget {
         children: [
           Opacity(
             opacity: 0.9,
-            child: Image.network(
-              imageUrl,
+            child: Image(
+              image: CachedNetworkImageProvider(imageUrl),
               width: double.infinity,
               height: 140,
               fit: BoxFit.cover,
