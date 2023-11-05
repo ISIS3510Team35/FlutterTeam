@@ -4,9 +4,31 @@ import 'package:fud/services/factories.dart';
 import 'package:collection/collection.dart';
 import 'package:fud/services/gps_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:logger/logger.dart';
+
+final logger = Logger();
 
 FirebaseFirestore db = FirebaseFirestore.instance;
 var gps = GPS();
+
+Future<void> createFavPromoAnalyticsDocument(
+    bool isPromotion, bool isFavorite) async {
+  try {
+    CollectionReference favPromoAnalyticsCollection =
+        db.collection('Fav_Promo_Analytics');
+    int currentDate = DateTime.now().millisecondsSinceEpoch;
+    Map<String, dynamic> data = {
+      'Date': currentDate,
+      'Provider': 'FlutterTeam',
+      'promotion': isPromotion,
+      'favourite': isFavorite,
+    };
+    await favPromoAnalyticsCollection.add(data);
+    logger.d('Documento creado exitosamente');
+  } catch (e) {
+    logger.d('Error al crear el documento: $e');
+  }
+}
 
 Future<List> getOffer() async {
   List test = [];
@@ -89,7 +111,6 @@ Future<Restaurant?> getRestaurant({required id}) async {
 // Autenticación !!!
 
 Future<bool> doesUserExist(String username, String password) async {
-  
   QuerySnapshot querySnapshot = await db
       .collection('User')
       .where('username', isEqualTo: username)
@@ -97,7 +118,8 @@ Future<bool> doesUserExist(String username, String password) async {
       .get();
 
   if (querySnapshot.docs.isNotEmpty) {
-    SharedPreferences.getInstance().then((v)=>v.setInt('user', querySnapshot.docs[0]['id']));
+    SharedPreferences.getInstance()
+        .then((v) => v.setInt('user', querySnapshot.docs[0]['id']));
 
     return true;
   } else {
@@ -245,10 +267,9 @@ Future<bool> addFavourites(num plate_id) async {
     await db.collection('Favourites').doc(querySnapshot.docs[0].id).delete();
     return false;
   } else {
-    await db.collection('Favourites').add({
-      'product_id':plate_id,
-      'user_id':user_id
-    });
+    await db
+        .collection('Favourites')
+        .add({'product_id': plate_id, 'user_id': user_id});
     return true;
   }
 }
@@ -277,15 +298,15 @@ Future<List> Favourites() async {
       .collection('Favourites')
       .where('user_id', isEqualTo: user_id)
       .get();
-  if(querySnapshot.docs.isNotEmpty){
-    List prod =[];
-    for(var fa in querySnapshot.docs){prod.add(fa['product_id']);}
-    QuerySnapshot collectionProducts = await db
-            .collection('Product')
-            .where('id', whereIn: prod )
-            .get();
-    if(collectionProducts.docs.isNotEmpty){
-      for(var element in  collectionProducts.docs){
+  if (querySnapshot.docs.isNotEmpty) {
+    List prod = [];
+    for (var fa in querySnapshot.docs) {
+      prod.add(fa['product_id']);
+    }
+    QuerySnapshot collectionProducts =
+        await db.collection('Product').where('id', whereIn: prod).get();
+    if (collectionProducts.docs.isNotEmpty) {
+      for (var element in collectionProducts.docs) {
         var i, e;
         String name;
         try {
