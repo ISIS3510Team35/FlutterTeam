@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:fud/appHeader.dart';
 import 'package:fud/plateOffer.dart';
@@ -223,7 +224,7 @@ class ItemWidget extends StatelessWidget {
                   children: [
                     CircleAvatar(
                       radius: 80,
-                      backgroundImage: NetworkImage(itemPhoto),
+                      backgroundImage: CachedNetworkImageProvider(itemPhoto),
                     ),
                     const SizedBox(height: 10),
                     Text(
@@ -497,7 +498,7 @@ class ItemWidgetOffers extends StatelessWidget {
                 children: [
                   CircleAvatar(
                     radius: 80,
-                    backgroundImage: NetworkImage(itemPhoto),
+                    backgroundImage: CachedNetworkImageProvider(itemPhoto) ,
                   ),
                   const SizedBox(height: 10),
                   Text(

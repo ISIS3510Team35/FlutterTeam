@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:fud/appHeader.dart';
@@ -168,8 +169,8 @@ class RestaurantResume extends StatelessWidget {
                 CircleAvatar(
                   radius: 60,
                   child: ClipOval(
-                      child: Image.network(
-                    photo,
+                      child: Image(
+                        image: CachedNetworkImageProvider(photo),
                     height: 140,
                     fit: BoxFit.cover,
                   )),
@@ -315,8 +316,8 @@ class OtherWidget extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Image.network(
-                    asset, // Use the user-defined asset parameter
+                  Image(
+                    image:CachedNetworkImageProvider(asset), // Use the user-defined asset parameter
                     height: 92,
                     width: 200,
                     fit: BoxFit.cover,

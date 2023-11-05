@@ -46,7 +46,9 @@ MERGED from [:cloud_firestore] C:\Users\Usuario\Documents\Universidad\Semestre 1
 MERGED from [:firebase_core] C:\Users\Usuario\Documents\Universidad\Semestre 11\Moviles\Proyecto\_\v6\FlutterTeam\build\firebase_core\intermediates\merged_manifest\debug\AndroidManifest.xml:2:1-17:12
 MERGED from [:maps_launcher] C:\Users\Usuario\Documents\Universidad\Semestre 11\Moviles\Proyecto\_\v6\FlutterTeam\build\maps_launcher\intermediates\merged_manifest\debug\AndroidManifest.xml:2:1-9:12
 MERGED from [:geolocator_android] C:\Users\Usuario\Documents\Universidad\Semestre 11\Moviles\Proyecto\_\v6\FlutterTeam\build\geolocator_android\intermediates\merged_manifest\debug\AndroidManifest.xml:2:1-17:12
+MERGED from [:sqflite] C:\Users\Usuario\Documents\Universidad\Semestre 11\Moviles\Proyecto\_\v6\FlutterTeam\build\sqflite\intermediates\merged_manifest\debug\AndroidManifest.xml:2:1-9:12
 MERGED from [:url_launcher_android] C:\Users\Usuario\Documents\Universidad\Semestre 11\Moviles\Proyecto\_\v6\FlutterTeam\build\url_launcher_android\intermediates\merged_manifest\debug\AndroidManifest.xml:2:1-16:12
+MERGED from [:path_provider_android] C:\Users\Usuario\Documents\Universidad\Semestre 11\Moviles\Proyecto\_\v6\FlutterTeam\build\path_provider_android\intermediates\merged_manifest\debug\AndroidManifest.xml:2:1-9:12
 MERGED from [androidx.window:window-java:1.0.0-beta04] C:\Users\Usuario\.gradle\caches\transforms-3\ae81e06d24c799147c26814497a2a305\transformed\jetified-window-java-1.0.0-beta04\AndroidManifest.xml:17:1-23:12
 MERGED from [androidx.window:window:1.0.0-beta04] C:\Users\Usuario\.gradle\caches\transforms-3\25cee5f028ac2a6b79fd6278ff5b59e2\transformed\jetified-window-1.0.0-beta04\AndroidManifest.xml:17:1-33:12
 MERGED from [androidx.multidex:multidex:2.0.0] C:\Users\Usuario\.gradle\caches\transforms-3\38f6a662321be909ca54ed9fccb79928\transformed\multidex-2.0.0\AndroidManifest.xml:17:1-22:12
@@ -118,8 +120,12 @@ MERGED from [:maps_launcher] C:\Users\Usuario\Documents\Universidad\Semestre 11\
 MERGED from [:maps_launcher] C:\Users\Usuario\Documents\Universidad\Semestre 11\Moviles\Proyecto\_\v6\FlutterTeam\build\maps_launcher\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-7:41
 MERGED from [:geolocator_android] C:\Users\Usuario\Documents\Universidad\Semestre 11\Moviles\Proyecto\_\v6\FlutterTeam\build\geolocator_android\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-7:41
 MERGED from [:geolocator_android] C:\Users\Usuario\Documents\Universidad\Semestre 11\Moviles\Proyecto\_\v6\FlutterTeam\build\geolocator_android\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-7:41
+MERGED from [:sqflite] C:\Users\Usuario\Documents\Universidad\Semestre 11\Moviles\Proyecto\_\v6\FlutterTeam\build\sqflite\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-7:41
+MERGED from [:sqflite] C:\Users\Usuario\Documents\Universidad\Semestre 11\Moviles\Proyecto\_\v6\FlutterTeam\build\sqflite\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-7:41
 MERGED from [:url_launcher_android] C:\Users\Usuario\Documents\Universidad\Semestre 11\Moviles\Proyecto\_\v6\FlutterTeam\build\url_launcher_android\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-7:41
 MERGED from [:url_launcher_android] C:\Users\Usuario\Documents\Universidad\Semestre 11\Moviles\Proyecto\_\v6\FlutterTeam\build\url_launcher_android\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-7:41
+MERGED from [:path_provider_android] C:\Users\Usuario\Documents\Universidad\Semestre 11\Moviles\Proyecto\_\v6\FlutterTeam\build\path_provider_android\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-7:41
+MERGED from [:path_provider_android] C:\Users\Usuario\Documents\Universidad\Semestre 11\Moviles\Proyecto\_\v6\FlutterTeam\build\path_provider_android\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-7:41
 MERGED from [androidx.window:window-java:1.0.0-beta04] C:\Users\Usuario\.gradle\caches\transforms-3\ae81e06d24c799147c26814497a2a305\transformed\jetified-window-java-1.0.0-beta04\AndroidManifest.xml:19:5-21:41
 MERGED from [androidx.window:window-java:1.0.0-beta04] C:\Users\Usuario\.gradle\caches\transforms-3\ae81e06d24c799147c26814497a2a305\transformed\jetified-window-java-1.0.0-beta04\AndroidManifest.xml:19:5-21:41
 MERGED from [androidx.window:window:1.0.0-beta04] C:\Users\Usuario\.gradle\caches\transforms-3\25cee5f028ac2a6b79fd6278ff5b59e2\transformed\jetified-window-1.0.0-beta04\AndroidManifest.xml:20:5-22:41
