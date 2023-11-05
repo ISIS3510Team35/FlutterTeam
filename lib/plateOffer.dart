@@ -250,6 +250,7 @@ class _ButtonRow extends State<ButtonRow>{
       setState((){
         isFavourite(widget.idPlate).then((value) => {
         if(mounted){setState((){
+          fav = value; 
           if(value){
             favourite='Eliminar favorito';
           }
@@ -270,6 +271,7 @@ class _ButtonRow extends State<ButtonRow>{
     super.dispose();
   }
   String favourite = 'Añadir a favoritos'; 
+  bool fav = false;
   
   @override
   Widget build(BuildContext context) {
@@ -284,7 +286,7 @@ class _ButtonRow extends State<ButtonRow>{
             onPressed: () {
               addFavourites(widget.idPlate).then((value) => {
                 if(mounted){setState((){
-                  
+                  fav = value;
                   if(value){
                     favourite='Eliminar favorito';
                   }
@@ -298,7 +300,10 @@ class _ButtonRow extends State<ButtonRow>{
               favourite,
               style: TextStyle(color: Colors.white), // White text color
             ),
-            icon: const Icon(
+            icon: fav?Icon(
+              Icons.favorite,
+              color: Colors.white, // White icon color
+            ):Icon(
               Icons.favorite_border,
               color: Colors.white, // White icon color
             ),
