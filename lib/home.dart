@@ -18,10 +18,9 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
   }
-  
+
   @override
   Widget build(BuildContext context) {
-    
     return Scaffold(
       appBar: const AppHeader(),
       body: ListView(
@@ -106,10 +105,11 @@ class LunchSection extends StatelessWidget {
     );
   }
 }
+
 // ignore: must_be_immutable
 class FavouritesSection extends StatelessWidget {
   FavouritesSection({Key? key});
-  
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -138,7 +138,9 @@ class FavouritesSection extends StatelessWidget {
                 return const Center(
                   child: Text('Error loading data'),
                 );
-              } else if (!snapshot.hasData || snapshot.data!.isEmpty || snapshot.data ==[]) {
+              } else if (!snapshot.hasData ||
+                  snapshot.data!.isEmpty ||
+                  snapshot.data == []) {
                 return const Center(
                   child: Text('No hay platos en favoritos :('),
                 );
@@ -172,6 +174,7 @@ class FavouritesSection extends StatelessWidget {
     );
   }
 }
+
 class ItemWidget extends StatelessWidget {
   const ItemWidget({
     Key? key,
@@ -198,7 +201,7 @@ class ItemWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        // Navigate to the desired view here, for example:
+        createFavPromoAnalyticsDocument(false, true);
         Navigator.push(
           context,
           MaterialPageRoute(
@@ -471,14 +474,12 @@ class ItemWidgetOffers extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        // Navegar a la vista deseada aquí, por ejemplo:
+        createFavPromoAnalyticsDocument(true, false);
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => PlateOfferPage(
-                idPlate: itemId,
-                idRestaurant:
-                    itemIdRes), // Reemplaza 'TuOtraVista' con el nombre de tu vista
+            builder: (context) =>
+                PlateOfferPage(idPlate: itemId, idRestaurant: itemIdRes),
           ),
         );
       },
@@ -498,7 +499,7 @@ class ItemWidgetOffers extends StatelessWidget {
                 children: [
                   CircleAvatar(
                     radius: 80,
-                    backgroundImage: CachedNetworkImageProvider(itemPhoto) ,
+                    backgroundImage: CachedNetworkImageProvider(itemPhoto),
                   ),
                   const SizedBox(height: 10),
                   Text(
