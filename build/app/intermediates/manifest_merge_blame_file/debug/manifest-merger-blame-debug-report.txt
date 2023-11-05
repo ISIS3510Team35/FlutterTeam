@@ -13,34 +13,34 @@
 13         to allow setting breakpoints, to provide hot reload, etc.
 14    -->
 15    <uses-permission android:name="android.permission.INTERNET" />
-15-->/Users/Meli/Documents/Moviles/FlutterTeam2/android/app/src/debug/AndroidManifest.xml:6:5-66
-15-->/Users/Meli/Documents/Moviles/FlutterTeam2/android/app/src/debug/AndroidManifest.xml:6:22-64
+15-->C:\Users\Usuario\Documents\Universidad\Semestre 11\Moviles\Proyecto\_\v6\FlutterTeam\android\app\src\debug\AndroidManifest.xml:6:5-66
+15-->C:\Users\Usuario\Documents\Universidad\Semestre 11\Moviles\Proyecto\_\v6\FlutterTeam\android\app\src\debug\AndroidManifest.xml:6:22-64
 16    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-16-->/Users/Meli/Documents/Moviles/FlutterTeam2/android/app/src/main/AndroidManifest.xml:2:5-80
-16-->/Users/Meli/Documents/Moviles/FlutterTeam2/android/app/src/main/AndroidManifest.xml:2:22-78
+16-->C:\Users\Usuario\Documents\Universidad\Semestre 11\Moviles\Proyecto\_\v6\FlutterTeam\android\app\src\main\AndroidManifest.xml:2:5-80
+16-->C:\Users\Usuario\Documents\Universidad\Semestre 11\Moviles\Proyecto\_\v6\FlutterTeam\android\app\src\main\AndroidManifest.xml:2:22-78
 17    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" /> <!-- Although the *SdkVersion is captured in gradle build files, this is required for non gradle builds -->
-17-->/Users/Meli/Documents/Moviles/FlutterTeam2/android/app/src/main/AndroidManifest.xml:3:5-78
-17-->/Users/Meli/Documents/Moviles/FlutterTeam2/android/app/src/main/AndroidManifest.xml:3:22-76
+17-->C:\Users\Usuario\Documents\Universidad\Semestre 11\Moviles\Proyecto\_\v6\FlutterTeam\android\app\src\main\AndroidManifest.xml:3:5-78
+17-->C:\Users\Usuario\Documents\Universidad\Semestre 11\Moviles\Proyecto\_\v6\FlutterTeam\android\app\src\main\AndroidManifest.xml:3:22-76
 18    <!-- <uses-sdk android:minSdkVersion="14" /> -->
 19    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-19-->[com.google.firebase:firebase-firestore:24.7.1] /Users/Meli/.gradle/caches/transforms-3/5a7f2f8e67e085ff5ceb2e332280dbf1/transformed/jetified-firebase-firestore-24.7.1/AndroidManifest.xml:10:5-79
-19-->[com.google.firebase:firebase-firestore:24.7.1] /Users/Meli/.gradle/caches/transforms-3/5a7f2f8e67e085ff5ceb2e332280dbf1/transformed/jetified-firebase-firestore-24.7.1/AndroidManifest.xml:10:22-76
+19-->[com.google.firebase:firebase-firestore:24.7.1] C:\Users\Usuario\.gradle\caches\transforms-3\5a7f2f8e67e085ff5ceb2e332280dbf1\transformed\jetified-firebase-firestore-24.7.1\AndroidManifest.xml:10:5-79
+19-->[com.google.firebase:firebase-firestore:24.7.1] C:\Users\Usuario\.gradle\caches\transforms-3\5a7f2f8e67e085ff5ceb2e332280dbf1\transformed\jetified-firebase-firestore-24.7.1\AndroidManifest.xml:10:22-76
 20
 21    <permission
-21-->[androidx.core:core:1.10.1] /Users/Meli/.gradle/caches/transforms-3/c4988ff80110f75080a936fc6f044848/transformed/core-1.10.1/AndroidManifest.xml:22:5-24:47
+21-->[androidx.core:core:1.10.1] C:\Users\Usuario\.gradle\caches\transforms-3\c4988ff80110f75080a936fc6f044848\transformed\core-1.10.1\AndroidManifest.xml:22:5-24:47
 22        android:name="com.example.fud.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"
-22-->[androidx.core:core:1.10.1] /Users/Meli/.gradle/caches/transforms-3/c4988ff80110f75080a936fc6f044848/transformed/core-1.10.1/AndroidManifest.xml:23:9-81
+22-->[androidx.core:core:1.10.1] C:\Users\Usuario\.gradle\caches\transforms-3\c4988ff80110f75080a936fc6f044848\transformed\core-1.10.1\AndroidManifest.xml:23:9-81
 23        android:protectionLevel="signature" />
-23-->[androidx.core:core:1.10.1] /Users/Meli/.gradle/caches/transforms-3/c4988ff80110f75080a936fc6f044848/transformed/core-1.10.1/AndroidManifest.xml:24:9-44
+23-->[androidx.core:core:1.10.1] C:\Users\Usuario\.gradle\caches\transforms-3\c4988ff80110f75080a936fc6f044848\transformed\core-1.10.1\AndroidManifest.xml:24:9-44
 24
 25    <uses-permission android:name="com.example.fud.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION" />
-25-->[androidx.core:core:1.10.1] /Users/Meli/.gradle/caches/transforms-3/c4988ff80110f75080a936fc6f044848/transformed/core-1.10.1/AndroidManifest.xml:26:5-97
-25-->[androidx.core:core:1.10.1] /Users/Meli/.gradle/caches/transforms-3/c4988ff80110f75080a936fc6f044848/transformed/core-1.10.1/AndroidManifest.xml:26:22-94
+25-->[androidx.core:core:1.10.1] C:\Users\Usuario\.gradle\caches\transforms-3\c4988ff80110f75080a936fc6f044848\transformed\core-1.10.1\AndroidManifest.xml:26:5-97
+25-->[androidx.core:core:1.10.1] C:\Users\Usuario\.gradle\caches\transforms-3\c4988ff80110f75080a936fc6f044848\transformed\core-1.10.1\AndroidManifest.xml:26:22-94
 26
 27    <application
 28        android:name="android.app.Application"
 29        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
-29-->[androidx.core:core:1.10.1] /Users/Meli/.gradle/caches/transforms-3/c4988ff80110f75080a936fc6f044848/transformed/core-1.10.1/AndroidManifest.xml:28:18-86
+29-->[androidx.core:core:1.10.1] C:\Users\Usuario\.gradle\caches\transforms-3\c4988ff80110f75080a936fc6f044848\transformed\core-1.10.1\AndroidManifest.xml:28:18-86
 30        android:debuggable="true"
 31        android:icon="@mipmap/ic_launcher"
 32        android:label="fud" >
@@ -78,93 +78,93 @@
 64            android:value="2" />
 65
 66        <service
-66-->[:cloud_firestore] /Users/Meli/Documents/Moviles/FlutterTeam2/build/cloud_firestore/intermediates/merged_manifest/debug/AndroidManifest.xml:10:9-14:19
+66-->[:cloud_firestore] C:\Users\Usuario\Documents\Universidad\Semestre 11\Moviles\Proyecto\_\v6\FlutterTeam\build\cloud_firestore\intermediates\merged_manifest\debug\AndroidManifest.xml:10:9-14:19
 67            android:name="com.google.firebase.components.ComponentDiscoveryService"
-67-->[:cloud_firestore] /Users/Meli/Documents/Moviles/FlutterTeam2/build/cloud_firestore/intermediates/merged_manifest/debug/AndroidManifest.xml:10:18-89
+67-->[:cloud_firestore] C:\Users\Usuario\Documents\Universidad\Semestre 11\Moviles\Proyecto\_\v6\FlutterTeam\build\cloud_firestore\intermediates\merged_manifest\debug\AndroidManifest.xml:10:18-89
 68            android:directBootAware="true"
-68-->[com.google.firebase:firebase-common:20.3.3] /Users/Meli/.gradle/caches/transforms-3/6f9fa5902813f78de2aefcdfcdb180f7/transformed/jetified-firebase-common-20.3.3/AndroidManifest.xml:34:13-43
+68-->[com.google.firebase:firebase-common:20.3.3] C:\Users\Usuario\.gradle\caches\transforms-3\6f9fa5902813f78de2aefcdfcdb180f7\transformed\jetified-firebase-common-20.3.3\AndroidManifest.xml:34:13-43
 69            android:exported="false" >
-69-->[com.google.firebase:firebase-firestore:24.7.1] /Users/Meli/.gradle/caches/transforms-3/5a7f2f8e67e085ff5ceb2e332280dbf1/transformed/jetified-firebase-firestore-24.7.1/AndroidManifest.xml:16:13-37
+69-->[com.google.firebase:firebase-firestore:24.7.1] C:\Users\Usuario\.gradle\caches\transforms-3\5a7f2f8e67e085ff5ceb2e332280dbf1\transformed\jetified-firebase-firestore-24.7.1\AndroidManifest.xml:16:13-37
 70            <meta-data
-70-->[:cloud_firestore] /Users/Meli/Documents/Moviles/FlutterTeam2/build/cloud_firestore/intermediates/merged_manifest/debug/AndroidManifest.xml:11:13-13:85
+70-->[:cloud_firestore] C:\Users\Usuario\Documents\Universidad\Semestre 11\Moviles\Proyecto\_\v6\FlutterTeam\build\cloud_firestore\intermediates\merged_manifest\debug\AndroidManifest.xml:11:13-13:85
 71                android:name="com.google.firebase.components:io.flutter.plugins.firebase.firestore.FlutterFirebaseFirestoreRegistrar"
-71-->[:cloud_firestore] /Users/Meli/Documents/Moviles/FlutterTeam2/build/cloud_firestore/intermediates/merged_manifest/debug/AndroidManifest.xml:12:17-134
+71-->[:cloud_firestore] C:\Users\Usuario\Documents\Universidad\Semestre 11\Moviles\Proyecto\_\v6\FlutterTeam\build\cloud_firestore\intermediates\merged_manifest\debug\AndroidManifest.xml:12:17-134
 72                android:value="com.google.firebase.components.ComponentRegistrar" />
-72-->[:cloud_firestore] /Users/Meli/Documents/Moviles/FlutterTeam2/build/cloud_firestore/intermediates/merged_manifest/debug/AndroidManifest.xml:13:17-82
+72-->[:cloud_firestore] C:\Users\Usuario\Documents\Universidad\Semestre 11\Moviles\Proyecto\_\v6\FlutterTeam\build\cloud_firestore\intermediates\merged_manifest\debug\AndroidManifest.xml:13:17-82
 73            <meta-data
-73-->[:firebase_core] /Users/Meli/Documents/Moviles/FlutterTeam2/build/firebase_core/intermediates/merged_manifest/debug/AndroidManifest.xml:11:13-13:85
+73-->[:firebase_core] C:\Users\Usuario\Documents\Universidad\Semestre 11\Moviles\Proyecto\_\v6\FlutterTeam\build\firebase_core\intermediates\merged_manifest\debug\AndroidManifest.xml:11:13-13:85
 74                android:name="com.google.firebase.components:io.flutter.plugins.firebase.core.FlutterFirebaseCoreRegistrar"
-74-->[:firebase_core] /Users/Meli/Documents/Moviles/FlutterTeam2/build/firebase_core/intermediates/merged_manifest/debug/AndroidManifest.xml:12:17-124
+74-->[:firebase_core] C:\Users\Usuario\Documents\Universidad\Semestre 11\Moviles\Proyecto\_\v6\FlutterTeam\build\firebase_core\intermediates\merged_manifest\debug\AndroidManifest.xml:12:17-124
 75                android:value="com.google.firebase.components.ComponentRegistrar" />
-75-->[:firebase_core] /Users/Meli/Documents/Moviles/FlutterTeam2/build/firebase_core/intermediates/merged_manifest/debug/AndroidManifest.xml:13:17-82
+75-->[:firebase_core] C:\Users\Usuario\Documents\Universidad\Semestre 11\Moviles\Proyecto\_\v6\FlutterTeam\build\firebase_core\intermediates\merged_manifest\debug\AndroidManifest.xml:13:17-82
 76            <meta-data
-76-->[com.google.firebase:firebase-firestore:24.7.1] /Users/Meli/.gradle/caches/transforms-3/5a7f2f8e67e085ff5ceb2e332280dbf1/transformed/jetified-firebase-firestore-24.7.1/AndroidManifest.xml:17:13-19:85
+76-->[com.google.firebase:firebase-firestore:24.7.1] C:\Users\Usuario\.gradle\caches\transforms-3\5a7f2f8e67e085ff5ceb2e332280dbf1\transformed\jetified-firebase-firestore-24.7.1\AndroidManifest.xml:17:13-19:85
 77                android:name="com.google.firebase.components:com.google.firebase.firestore.FirestoreRegistrar"
-77-->[com.google.firebase:firebase-firestore:24.7.1] /Users/Meli/.gradle/caches/transforms-3/5a7f2f8e67e085ff5ceb2e332280dbf1/transformed/jetified-firebase-firestore-24.7.1/AndroidManifest.xml:18:17-111
+77-->[com.google.firebase:firebase-firestore:24.7.1] C:\Users\Usuario\.gradle\caches\transforms-3\5a7f2f8e67e085ff5ceb2e332280dbf1\transformed\jetified-firebase-firestore-24.7.1\AndroidManifest.xml:18:17-111
 78                android:value="com.google.firebase.components.ComponentRegistrar" />
-78-->[com.google.firebase:firebase-firestore:24.7.1] /Users/Meli/.gradle/caches/transforms-3/5a7f2f8e67e085ff5ceb2e332280dbf1/transformed/jetified-firebase-firestore-24.7.1/AndroidManifest.xml:19:17-82
+78-->[com.google.firebase:firebase-firestore:24.7.1] C:\Users\Usuario\.gradle\caches\transforms-3\5a7f2f8e67e085ff5ceb2e332280dbf1\transformed\jetified-firebase-firestore-24.7.1\AndroidManifest.xml:19:17-82
 79        </service>
 80        <service
-80-->[:geolocator_android] /Users/Meli/Documents/Moviles/FlutterTeam2/build/geolocator_android/intermediates/merged_manifest/debug/AndroidManifest.xml:10:9-14:56
+80-->[:geolocator_android] C:\Users\Usuario\Documents\Universidad\Semestre 11\Moviles\Proyecto\_\v6\FlutterTeam\build\geolocator_android\intermediates\merged_manifest\debug\AndroidManifest.xml:10:9-14:56
 81            android:name="com.baseflow.geolocator.GeolocatorLocationService"
-81-->[:geolocator_android] /Users/Meli/Documents/Moviles/FlutterTeam2/build/geolocator_android/intermediates/merged_manifest/debug/AndroidManifest.xml:11:13-77
+81-->[:geolocator_android] C:\Users\Usuario\Documents\Universidad\Semestre 11\Moviles\Proyecto\_\v6\FlutterTeam\build\geolocator_android\intermediates\merged_manifest\debug\AndroidManifest.xml:11:13-77
 82            android:enabled="true"
-82-->[:geolocator_android] /Users/Meli/Documents/Moviles/FlutterTeam2/build/geolocator_android/intermediates/merged_manifest/debug/AndroidManifest.xml:12:13-35
+82-->[:geolocator_android] C:\Users\Usuario\Documents\Universidad\Semestre 11\Moviles\Proyecto\_\v6\FlutterTeam\build\geolocator_android\intermediates\merged_manifest\debug\AndroidManifest.xml:12:13-35
 83            android:exported="false"
-83-->[:geolocator_android] /Users/Meli/Documents/Moviles/FlutterTeam2/build/geolocator_android/intermediates/merged_manifest/debug/AndroidManifest.xml:13:13-37
+83-->[:geolocator_android] C:\Users\Usuario\Documents\Universidad\Semestre 11\Moviles\Proyecto\_\v6\FlutterTeam\build\geolocator_android\intermediates\merged_manifest\debug\AndroidManifest.xml:13:13-37
 84            android:foregroundServiceType="location" />
-84-->[:geolocator_android] /Users/Meli/Documents/Moviles/FlutterTeam2/build/geolocator_android/intermediates/merged_manifest/debug/AndroidManifest.xml:14:13-53
+84-->[:geolocator_android] C:\Users\Usuario\Documents\Universidad\Semestre 11\Moviles\Proyecto\_\v6\FlutterTeam\build\geolocator_android\intermediates\merged_manifest\debug\AndroidManifest.xml:14:13-53
 85
 86        <activity
-86-->[:url_launcher_android] /Users/Meli/Documents/Moviles/FlutterTeam2/build/url_launcher_android/intermediates/merged_manifest/debug/AndroidManifest.xml:10:9-13:74
+86-->[:url_launcher_android] C:\Users\Usuario\Documents\Universidad\Semestre 11\Moviles\Proyecto\_\v6\FlutterTeam\build\url_launcher_android\intermediates\merged_manifest\debug\AndroidManifest.xml:10:9-13:74
 87            android:name="io.flutter.plugins.urllauncher.WebViewActivity"
-87-->[:url_launcher_android] /Users/Meli/Documents/Moviles/FlutterTeam2/build/url_launcher_android/intermediates/merged_manifest/debug/AndroidManifest.xml:11:13-74
+87-->[:url_launcher_android] C:\Users\Usuario\Documents\Universidad\Semestre 11\Moviles\Proyecto\_\v6\FlutterTeam\build\url_launcher_android\intermediates\merged_manifest\debug\AndroidManifest.xml:11:13-74
 88            android:exported="false"
-88-->[:url_launcher_android] /Users/Meli/Documents/Moviles/FlutterTeam2/build/url_launcher_android/intermediates/merged_manifest/debug/AndroidManifest.xml:12:13-37
+88-->[:url_launcher_android] C:\Users\Usuario\Documents\Universidad\Semestre 11\Moviles\Proyecto\_\v6\FlutterTeam\build\url_launcher_android\intermediates\merged_manifest\debug\AndroidManifest.xml:12:13-37
 89            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
-89-->[:url_launcher_android] /Users/Meli/Documents/Moviles/FlutterTeam2/build/url_launcher_android/intermediates/merged_manifest/debug/AndroidManifest.xml:13:13-71
+89-->[:url_launcher_android] C:\Users\Usuario\Documents\Universidad\Semestre 11\Moviles\Proyecto\_\v6\FlutterTeam\build\url_launcher_android\intermediates\merged_manifest\debug\AndroidManifest.xml:13:13-71
 90
 91        <uses-library
-91-->[androidx.window:window:1.0.0-beta04] /Users/Meli/.gradle/caches/transforms-3/25cee5f028ac2a6b79fd6278ff5b59e2/transformed/jetified-window-1.0.0-beta04/AndroidManifest.xml:25:9-27:40
+91-->[androidx.window:window:1.0.0-beta04] C:\Users\Usuario\.gradle\caches\transforms-3\25cee5f028ac2a6b79fd6278ff5b59e2\transformed\jetified-window-1.0.0-beta04\AndroidManifest.xml:25:9-27:40
 92            android:name="androidx.window.extensions"
-92-->[androidx.window:window:1.0.0-beta04] /Users/Meli/.gradle/caches/transforms-3/25cee5f028ac2a6b79fd6278ff5b59e2/transformed/jetified-window-1.0.0-beta04/AndroidManifest.xml:26:13-54
+92-->[androidx.window:window:1.0.0-beta04] C:\Users\Usuario\.gradle\caches\transforms-3\25cee5f028ac2a6b79fd6278ff5b59e2\transformed\jetified-window-1.0.0-beta04\AndroidManifest.xml:26:13-54
 93            android:required="false" />
-93-->[androidx.window:window:1.0.0-beta04] /Users/Meli/.gradle/caches/transforms-3/25cee5f028ac2a6b79fd6278ff5b59e2/transformed/jetified-window-1.0.0-beta04/AndroidManifest.xml:27:13-37
+93-->[androidx.window:window:1.0.0-beta04] C:\Users\Usuario\.gradle\caches\transforms-3\25cee5f028ac2a6b79fd6278ff5b59e2\transformed\jetified-window-1.0.0-beta04\AndroidManifest.xml:27:13-37
 94        <uses-library
-94-->[androidx.window:window:1.0.0-beta04] /Users/Meli/.gradle/caches/transforms-3/25cee5f028ac2a6b79fd6278ff5b59e2/transformed/jetified-window-1.0.0-beta04/AndroidManifest.xml:28:9-30:40
+94-->[androidx.window:window:1.0.0-beta04] C:\Users\Usuario\.gradle\caches\transforms-3\25cee5f028ac2a6b79fd6278ff5b59e2\transformed\jetified-window-1.0.0-beta04\AndroidManifest.xml:28:9-30:40
 95            android:name="androidx.window.sidecar"
-95-->[androidx.window:window:1.0.0-beta04] /Users/Meli/.gradle/caches/transforms-3/25cee5f028ac2a6b79fd6278ff5b59e2/transformed/jetified-window-1.0.0-beta04/AndroidManifest.xml:29:13-51
+95-->[androidx.window:window:1.0.0-beta04] C:\Users\Usuario\.gradle\caches\transforms-3\25cee5f028ac2a6b79fd6278ff5b59e2\transformed\jetified-window-1.0.0-beta04\AndroidManifest.xml:29:13-51
 96            android:required="false" />
-96-->[androidx.window:window:1.0.0-beta04] /Users/Meli/.gradle/caches/transforms-3/25cee5f028ac2a6b79fd6278ff5b59e2/transformed/jetified-window-1.0.0-beta04/AndroidManifest.xml:30:13-37
+96-->[androidx.window:window:1.0.0-beta04] C:\Users\Usuario\.gradle\caches\transforms-3\25cee5f028ac2a6b79fd6278ff5b59e2\transformed\jetified-window-1.0.0-beta04\AndroidManifest.xml:30:13-37
 97
 98        <provider
-98-->[com.google.firebase:firebase-common:20.3.3] /Users/Meli/.gradle/caches/transforms-3/6f9fa5902813f78de2aefcdfcdb180f7/transformed/jetified-firebase-common-20.3.3/AndroidManifest.xml:25:9-30:39
+98-->[com.google.firebase:firebase-common:20.3.3] C:\Users\Usuario\.gradle\caches\transforms-3\6f9fa5902813f78de2aefcdfcdb180f7\transformed\jetified-firebase-common-20.3.3\AndroidManifest.xml:25:9-30:39
 99            android:name="com.google.firebase.provider.FirebaseInitProvider"
-99-->[com.google.firebase:firebase-common:20.3.3] /Users/Meli/.gradle/caches/transforms-3/6f9fa5902813f78de2aefcdfcdb180f7/transformed/jetified-firebase-common-20.3.3/AndroidManifest.xml:26:13-77
+99-->[com.google.firebase:firebase-common:20.3.3] C:\Users\Usuario\.gradle\caches\transforms-3\6f9fa5902813f78de2aefcdfcdb180f7\transformed\jetified-firebase-common-20.3.3\AndroidManifest.xml:26:13-77
 100            android:authorities="com.example.fud.firebaseinitprovider"
-100-->[com.google.firebase:firebase-common:20.3.3] /Users/Meli/.gradle/caches/transforms-3/6f9fa5902813f78de2aefcdfcdb180f7/transformed/jetified-firebase-common-20.3.3/AndroidManifest.xml:27:13-72
+100-->[com.google.firebase:firebase-common:20.3.3] C:\Users\Usuario\.gradle\caches\transforms-3\6f9fa5902813f78de2aefcdfcdb180f7\transformed\jetified-firebase-common-20.3.3\AndroidManifest.xml:27:13-72
 101            android:directBootAware="true"
-101-->[com.google.firebase:firebase-common:20.3.3] /Users/Meli/.gradle/caches/transforms-3/6f9fa5902813f78de2aefcdfcdb180f7/transformed/jetified-firebase-common-20.3.3/AndroidManifest.xml:28:13-43
+101-->[com.google.firebase:firebase-common:20.3.3] C:\Users\Usuario\.gradle\caches\transforms-3\6f9fa5902813f78de2aefcdfcdb180f7\transformed\jetified-firebase-common-20.3.3\AndroidManifest.xml:28:13-43
 102            android:exported="false"
-102-->[com.google.firebase:firebase-common:20.3.3] /Users/Meli/.gradle/caches/transforms-3/6f9fa5902813f78de2aefcdfcdb180f7/transformed/jetified-firebase-common-20.3.3/AndroidManifest.xml:29:13-37
+102-->[com.google.firebase:firebase-common:20.3.3] C:\Users\Usuario\.gradle\caches\transforms-3\6f9fa5902813f78de2aefcdfcdb180f7\transformed\jetified-firebase-common-20.3.3\AndroidManifest.xml:29:13-37
 103            android:initOrder="100" />
-103-->[com.google.firebase:firebase-common:20.3.3] /Users/Meli/.gradle/caches/transforms-3/6f9fa5902813f78de2aefcdfcdb180f7/transformed/jetified-firebase-common-20.3.3/AndroidManifest.xml:30:13-36
+103-->[com.google.firebase:firebase-common:20.3.3] C:\Users\Usuario\.gradle\caches\transforms-3\6f9fa5902813f78de2aefcdfcdb180f7\transformed\jetified-firebase-common-20.3.3\AndroidManifest.xml:30:13-36
 104
 105        <activity
-105-->[com.google.android.gms:play-services-base:18.1.0] /Users/Meli/.gradle/caches/transforms-3/781e5567158e59d38ee2b89930f9808b/transformed/jetified-play-services-base-18.1.0/AndroidManifest.xml:20:9-22:45
+105-->[com.google.android.gms:play-services-base:18.1.0] C:\Users\Usuario\.gradle\caches\transforms-3\781e5567158e59d38ee2b89930f9808b\transformed\jetified-play-services-base-18.1.0\AndroidManifest.xml:20:9-22:45
 106            android:name="com.google.android.gms.common.api.GoogleApiActivity"
-106-->[com.google.android.gms:play-services-base:18.1.0] /Users/Meli/.gradle/caches/transforms-3/781e5567158e59d38ee2b89930f9808b/transformed/jetified-play-services-base-18.1.0/AndroidManifest.xml:20:19-85
+106-->[com.google.android.gms:play-services-base:18.1.0] C:\Users\Usuario\.gradle\caches\transforms-3\781e5567158e59d38ee2b89930f9808b\transformed\jetified-play-services-base-18.1.0\AndroidManifest.xml:20:19-85
 107            android:exported="false"
-107-->[com.google.android.gms:play-services-base:18.1.0] /Users/Meli/.gradle/caches/transforms-3/781e5567158e59d38ee2b89930f9808b/transformed/jetified-play-services-base-18.1.0/AndroidManifest.xml:22:19-43
+107-->[com.google.android.gms:play-services-base:18.1.0] C:\Users\Usuario\.gradle\caches\transforms-3\781e5567158e59d38ee2b89930f9808b\transformed\jetified-play-services-base-18.1.0\AndroidManifest.xml:22:19-43
 108            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
-108-->[com.google.android.gms:play-services-base:18.1.0] /Users/Meli/.gradle/caches/transforms-3/781e5567158e59d38ee2b89930f9808b/transformed/jetified-play-services-base-18.1.0/AndroidManifest.xml:21:19-78
+108-->[com.google.android.gms:play-services-base:18.1.0] C:\Users\Usuario\.gradle\caches\transforms-3\781e5567158e59d38ee2b89930f9808b\transformed\jetified-play-services-base-18.1.0\AndroidManifest.xml:21:19-78
 109
 110        <meta-data
-110-->[com.google.android.gms:play-services-basement:18.1.0] /Users/Meli/.gradle/caches/transforms-3/58aa1384bde170d075503b845cfcf44c/transformed/jetified-play-services-basement-18.1.0/AndroidManifest.xml:21:9-23:69
+110-->[com.google.android.gms:play-services-basement:18.1.0] C:\Users\Usuario\.gradle\caches\transforms-3\58aa1384bde170d075503b845cfcf44c\transformed\jetified-play-services-basement-18.1.0\AndroidManifest.xml:21:9-23:69
 111            android:name="com.google.android.gms.version"
-111-->[com.google.android.gms:play-services-basement:18.1.0] /Users/Meli/.gradle/caches/transforms-3/58aa1384bde170d075503b845cfcf44c/transformed/jetified-play-services-basement-18.1.0/AndroidManifest.xml:22:13-58
+111-->[com.google.android.gms:play-services-basement:18.1.0] C:\Users\Usuario\.gradle\caches\transforms-3\58aa1384bde170d075503b845cfcf44c\transformed\jetified-play-services-basement-18.1.0\AndroidManifest.xml:22:13-58
 112            android:value="@integer/google_play_services_version" />
-112-->[com.google.android.gms:play-services-basement:18.1.0] /Users/Meli/.gradle/caches/transforms-3/58aa1384bde170d075503b845cfcf44c/transformed/jetified-play-services-basement-18.1.0/AndroidManifest.xml:23:13-66
+112-->[com.google.android.gms:play-services-basement:18.1.0] C:\Users\Usuario\.gradle\caches\transforms-3\58aa1384bde170d075503b845cfcf44c\transformed\jetified-play-services-basement-18.1.0\AndroidManifest.xml:23:13-66
 113    </application>
 114
 115</manifest>

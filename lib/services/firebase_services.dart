@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:fud/services/factories.dart';
 import 'package:collection/collection.dart';
 import 'package:fud/services/gps_service.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 FirebaseFirestore db = FirebaseFirestore.instance;
 var gps = GPS();
@@ -88,6 +89,7 @@ Future<Restaurant?> getRestaurant({required id}) async {
 // Autenticación !!!
 
 Future<bool> doesUserExist(String username, String password) async {
+  
   QuerySnapshot querySnapshot = await db
       .collection('User')
       .where('username', isEqualTo: username)
@@ -95,6 +97,8 @@ Future<bool> doesUserExist(String username, String password) async {
       .get();
 
   if (querySnapshot.docs.isNotEmpty) {
+    SharedPreferences.getInstance().then((v)=>v.setInt('user', querySnapshot.docs[0]['id']));
+
     return true;
   } else {
     return false;
@@ -226,4 +230,87 @@ Future<Map<num, List>> getFilter(
       groupBy(test, (element) => element['restaurant_id']);
 
   return groupedData;
+}
+
+Future<bool> addFavourites(num plate_id) async {
+  SharedPreferences pref = await SharedPreferences.getInstance();
+  int user_id = pref.getInt('user')!;
+  QuerySnapshot querySnapshot = await db
+      .collection('Favourites')
+      .where('product_id', isEqualTo: plate_id)
+      .where('user_id', isEqualTo: user_id)
+      .get();
+
+  if (querySnapshot.docs.isNotEmpty) {
+    await db.collection('Favourites').doc(querySnapshot.docs[0].id).delete();
+    return false;
+  } else {
+    await db.collection('Favourites').add({
+      'product_id':plate_id,
+      'user_id':user_id
+    });
+    return true;
+  }
+}
+
+Future<bool> isFavourite(num plate_id) async {
+  SharedPreferences pref = await SharedPreferences.getInstance();
+  int user_id = pref.getInt('user')!;
+  QuerySnapshot querySnapshot = await db
+      .collection('Favourites')
+      .where('product_id', isEqualTo: plate_id)
+      .where('user_id', isEqualTo: user_id)
+      .get();
+
+  if (querySnapshot.docs.isNotEmpty) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+Future<List> Favourites() async {
+  SharedPreferences pref = await SharedPreferences.getInstance();
+  int user_id = pref.getInt('user')!;
+  List fav = [];
+  QuerySnapshot querySnapshot = await db
+      .collection('Favourites')
+      .where('user_id', isEqualTo: user_id)
+      .get();
+  if(querySnapshot.docs.isNotEmpty){
+    List prod =[];
+    for(var fa in querySnapshot.docs){prod.add(fa['product_id']);}
+    QuerySnapshot collectionProducts = await db
+            .collection('Product')
+            .where('id', whereIn: prod )
+            .get();
+    if(collectionProducts.docs.isNotEmpty){
+      for(var element in  collectionProducts.docs){
+        var i, e;
+        String name;
+        try {
+          QuerySnapshot collectionReferenceRest = await db
+              .collection('Restaurant')
+              .where('id', isEqualTo: element['restaurantId'])
+              .get();
+
+          if (collectionReferenceRest.docs.isNotEmpty) {
+            i = collectionReferenceRest.docs[0].data();
+          }
+
+          if (i?.containsKey('name')) {
+            name = i['name'];
+            e = element.data();
+            e['restaurant_name'] = name;
+          }
+        } catch (err) {
+          if (kDebugMode) {
+            print("Error: $err");
+          }
+        }
+        fav.add(e);
+      }
+    }
+  }
+  return fav;
 }
