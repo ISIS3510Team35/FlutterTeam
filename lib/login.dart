@@ -25,7 +25,6 @@ class _LoginPageState extends State<LoginPage> with WidgetsBindingObserver {
 
   @override
   void initState() {
-    analytics.setAnalyticsCollectionEnabled(true);
     super.initState();
     WidgetsBinding.instance.addObserver(this);
   }
@@ -43,20 +42,25 @@ class _LoginPageState extends State<LoginPage> with WidgetsBindingObserver {
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
+    print("AAA");
     if (state == AppLifecycleState.resumed) {
       startTime = DateTime.now();
-    } else if (state == AppLifecycleState.inactive ||
-        state == AppLifecycleState.paused) {
-      endTime = DateTime.now();
-      if (startTime != null) {
-        final int loadTime = endTime!.difference(startTime!).inMilliseconds;
-        print('Home page load time: $loadTime ms');
+      print(startTime);
 
-        analytics.logEvent(
-          name: 'login_page_load_time',
-          parameters: {'load_time': loadTime},
-        );
-      }
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        endTime = DateTime.now();
+        print(endTime);
+
+        if (startTime != null && endTime != null) {
+          final int loadTime = endTime!.difference(startTime!).inMilliseconds;
+          print('Login page load time: $loadTime ms');
+
+          analytics.logEvent(
+            name: 'login_page_load_time',
+            parameters: {'load_time': loadTime},
+          );
+        }
+      });
     }
   }
 
