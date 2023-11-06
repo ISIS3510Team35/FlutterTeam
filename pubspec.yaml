@@ -44,6 +44,8 @@ dependencies:
   shared_preferences: ^2.2.2
   cached_network_image: ^3.3.0
   logger: ^2.0.2+1
+  firebase_crashlytics: ^3.4.3
+  firebase_analytics: ^10.6.3
 
 
 dev_dependencies:

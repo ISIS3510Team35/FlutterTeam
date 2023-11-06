@@ -1,18 +1,42 @@
+import 'dart:async';
+import 'dart:ui';
+
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fud/login.dart';
 import 'package:fud/appRouter.dart';
 
 import 'package:firebase_core/firebase_core.dart';
+import 'package:fud/services/firebase_services.dart';
 import 'firebase_options.dart';
 
 void main() async {
+  DateTime appStartTime = DateTime.now();
+
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
   await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
-  runApp(const MyApp());
+  FlutterError.onError = (errorDetails) {
+    FirebaseCrashlytics.instance.recordFlutterFatalError(errorDetails);
+  };
+  // Pass all uncaught asynchronous errors that aren't handled by the Flutter framework to Crashlytics
+  PlatformDispatcher.instance.onError = (error, stack) {
+    FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
+    return true;
+  };
+
+  runZonedGuarded<Future<void>>(() async {
+    runApp(const MyApp());
+  }, (error, stackTrace) {
+    FirebaseCrashlytics.instance.recordError(error, stackTrace);
+  });
+
+  DateTime appEndTime = DateTime.now();
+  Duration appStartupTime = appEndTime.difference(appStartTime);
+  addStartTime(appStartTime, appStartupTime);
 }
 
 class MyApp extends StatelessWidget {
