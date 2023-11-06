@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:ui';
 
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
@@ -7,9 +8,12 @@ import 'package:fud/login.dart';
 import 'package:fud/appRouter.dart';
 
 import 'package:firebase_core/firebase_core.dart';
+import 'package:fud/services/firebase_services.dart';
 import 'firebase_options.dart';
 
 void main() async {
+  DateTime appStartTime = DateTime.now();
+
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
@@ -23,7 +27,16 @@ void main() async {
     FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
     return true;
   };
-  runApp(const MyApp());
+
+  runZonedGuarded<Future<void>>(() async {
+    runApp(const MyApp());
+  }, (error, stackTrace) {
+    FirebaseCrashlytics.instance.recordError(error, stackTrace);
+  });
+
+  DateTime appEndTime = DateTime.now();
+  Duration appStartupTime = appEndTime.difference(appStartTime);
+  addStartTime(appStartTime, appStartupTime);
 }
 
 class MyApp extends StatelessWidget {

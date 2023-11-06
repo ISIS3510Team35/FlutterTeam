@@ -335,3 +335,15 @@ Future<List> Favourites() async {
   }
   return fav;
 }
+
+void addStartTime(DateTime now, Duration startTime) async {
+  // Truncate the time to the day (midnight)
+  DateTime truncatedTime = DateTime(now.year, now.month, now.day);
+
+  await FirebaseFirestore.instance.collection('StartingTime').add({
+    'Date': truncatedTime.millisecondsSinceEpoch,
+    'Now': now.millisecondsSinceEpoch,
+    'provider': "FlutterTeam",
+    'time': startTime.inMilliseconds // Convert Duration to milliseconds
+  });
+}

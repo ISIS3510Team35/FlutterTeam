@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fud/home.dart';
-//import 'package:fud/services/crashlytics.dart';
 import 'package:fud/services/firebase_services.dart';
 import 'package:fud/services/gps_service.dart';
-import 'package:firebase_analytics/firebase_analytics.dart';
 
 var gps = GPS();
 
@@ -17,16 +15,10 @@ class LoginPage extends StatefulWidget {
   State<LoginPage> createState() => _LoginPageState();
 }
 
-class _LoginPageState extends State<LoginPage> with WidgetsBindingObserver {
-  FirebaseAnalytics analytics = FirebaseAnalytics.instance;
-
-  DateTime? startTime;
-  DateTime? endTime;
-
+class _LoginPageState extends State<LoginPage> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addObserver(this);
   }
 
   final TextEditingController _usernameController = TextEditingController();
@@ -34,34 +26,9 @@ class _LoginPageState extends State<LoginPage> with WidgetsBindingObserver {
 
   @override
   void dispose() {
-    WidgetsBinding.instance.removeObserver(this);
     _usernameController.dispose();
     _passwordController.dispose();
     super.dispose();
-  }
-
-  @override
-  void didChangeAppLifecycleState(AppLifecycleState state) {
-    print("AAA");
-    if (state == AppLifecycleState.resumed) {
-      startTime = DateTime.now();
-      print(startTime);
-
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        endTime = DateTime.now();
-        print(endTime);
-
-        if (startTime != null && endTime != null) {
-          final int loadTime = endTime!.difference(startTime!).inMilliseconds;
-          print('Login page load time: $loadTime ms');
-
-          analytics.logEvent(
-            name: 'login_page_load_time',
-            parameters: {'load_time': loadTime},
-          );
-        }
-      });
-    }
   }
 
   @override
