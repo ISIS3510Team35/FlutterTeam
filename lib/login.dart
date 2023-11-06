@@ -195,6 +195,10 @@ class _LoginPageState extends State<LoginPage> {
                     style: TextStyle(fontSize: 18),
                   ),
                 ),
+                TextButton(
+                  onPressed: () => throw Exception(),
+                  child: const Text("Throw Test Exception"),
+                ),
               ],
             ),
           ),
