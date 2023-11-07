@@ -1,19 +1,34 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/services.dart';
 import 'package:fud/services/factories.dart';
 import 'package:collection/collection.dart';
 import 'package:fud/services/gps_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:logger/logger.dart';
+import 'package:firebase_core/firebase_core.dart';
+import '../firebase_options.dart';
 
 final logger = Logger();
 
-FirebaseFirestore db = FirebaseFirestore.instance;
-var gps = GPS();
+Future<dynamic> runFirebaseIsolateFunction(
+    RootIsolateToken? rootIsolateToken) async {
+  final logger = Logger();
+  if (rootIsolateToken == null) {
+    return Future(() => null);
+  }
+  BackgroundIsolateBinaryMessenger.ensureInitialized(rootIsolateToken);
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+  logger.d("runFirebaseIsolateFunction");
+}
 
-Future<void> createFavPromoAnalyticsDocument(
-    bool isPromotion, bool isFavorite) async {
+Future<void> createFavPromoAnalyticsDocument(bool isPromotion, bool isFavorite,
+    RootIsolateToken? rootIsolateToken) async {
   try {
+    await runFirebaseIsolateFunction(rootIsolateToken);
+    FirebaseFirestore db = FirebaseFirestore.instance;
     CollectionReference favPromoAnalyticsCollection =
         db.collection('Fav_Promo_Analytics');
     int currentDate = DateTime.now().millisecondsSinceEpoch;
@@ -30,9 +45,10 @@ Future<void> createFavPromoAnalyticsDocument(
   }
 }
 
-Future<List> getOffer() async {
+Future<List> getOffer(RootIsolateToken? rootIsolateToken) async {
+  await runFirebaseIsolateFunction(rootIsolateToken);
   List test = [];
-
+  FirebaseFirestore db = FirebaseFirestore.instance;
   CollectionReference collectionReferenceTest = db.collection('Product');
   QuerySnapshot queryTest =
       await collectionReferenceTest.where('inOffer', isEqualTo: true).get();
@@ -68,8 +84,11 @@ Future<List> getOffer() async {
   return test;
 }
 
-Future<Plate?> getPlate({required id}) async {
+Future<Plate?> getPlate(
+    {required id, RootIsolateToken? rootIsolateToken}) async {
+  await runFirebaseIsolateFunction(rootIsolateToken);
   try {
+    FirebaseFirestore db = FirebaseFirestore.instance;
     CollectionReference collectionReferenceTest = db.collection('Product');
     QuerySnapshot queryTest =
         await collectionReferenceTest.where('id', isEqualTo: id).get();
@@ -88,8 +107,11 @@ Future<Plate?> getPlate({required id}) async {
   }
 }
 
-Future<Restaurant?> getRestaurant({required id}) async {
+Future<Restaurant?> getRestaurant(
+    {required id, RootIsolateToken? rootIsolateToken}) async {
+  await runFirebaseIsolateFunction(rootIsolateToken);
   try {
+    FirebaseFirestore db = FirebaseFirestore.instance;
     CollectionReference collectionReferenceTest = db.collection('Restaurant');
     QuerySnapshot queryTest =
         await collectionReferenceTest.where('id', isEqualTo: id).get();
@@ -110,7 +132,18 @@ Future<Restaurant?> getRestaurant({required id}) async {
 }
 // Autenticación !!!
 
-Future<bool> doesUserExist(String username, String password) async {
+Future<bool> doesUserExist(String username, String password,
+    RootIsolateToken? rootIsolateToken) async {
+  await runFirebaseIsolateFunction(rootIsolateToken);
+  if (rootIsolateToken == null) {
+    return Future(() => false);
+  }
+
+  BackgroundIsolateBinaryMessenger.ensureInitialized(rootIsolateToken);
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+  FirebaseFirestore db = FirebaseFirestore.instance;
   QuerySnapshot querySnapshot = await db
       .collection('User')
       .where('username', isEqualTo: username)
@@ -127,9 +160,10 @@ Future<bool> doesUserExist(String username, String password) async {
   }
 }
 
-Future<List> getBest() async {
+Future<List> getBest(RootIsolateToken? rootIsolateToken) async {
+  await runFirebaseIsolateFunction(rootIsolateToken);
   List test = [];
-
+  FirebaseFirestore db = FirebaseFirestore.instance;
   CollectionReference collectionReferenceTest = db.collection('Product');
   QuerySnapshot queryTest = await collectionReferenceTest.get();
 
@@ -167,8 +201,10 @@ Future<List> getBest() async {
   return test;
 }
 
-Future<Map<num, List>> getFilter(
-    double max_price, bool vegetariano, bool vegano) async {
+Future<Map<num, List>> getFilter(double max_price, bool vegetariano,
+    bool vegano, RootIsolateToken? rootIsolateToken) async {
+  await runFirebaseIsolateFunction(rootIsolateToken);
+  FirebaseFirestore db = FirebaseFirestore.instance;
   List test = [];
   List cont = [''];
   if (vegetariano) {
@@ -203,7 +239,7 @@ Future<Map<num, List>> getFilter(
     GeoPoint location;
     num idRestaurant;
     String restaurantPhoto;
-
+    var gps = GPS();
     try {
       QuerySnapshot collectionReferenceRest = await db
           .collection('Restaurant')
@@ -254,7 +290,10 @@ Future<Map<num, List>> getFilter(
   return groupedData;
 }
 
-Future<bool> addFavourites(num plate_id) async {
+Future<bool> addFavourites(
+    num plate_id, RootIsolateToken? rootIsolateToken) async {
+  await runFirebaseIsolateFunction(rootIsolateToken);
+  FirebaseFirestore db = FirebaseFirestore.instance;
   SharedPreferences pref = await SharedPreferences.getInstance();
   int user_id = pref.getInt('user')!;
   QuerySnapshot querySnapshot = await db
@@ -274,8 +313,11 @@ Future<bool> addFavourites(num plate_id) async {
   }
 }
 
-Future<bool> isFavourite(num plate_id) async {
+Future<bool> isFavourite(
+    num plate_id, RootIsolateToken? rootIsolateToken) async {
+  await runFirebaseIsolateFunction(rootIsolateToken);
   SharedPreferences pref = await SharedPreferences.getInstance();
+  FirebaseFirestore db = FirebaseFirestore.instance;
   int user_id = pref.getInt('user')!;
   QuerySnapshot querySnapshot = await db
       .collection('Favourites')
@@ -290,7 +332,9 @@ Future<bool> isFavourite(num plate_id) async {
   }
 }
 
-Future<List> Favourites() async {
+Future<List> Favourites(RootIsolateToken? rootIsolateToken) async {
+  await runFirebaseIsolateFunction(rootIsolateToken);
+  FirebaseFirestore db = FirebaseFirestore.instance;
   SharedPreferences pref = await SharedPreferences.getInstance();
   int user_id = pref.getInt('user')!;
   List fav = [];
