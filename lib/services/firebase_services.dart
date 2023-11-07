@@ -4,10 +4,12 @@ import 'package:flutter/services.dart';
 import 'package:fud/services/factories.dart';
 import 'package:collection/collection.dart';
 import 'package:fud/services/gps_service.dart';
+import 'package:fud/services/localStorage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:logger/logger.dart';
 import 'package:firebase_core/firebase_core.dart';
 import '../firebase_options.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 
 final logger = Logger();
 
@@ -44,43 +46,49 @@ Future<void> createFavPromoAnalyticsDocument(bool isPromotion, bool isFavorite,
     logger.d('Error al crear el documento: $e');
   }
 }
-
+      
+var localStorage = LocalStorage();
 Future<List> getOffer(RootIsolateToken? rootIsolateToken) async {
   await runFirebaseIsolateFunction(rootIsolateToken);
   List test = [];
-  FirebaseFirestore db = FirebaseFirestore.instance;
-  CollectionReference collectionReferenceTest = db.collection('Product');
-  QuerySnapshot queryTest =
-      await collectionReferenceTest.where('inOffer', isEqualTo: true).get();
+  var connectivityResult = await (Connectivity().checkConnectivity());
 
-  for (var element in queryTest.docs) {
-    var i, e;
-    String name;
+  if (connectivityResult != ConnectivityResult.none) {
+    CollectionReference collectionReferenceTest = db.collection('Product');
+    QuerySnapshot queryTest =
+        await collectionReferenceTest.where('inOffer', isEqualTo: true).get();
 
-    try {
-      QuerySnapshot collectionReferenceRest = await db
-          .collection('Restaurant')
-          .where('id', isEqualTo: element['restaurantId'])
-          .get();
+    for (var element in queryTest.docs) {
+      var i, e;
+      String name;
+      try {
+        QuerySnapshot collectionReferenceRest = await db
+            .collection('Restaurant')
+            .where('id', isEqualTo: element['restaurantId'])
+            .get();
 
-      if (collectionReferenceRest.docs.isNotEmpty) {
-        i = collectionReferenceRest.docs[0].data();
+        if (collectionReferenceRest.docs.isNotEmpty) {
+          i = collectionReferenceRest.docs[0].data();
+        }
+
+
+        if (i?.containsKey('name')) {
+          name = i['name'];
+          e = element.data();
+          e['restaurant_name'] = name;
+          localStorage.insertPlate(Plate.fromJson(e as Map<String, dynamic>));
+        }
+      } catch (e) {
+        if (kDebugMode) {
+          print("Error: $e");
+        }
       }
 
-      if (i?.containsKey('name')) {
-        name = i['name'];
-        e = element.data();
-        e['restaurant_name'] = name;
-      }
-    } catch (e) {
-      if (kDebugMode) {
-        print("Error: $e");
-      }
+      test.add(e);
     }
-
-    test.add(e);
+  } else {
+    test = await localStorage.platesOffer();
   }
-
   return test;
 }
 
@@ -103,7 +111,11 @@ Future<Plate?> getPlate(
     if (kDebugMode) {
       print("Error: $e");
     }
-    return null;
+    try {
+      return await localStorage.plate(id);
+    } catch (e) {
+      return null;
+    }
   }
 }
 
@@ -162,41 +174,46 @@ Future<bool> doesUserExist(String username, String password,
 
 Future<List> getBest(RootIsolateToken? rootIsolateToken) async {
   await runFirebaseIsolateFunction(rootIsolateToken);
+   FirebaseFirestore db = FirebaseFirestore.instance;
   List test = [];
-  FirebaseFirestore db = FirebaseFirestore.instance;
-  CollectionReference collectionReferenceTest = db.collection('Product');
-  QuerySnapshot queryTest = await collectionReferenceTest.get();
+  var connectivityResult = await (Connectivity().checkConnectivity());
 
-  for (var element in queryTest.docs) {
-    var i, e;
-    String name;
+  if (connectivityResult != ConnectivityResult.none) {
+    CollectionReference collectionReferenceTest = db.collection('Product');
+    QuerySnapshot queryTest = await collectionReferenceTest.get();
 
-    try {
-      QuerySnapshot collectionReferenceRest = await db
-          .collection('Restaurant')
-          .where('id', isEqualTo: element['restaurantId'])
-          .get();
+    for (var element in queryTest.docs) {
+      var i, e;
+      String name;
+      try {
+        QuerySnapshot collectionReferenceRest = await db
+            .collection('Restaurant')
+            .where('id', isEqualTo: element['restaurantId'])
+            .get();
 
-      if (collectionReferenceRest.docs.isNotEmpty) {
-        i = collectionReferenceRest.docs[0].data();
+        if (collectionReferenceRest.docs.isNotEmpty) {
+          i = collectionReferenceRest.docs[0].data();
+        }
+
+        if (i?.containsKey('name')) {
+          name = i['name'];
+          e = element.data();
+          e['restaurant_name'] = name;
+          localStorage.insertPlate(Plate.fromJson(e as Map<String, dynamic>));
+        }
+      } catch (e) {
+        if (kDebugMode) {
+          print("Error: $e");
+        }
       }
 
-      if (i?.containsKey('name')) {
-        name = i['name'];
-        e = element.data();
-        e['restaurant_name'] = name;
-      }
-    } catch (e) {
-      if (kDebugMode) {
-        print("Error: $e");
-      }
+      test.add(e);
     }
-
-    test.add(e);
+    test.sort((a, b) => b['rating'].compareTo(a['rating']));
+    test = test.take(3).toList();
+  } else {
+    test = await localStorage.bestPlates();
   }
-
-  test.sort((a, b) => b['rating'].compareTo(a['rating']));
-  test = test.take(3).toList();
 
   return test;
 }
@@ -259,6 +276,8 @@ Future<Map<num, List>> getFilter(double max_price, bool vegetariano,
         e = element.data();
         e['restaurant_name'] = name;
         e['restaurant_id'] = idRestaurant;
+        localStorage.insertPlate(Plate.fromJson(e as Map<String, dynamic>));
+
         e['restaurant_photo'] = restaurantPhoto;
         e['restaurant_location'] = location;
 
@@ -378,4 +397,16 @@ Future<List> Favourites(RootIsolateToken? rootIsolateToken) async {
     }
   }
   return fav;
+}
+
+void addStartTime(DateTime now, Duration startTime) async {
+  // Truncate the time to the day (midnight)
+  DateTime truncatedTime = DateTime(now.year, now.month, now.day);
+
+  await FirebaseFirestore.instance.collection('StartingTime').add({
+    'Date': truncatedTime.millisecondsSinceEpoch,
+    'Now': now.millisecondsSinceEpoch,
+    'provider': "FlutterTeam",
+    'time': startTime.inMilliseconds // Convert Duration to milliseconds
+  });
 }

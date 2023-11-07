@@ -22,6 +22,11 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  @override
+  void initState() {
+    super.initState();
+  }
+
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
@@ -210,6 +215,7 @@ class _LoginPageState extends State<LoginPage> {
                     style: TextStyle(fontSize: 18),
                   ),
                 ),
+                //const Crashlyc()
               ],
             ),
           ),
