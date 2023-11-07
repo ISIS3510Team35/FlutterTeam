@@ -1,10 +1,16 @@
+import 'dart:async';
+import 'dart:isolate';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fud/home.dart';
 import 'package:fud/services/firebase_services.dart';
 import 'package:fud/services/gps_service.dart';
+import 'package:logger/logger.dart';
 
 var gps = GPS();
+final logger = Logger();
 
 class LoginPage extends StatefulWidget {
   static const routeName = '/login';
@@ -23,6 +29,14 @@ class _LoginPageState extends State<LoginPage> {
 
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+
+  Future<bool> validate(username, password) async {
+    RootIsolateToken? rootIsolateToken = RootIsolateToken.instance;
+    bool response = await Isolate.run(() async {
+      return doesUserExist(username, password, rootIsolateToken);
+    });
+    return response;
+  }
 
   @override
   void dispose() {
@@ -152,12 +166,13 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 const SizedBox(height: 40),
                 ElevatedButton(
-                  onPressed: () {
+                  onPressed: () async {
                     String username = _usernameController.text;
                     String password = _passwordController.text;
-
-                    doesUserExist(username, password).then((bool exists) {
-                      if (exists) {
+                    final response = await validate(username, password);
+                    logger.d("validateUser $response");
+                    if (mounted) {
+                      if (response) {
                         gps.getCurrentLocation();
                         Navigator.push(
                           context,
@@ -186,7 +201,7 @@ class _LoginPageState extends State<LoginPage> {
                           },
                         );
                       }
-                    });
+                    }
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color.fromRGBO(255, 146, 45, 1),

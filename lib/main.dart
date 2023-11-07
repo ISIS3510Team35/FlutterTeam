@@ -1,16 +1,16 @@
 import 'dart:async';
 import 'dart:ui';
 
+import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:fud/firebase_options.dart';
 import 'package:fud/login.dart';
 import 'package:fud/appRouter.dart';
 
-import 'package:firebase_core/firebase_core.dart';
 import 'package:fud/services/firebase_services.dart';
 import 'package:fud/services/localStorage.dart';
-import 'firebase_options.dart';
 
 void main() async {
   DateTime appStartTime = DateTime.now();
@@ -19,7 +19,6 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-
   var localStorage = LocalStorage();
   localStorage.init();
 

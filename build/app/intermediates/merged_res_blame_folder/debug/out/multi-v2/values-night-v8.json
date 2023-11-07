@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "com.example.fud.app-mergeDebugResources-14:/values-night-v8/values-night-v8.xml",
+            "outputFile": "com.example.fud.app-mergeDebugResources-20:/values-night-v8/values-night-v8.xml",
             "map": [
                 {
                     "source": "/Users/Meli/Documents/Moviles/FlutterTeam2/android/app/src/main/res/values-night/styles.xml",

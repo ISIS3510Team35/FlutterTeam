@@ -1,3 +1,7 @@
+import 'dart:async';
+import 'dart:isolate';
+import 'dart:ui';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -25,12 +29,13 @@ class ResultsPage extends StatefulWidget {
 
 class _ResultsPageState extends State<ResultsPage> {
   late Future<Map<num, List>> filterFuture;
+  RootIsolateToken? rootIsolateToken = RootIsolateToken.instance;
 
   @override
   void initState() {
     super.initState();
-    filterFuture =
-        getFilter(widget.max_price, widget.vegetariano, widget.vegano);
+    filterFuture = Isolate.run(() => getFilter(
+        widget.max_price, widget.vegetariano, widget.vegano, rootIsolateToken));
   }
 
   @override
@@ -170,7 +175,7 @@ class RestaurantResume extends StatelessWidget {
                   radius: 60,
                   child: ClipOval(
                       child: Image(
-                        image: CachedNetworkImageProvider(photo),
+                    image: CachedNetworkImageProvider(photo),
                     height: 140,
                     fit: BoxFit.cover,
                   )),
@@ -317,7 +322,8 @@ class OtherWidget extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Image(
-                    image:CachedNetworkImageProvider(asset), // Use the user-defined asset parameter
+                    image: CachedNetworkImageProvider(
+                        asset), // Use the user-defined asset parameter
                     height: 92,
                     width: 200,
                     fit: BoxFit.cover,

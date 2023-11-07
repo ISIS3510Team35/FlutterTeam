@@ -1,3 +1,5 @@
+import 'dart:async';
+import 'dart:ui';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -25,12 +27,15 @@ class PlateOfferPage extends StatefulWidget {
 class _PlateOfferPageState extends State<PlateOfferPage> {
   late Future<Plate?> plateFuture;
   late Future<Restaurant?> restaurantFuture;
+  RootIsolateToken? rootIsolateToken = RootIsolateToken.instance;
 
   @override
   void initState() {
     super.initState();
-    plateFuture = getPlate(id: widget.idPlate);
-    restaurantFuture = getRestaurant(id: widget.idRestaurant);
+    plateFuture =
+        getPlate(id: widget.idPlate, rootIsolateToken: rootIsolateToken);
+    restaurantFuture = getRestaurant(
+        id: widget.idRestaurant, rootIsolateToken: rootIsolateToken);
   }
 
   @override
@@ -53,13 +58,14 @@ class _PlateOfferPageState extends State<PlateOfferPage> {
                   ImageWithCaptionSection(imageUrl: restaurant.photo),
                 if (restaurant != null && plate != null)
                   OneCardSection(
-                      title: plate.name,
-                      rating: plate.rating,
-                      cafeteriaName: restaurant.name,
-                      ratingCount: plate.price,
-                      description: plate.description,
-                      location: restaurant.location,
-                      idPlate:plate.id,),
+                    title: plate.name,
+                    rating: plate.rating,
+                    cafeteriaName: restaurant.name,
+                    ratingCount: plate.price,
+                    description: plate.description,
+                    location: restaurant.location,
+                    idPlate: plate.id,
+                  ),
                 const OthersSection()
               ],
             );
@@ -127,16 +133,16 @@ class OneCardSection extends StatelessWidget {
   final GeoPoint location;
   final num idPlate;
 
-  const OneCardSection({
-    Key? key,
-    required this.title,
-    required this.rating,
-    required this.cafeteriaName,
-    required this.ratingCount,
-    required this.description,
-    required this.location,
-    required this.idPlate
-  }) : super(key: key);
+  const OneCardSection(
+      {Key? key,
+      required this.title,
+      required this.rating,
+      required this.cafeteriaName,
+      required this.ratingCount,
+      required this.description,
+      required this.location,
+      required this.idPlate})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -216,8 +222,7 @@ class OneCardSection extends StatelessWidget {
           ), // Add some space between the card and the buttons
           ButtonRow(
               latitude: location.latitude,
-              longitude:
-                  location.longitude,
+              longitude: location.longitude,
               idPlate: idPlate), // Include the ButtonRow widget here
         ],
       ),
@@ -226,7 +231,6 @@ class OneCardSection extends StatelessWidget {
 }
 
 class ButtonRow extends StatefulWidget {
-
   final double latitude;
   final double longitude;
   final num idPlate;
@@ -237,46 +241,39 @@ class ButtonRow extends StatefulWidget {
     required this.longitude,
     required this.idPlate,
   }) : super(key: key);
-  
-  @override
-  State<ButtonRow> createState() => _ButtonRow();
-  
-}
-class _ButtonRow extends State<ButtonRow>{
-  int user_id=0;
 
   @override
-  void initState(){
-    if(mounted){
-      setState((){
-        isFavourite(widget.idPlate).then((value) => {
-        if(mounted){setState((){
-          fav = value; 
-          if(value){
-            favourite='Eliminar favorito';
-          }
-          else{
-            favourite = 'Añadir a favoritos';
-          }
-        })}
-        
-      });});
-      };
-      super.initState();
-    }
-    
-  
+  State<ButtonRow> createState() => _ButtonRow();
+}
+
+class _ButtonRow extends State<ButtonRow> {
+  int user_id = 0;
+  RootIsolateToken? rootIsolateToken = RootIsolateToken.instance;
+
   @override
-  void dispose(){
+  void initState() {
+    super.initState();
+    setState(() async {
+      final response = isFavourite(widget.idPlate, rootIsolateToken);
+      if (await response) {
+        favourite = 'Eliminar favorito';
+      } else {
+        favourite = 'Añadir a favoritos';
+      }
+    });
+  }
+
+  @override
+  void dispose() {
     favourite = '';
     super.dispose();
   }
-  String favourite = 'Añadir a favoritos'; 
+
+  String favourite = 'Añadir a favoritos';
   bool fav = false;
-  
+
   @override
   Widget build(BuildContext context) {
-    
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
@@ -285,29 +282,32 @@ class _ButtonRow extends State<ButtonRow>{
           height: 50,
           child: ElevatedButton.icon(
             onPressed: () {
-              addFavourites(widget.idPlate).then((value) => {
-                if(mounted){setState((){
-                  fav = value;
-                  if(value){
-                    favourite='Eliminar favorito';
-                  }
-                  else{
-                    favourite = 'Añadir a favoritos';
-                  }
-                })}
+              addFavourites(widget.idPlate, rootIsolateToken).then((value) {
+                if (mounted) {
+                  setState(() {
+                    fav = value;
+                    if (value) {
+                      favourite = 'Eliminar favorito';
+                    } else {
+                      favourite = 'Añadir a favoritos';
+                    }
+                  });
+                }
               });
             },
             label: Text(
               favourite,
               style: TextStyle(color: Colors.white), // White text color
             ),
-            icon: fav?Icon(
-              Icons.favorite,
-              color: Colors.white, // White icon color
-            ):Icon(
-              Icons.favorite_border,
-              color: Colors.white, // White icon color
-            ),
+            icon: fav
+                ? Icon(
+                    Icons.favorite,
+                    color: Colors.white, // White icon color
+                  )
+                : Icon(
+                    Icons.favorite_border,
+                    color: Colors.white, // White icon color
+                  ),
             style: ElevatedButton.styleFrom(
               backgroundColor: const Color.fromRGBO(245, 90, 81, 1),
               shape: RoundedRectangleBorder(
@@ -343,8 +343,8 @@ class _ButtonRow extends State<ButtonRow>{
       ],
     );
   }
-
 }
+
 class OthersSection extends StatelessWidget {
   const OthersSection({Key? key});
 

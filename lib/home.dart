@@ -1,8 +1,12 @@
+import 'dart:ui';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:fud/appHeader.dart';
 import 'package:fud/plateOffer.dart';
 import 'package:fud/services/firebase_services.dart';
+
+RootIsolateToken? rootIsolateToken = RootIsolateToken.instance;
 
 class HomePage extends StatefulWidget {
   static const routeName = '/home';
@@ -61,7 +65,7 @@ class LunchSection extends StatelessWidget {
             textAlign: TextAlign.left,
           ),
           FutureBuilder(
-            future: getBest(),
+            future: getBest(rootIsolateToken),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return const Center(
@@ -128,7 +132,7 @@ class FavouritesSection extends StatelessWidget {
             textAlign: TextAlign.left,
           ),
           FutureBuilder(
-            future: Favourites(),
+            future: Favourites(rootIsolateToken),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return const Center(
@@ -201,6 +205,7 @@ class ItemWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
+        createFavPromoAnalyticsDocument(false, true, rootIsolateToken);
         // Navigate to the desired view here, for example:
         Navigator.push(
           context,
@@ -403,7 +408,7 @@ class DiscountSection extends StatelessWidget {
             textAlign: TextAlign.left,
           ),
           FutureBuilder(
-            future: getOffer(),
+            future: getOffer(rootIsolateToken),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return const Center(
@@ -474,7 +479,7 @@ class ItemWidgetOffers extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        // Navegar a la vista deseada aquí, por ejemplo:
+        createFavPromoAnalyticsDocument(false, true, rootIsolateToken);
         Navigator.push(
           context,
           MaterialPageRoute(
