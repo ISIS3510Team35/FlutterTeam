@@ -276,7 +276,7 @@ Future<Map<num, List>> getFilter(double max_price, bool vegetariano,
         e = element.data();
         e['restaurant_name'] = name;
         e['restaurant_id'] = idRestaurant;
-        localStorage.insertPlate(Plate.fromJson(e as Map<String, dynamic>));
+        // localStorage.insertPlate(Plate.fromJson(e as Map<String, dynamic>));
 
         e['restaurant_photo'] = restaurantPhoto;
         e['restaurant_location'] = location;

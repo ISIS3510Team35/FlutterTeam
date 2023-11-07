@@ -34,8 +34,8 @@ class _ResultsPageState extends State<ResultsPage> {
   @override
   void initState() {
     super.initState();
-    filterFuture = Isolate.run(() => getFilter(
-        widget.max_price, widget.vegetariano, widget.vegano, rootIsolateToken));
+    filterFuture = getFilter(
+        widget.max_price, widget.vegetariano, widget.vegano, rootIsolateToken);
   }
 
   @override
