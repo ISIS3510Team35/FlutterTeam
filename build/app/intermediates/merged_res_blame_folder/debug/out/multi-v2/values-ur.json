@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "com.example.fud.app-mergeDebugResources-14:/values-ur/values-ur.xml",
+            "outputFile": "com.example.fud.app-mergeDebugResources-20:/values-ur/values-ur.xml",
             "map": [
                 {
                     "source": "/Users/Meli/.gradle/caches/transforms-3/58aa1384bde170d075503b845cfcf44c/transformed/jetified-play-services-basement-18.1.0/res/values-ur/values.xml",

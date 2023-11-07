@@ -46,11 +46,12 @@ Future<void> createFavPromoAnalyticsDocument(bool isPromotion, bool isFavorite,
     logger.d('Error al crear el documento: $e');
   }
 }
-      
+
 var localStorage = LocalStorage();
 Future<List> getOffer(RootIsolateToken? rootIsolateToken) async {
   await runFirebaseIsolateFunction(rootIsolateToken);
   List test = [];
+  FirebaseFirestore db = FirebaseFirestore.instance;
   var connectivityResult = await (Connectivity().checkConnectivity());
 
   if (connectivityResult != ConnectivityResult.none) {
@@ -70,7 +71,6 @@ Future<List> getOffer(RootIsolateToken? rootIsolateToken) async {
         if (collectionReferenceRest.docs.isNotEmpty) {
           i = collectionReferenceRest.docs[0].data();
         }
-
 
         if (i?.containsKey('name')) {
           name = i['name'];
@@ -174,7 +174,7 @@ Future<bool> doesUserExist(String username, String password,
 
 Future<List> getBest(RootIsolateToken? rootIsolateToken) async {
   await runFirebaseIsolateFunction(rootIsolateToken);
-   FirebaseFirestore db = FirebaseFirestore.instance;
+  FirebaseFirestore db = FirebaseFirestore.instance;
   List test = [];
   var connectivityResult = await (Connectivity().checkConnectivity());
 
