@@ -9,6 +9,7 @@ import 'package:fud/appRouter.dart';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:fud/services/firebase_services.dart';
+import 'package:fud/services/localStorage.dart';
 import 'firebase_options.dart';
 
 void main() async {
@@ -18,6 +19,10 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+
+  var localStorage = LocalStorage();
+  localStorage.init();
+
   await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   FlutterError.onError = (errorDetails) {
     FirebaseCrashlytics.instance.recordFlutterFatalError(errorDetails);

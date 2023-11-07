@@ -3,68 +3,52 @@ import 'package:flutter/foundation.dart';
 import 'package:fud/services/factories.dart';
 import 'package:collection/collection.dart';
 import 'package:fud/services/gps_service.dart';
+import 'package:fud/services/localStorage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:logger/logger.dart';
-
-final logger = Logger();
+import 'package:connectivity_plus/connectivity_plus.dart';
 
 FirebaseFirestore db = FirebaseFirestore.instance;
 var gps = GPS();
-
-Future<void> createFavPromoAnalyticsDocument(
-    bool isPromotion, bool isFavorite) async {
-  try {
-    CollectionReference favPromoAnalyticsCollection =
-        db.collection('Fav_Promo_Analytics');
-    int currentDate = DateTime.now().millisecondsSinceEpoch;
-    Map<String, dynamic> data = {
-      'Date': currentDate,
-      'Provider': 'FlutterTeam',
-      'promotion': isPromotion,
-      'favourite': isFavorite,
-    };
-    await favPromoAnalyticsCollection.add(data);
-    logger.d('Documento creado exitosamente');
-  } catch (e) {
-    logger.d('Error al crear el documento: $e');
-  }
-}
-
+var localStorage = LocalStorage();
 Future<List> getOffer() async {
   List test = [];
+  var connectivityResult = await (Connectivity().checkConnectivity());
 
-  CollectionReference collectionReferenceTest = db.collection('Product');
-  QuerySnapshot queryTest =
-      await collectionReferenceTest.where('inOffer', isEqualTo: true).get();
+  if (connectivityResult != ConnectivityResult.none) {
+    CollectionReference collectionReferenceTest = db.collection('Product');
+    QuerySnapshot queryTest =
+        await collectionReferenceTest.where('inOffer', isEqualTo: true).get();
 
-  for (var element in queryTest.docs) {
-    var i, e;
-    String name;
+    for (var element in queryTest.docs) {
+      var i, e;
+      String name;
+      try {
+        QuerySnapshot collectionReferenceRest = await db
+            .collection('Restaurant')
+            .where('id', isEqualTo: element['restaurantId'])
+            .get();
 
-    try {
-      QuerySnapshot collectionReferenceRest = await db
-          .collection('Restaurant')
-          .where('id', isEqualTo: element['restaurantId'])
-          .get();
+        if (collectionReferenceRest.docs.isNotEmpty) {
+          i = collectionReferenceRest.docs[0].data();
+        }
 
-      if (collectionReferenceRest.docs.isNotEmpty) {
-        i = collectionReferenceRest.docs[0].data();
+        if (i?.containsKey('name')) {
+          name = i['name'];
+          e = element.data();
+          e['restaurant_name'] = name;
+          localStorage.insertPlate(Plate.fromJson(e as Map<String, dynamic>));
+        }
+      } catch (e) {
+        if (kDebugMode) {
+          print("Error: $e");
+        }
       }
 
-      if (i?.containsKey('name')) {
-        name = i['name'];
-        e = element.data();
-        e['restaurant_name'] = name;
-      }
-    } catch (e) {
-      if (kDebugMode) {
-        print("Error: $e");
-      }
+      test.add(e);
     }
-
-    test.add(e);
+  } else {
+    test = await localStorage.platesOffer();
   }
-
   return test;
 }
 
@@ -84,7 +68,11 @@ Future<Plate?> getPlate({required id}) async {
     if (kDebugMode) {
       print("Error: $e");
     }
-    return null;
+    try {
+      return await localStorage.plate(id);
+    } catch (e) {
+      return null;
+    }
   }
 }
 
@@ -129,40 +117,44 @@ Future<bool> doesUserExist(String username, String password) async {
 
 Future<List> getBest() async {
   List test = [];
+  var connectivityResult = await (Connectivity().checkConnectivity());
 
-  CollectionReference collectionReferenceTest = db.collection('Product');
-  QuerySnapshot queryTest = await collectionReferenceTest.get();
+  if (connectivityResult != ConnectivityResult.none) {
+    CollectionReference collectionReferenceTest = db.collection('Product');
+    QuerySnapshot queryTest = await collectionReferenceTest.get();
 
-  for (var element in queryTest.docs) {
-    var i, e;
-    String name;
+    for (var element in queryTest.docs) {
+      var i, e;
+      String name;
+      try {
+        QuerySnapshot collectionReferenceRest = await db
+            .collection('Restaurant')
+            .where('id', isEqualTo: element['restaurantId'])
+            .get();
 
-    try {
-      QuerySnapshot collectionReferenceRest = await db
-          .collection('Restaurant')
-          .where('id', isEqualTo: element['restaurantId'])
-          .get();
+        if (collectionReferenceRest.docs.isNotEmpty) {
+          i = collectionReferenceRest.docs[0].data();
+        }
 
-      if (collectionReferenceRest.docs.isNotEmpty) {
-        i = collectionReferenceRest.docs[0].data();
+        if (i?.containsKey('name')) {
+          name = i['name'];
+          e = element.data();
+          e['restaurant_name'] = name;
+          localStorage.insertPlate(Plate.fromJson(e as Map<String, dynamic>));
+        }
+      } catch (e) {
+        if (kDebugMode) {
+          print("Error: $e");
+        }
       }
 
-      if (i?.containsKey('name')) {
-        name = i['name'];
-        e = element.data();
-        e['restaurant_name'] = name;
-      }
-    } catch (e) {
-      if (kDebugMode) {
-        print("Error: $e");
-      }
+      test.add(e);
     }
-
-    test.add(e);
+    test.sort((a, b) => b['rating'].compareTo(a['rating']));
+    test = test.take(3).toList();
+  } else {
+    test = await localStorage.bestPlates();
   }
-
-  test.sort((a, b) => b['rating'].compareTo(a['rating']));
-  test = test.take(3).toList();
 
   return test;
 }
@@ -203,7 +195,6 @@ Future<Map<num, List>> getFilter(
     GeoPoint location;
     num idRestaurant;
     String restaurantPhoto;
-
     try {
       QuerySnapshot collectionReferenceRest = await db
           .collection('Restaurant')
@@ -223,6 +214,8 @@ Future<Map<num, List>> getFilter(
         e = element.data();
         e['restaurant_name'] = name;
         e['restaurant_id'] = idRestaurant;
+        localStorage.insertPlate(Plate.fromJson(e as Map<String, dynamic>));
+
         e['restaurant_photo'] = restaurantPhoto;
         e['restaurant_location'] = location;
 
