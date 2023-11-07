@@ -95,12 +95,16 @@ Future<List> getOffer(RootIsolateToken? rootIsolateToken) async {
 Future<Plate?> getPlate(
     {required id, RootIsolateToken? rootIsolateToken}) async {
   await runFirebaseIsolateFunction(rootIsolateToken);
+  final logger = Logger();
+
   try {
     FirebaseFirestore db = FirebaseFirestore.instance;
+    logger.d("restaurant $id");
     CollectionReference collectionReferenceTest = db.collection('Product');
     QuerySnapshot queryTest =
         await collectionReferenceTest.where('id', isEqualTo: id).get();
     if (queryTest.docs.isNotEmpty) {
+      logger.d("$queryTest.docs[0]");
       final plateData = queryTest.docs[0].data() as Map<String, dynamic>;
       final plate = Plate.fromJson(plateData);
       return plate;
@@ -109,13 +113,11 @@ Future<Plate?> getPlate(
     }
   } catch (e) {
     if (kDebugMode) {
+      logger.d("getPlate");
       print("Error: $e");
     }
-    try {
-      return await localStorage.plate(id);
-    } catch (e) {
-      return null;
-    }
+
+    return null;
   }
 }
 
