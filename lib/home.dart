@@ -201,7 +201,7 @@ class ItemWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        createFavPromoAnalyticsDocument(false, true);
+        // Navigate to the desired view here, for example:
         Navigator.push(
           context,
           MaterialPageRoute(
@@ -474,12 +474,14 @@ class ItemWidgetOffers extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        createFavPromoAnalyticsDocument(true, false);
+        // Navegar a la vista deseada aquí, por ejemplo:
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) =>
-                PlateOfferPage(idPlate: itemId, idRestaurant: itemIdRes),
+            builder: (context) => PlateOfferPage(
+                idPlate: itemId,
+                idRestaurant:
+                    itemIdRes), // Reemplaza 'TuOtraVista' con el nombre de tu vista
           ),
         );
       },

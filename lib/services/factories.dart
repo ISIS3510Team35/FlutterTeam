@@ -11,6 +11,7 @@ class Plate {
   final double price;
   final double rating;
   final num restaurant;
+  final String restaurant_name;
   final String type;
 
   Plate({
@@ -24,6 +25,7 @@ class Plate {
     required this.price,
     required this.rating,
     required this.restaurant,
+    required this.restaurant_name,
     required this.type,
   });
 
@@ -39,8 +41,27 @@ class Plate {
       price: (json['price'] as num).toDouble(),
       rating: (json['rating'] as num).toDouble(),
       restaurant: json['restaurantId'] as num,
+      restaurant_name: json['restaurant_name'] as String,
       type: json['type'] as String,
     );
+  }
+
+  Map<String, dynamic> toMap() {
+    return {
+      'id': id,
+      'category': category,
+      'description': description,
+      'inOffer': discount,
+      'discount': discount,
+      'name': name,
+      'offerPrice': offerPrice,
+      'image': photo,
+      'price': price,
+      'rating': rating,
+      'restaurantId': restaurant,
+      'restaurant_name': restaurant_name,
+      'type': type
+    };
   }
 }
 
