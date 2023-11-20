@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:fud/home.dart';
-import 'package:fud/login.dart';
-import 'package:fud/plateOffer.dart';
-import 'package:fud/restaurant.dart';
-import 'package:fud/resutls.dart';
+import 'package:fud/services/ui/home.dart';
+import 'package:fud/services/ui/login.dart';
+import 'package:fud/services/ui/plateOffer.dart';
+import 'package:fud/services/ui/restaurant.dart';
+import 'package:fud/services/ui/resutls.dart';
 
 class AppRouter {
   String initialRoute = LoginPage.routeName;

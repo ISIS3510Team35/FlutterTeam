@@ -2,9 +2,9 @@ import 'dart:ui';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:fud/appHeader.dart';
-import 'package:fud/plateOffer.dart';
-import 'package:fud/services/firebase_services.dart';
+import 'package:fud/services/ui/appHeader.dart';
+import 'package:fud/services/ui/plateOffer.dart';
+import 'package:fud/services/resources/firebase_services.dart';
 
 RootIsolateToken? rootIsolateToken = RootIsolateToken.instance;
 

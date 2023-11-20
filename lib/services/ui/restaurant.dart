@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:fud/appHeader.dart';
-import 'package:fud/plateOffer.dart';
+import 'package:fud/services/ui/appHeader.dart';
+import 'package:fud/services/ui/plateOffer.dart';
 
 class RestaurantPage extends StatefulWidget {
   static const routeName = '/restaurant';

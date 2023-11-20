@@ -1,14 +1,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
-import 'package:fud/services/factories.dart';
+import 'package:fud/services/models/factories.dart';
 import 'package:collection/collection.dart';
 import 'package:fud/services/gps_service.dart';
 import 'package:fud/services/localStorage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:logger/logger.dart';
 import 'package:firebase_core/firebase_core.dart';
-import '../firebase_options.dart';
+import 'firebase_options.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 
 final logger = Logger();

@@ -5,9 +5,9 @@ import 'dart:ui';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:fud/appHeader.dart';
-import 'package:fud/restaurant.dart';
-import 'package:fud/services/firebase_services.dart';
+import 'package:fud/services/ui/appHeader.dart';
+import 'package:fud/services/ui/restaurant.dart';
+import 'package:fud/services/resources/firebase_services.dart';
 import 'package:fud/services/google_maps.dart';
 
 class ResultsPage extends StatefulWidget {

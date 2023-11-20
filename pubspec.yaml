@@ -39,6 +39,7 @@ dependencies:
   cloud_firestore: ^4.9.2
 
   geolocator: ^10.1.0
+  rxdart: ^0.27.7
 
   maps_launcher: ^2.2.0
   shared_preferences: ^2.2.2
