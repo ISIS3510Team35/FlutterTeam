@@ -31,11 +31,19 @@ class _ResultsPageState extends State<ResultsPage> {
   late Future<Map<num, List>> filterFuture;
   RootIsolateToken? rootIsolateToken = RootIsolateToken.instance;
 
+  Future<Map<num, List<dynamic>>> getFilterISO(widget) async {
+    RootIsolateToken? rootIsolateToken = RootIsolateToken.instance;
+    Map<num, List<dynamic>> response = await Isolate.run(() async {
+      return getFilter(widget.max_price, widget.vegetariano, widget.vegano,
+          rootIsolateToken);
+    });
+    return response;
+  }
+
   @override
   void initState() {
     super.initState();
-    filterFuture = Isolate.run(() => getFilter(
-        widget.max_price, widget.vegetariano, widget.vegano, rootIsolateToken));
+    filterFuture = getFilterISO(widget);
   }
 
   @override
