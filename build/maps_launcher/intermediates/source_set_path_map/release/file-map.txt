@@ -1,12 +1,12 @@
-com.example.maps_launcher-jetified-window-1.0.0-beta04-0 /Users/Meli/.gradle/caches/transforms-3/25cee5f028ac2a6b79fd6278ff5b59e2/transformed/jetified-window-1.0.0-beta04/res
-com.example.maps_launcher-jetified-annotation-experimental-1.1.0-1 /Users/Meli/.gradle/caches/transforms-3/6c0c163cc77ae6c91f9f7dfcd179c29c/transformed/jetified-annotation-experimental-1.1.0/res
-com.example.maps_launcher-core-1.6.0-2 /Users/Meli/.gradle/caches/transforms-3/7e9df2ac2213a6bd3cef0f2f27870d79/transformed/core-1.6.0/res
-com.example.maps_launcher-jetified-window-java-1.0.0-beta04-3 /Users/Meli/.gradle/caches/transforms-3/ae81e06d24c799147c26814497a2a305/transformed/jetified-window-java-1.0.0-beta04/res
-com.example.maps_launcher-main-4 /Users/Meli/.pub-cache/hosted/pub.dev/maps_launcher-2.2.0/android/src/main/res
-com.example.maps_launcher-release-5 /Users/Meli/.pub-cache/hosted/pub.dev/maps_launcher-2.2.0/android/src/release/res
-com.example.maps_launcher-pngs-6 /Users/Meli/Documents/Moviles/FlutterTeam2/build/maps_launcher/generated/res/pngs/release
-com.example.maps_launcher-resValues-7 /Users/Meli/Documents/Moviles/FlutterTeam2/build/maps_launcher/generated/res/resValues/release
-com.example.maps_launcher-rs-8 /Users/Meli/Documents/Moviles/FlutterTeam2/build/maps_launcher/generated/res/rs/release
-com.example.maps_launcher-mergeReleaseResources-9 /Users/Meli/Documents/Moviles/FlutterTeam2/build/maps_launcher/intermediates/incremental/release/mergeReleaseResources/merged.dir
-com.example.maps_launcher-mergeReleaseResources-10 /Users/Meli/Documents/Moviles/FlutterTeam2/build/maps_launcher/intermediates/incremental/release/mergeReleaseResources/stripped.dir
-com.example.maps_launcher-merged_res-11 /Users/Meli/Documents/Moviles/FlutterTeam2/build/maps_launcher/intermediates/merged_res/release
+com.example.maps_launcher-jetified-window-1.0.0-beta04-0 C:\Users\Santiago\.gradle\caches\transforms-3\25cee5f028ac2a6b79fd6278ff5b59e2\transformed\jetified-window-1.0.0-beta04\res
+com.example.maps_launcher-jetified-annotation-experimental-1.1.0-1 C:\Users\Santiago\.gradle\caches\transforms-3\6c0c163cc77ae6c91f9f7dfcd179c29c\transformed\jetified-annotation-experimental-1.1.0\res
+com.example.maps_launcher-core-1.6.0-2 C:\Users\Santiago\.gradle\caches\transforms-3\7e9df2ac2213a6bd3cef0f2f27870d79\transformed\core-1.6.0\res
+com.example.maps_launcher-jetified-window-java-1.0.0-beta04-3 C:\Users\Santiago\.gradle\caches\transforms-3\ae81e06d24c799147c26814497a2a305\transformed\jetified-window-java-1.0.0-beta04\res
+com.example.maps_launcher-main-4 C:\Users\Santiago\AppData\Local\Pub\Cache\hosted\pub.dev\maps_launcher-2.2.0\android\src\main\res
+com.example.maps_launcher-release-5 C:\Users\Santiago\AppData\Local\Pub\Cache\hosted\pub.dev\maps_launcher-2.2.0\android\src\release\res
+com.example.maps_launcher-pngs-6 C:\Users\Santiago\Desktop\Hero\Ya-Ha\Construccion Aplic. Moviles\Flutter\FlutterTeam\build\maps_launcher\generated\res\pngs\release
+com.example.maps_launcher-resValues-7 C:\Users\Santiago\Desktop\Hero\Ya-Ha\Construccion Aplic. Moviles\Flutter\FlutterTeam\build\maps_launcher\generated\res\resValues\release
+com.example.maps_launcher-rs-8 C:\Users\Santiago\Desktop\Hero\Ya-Ha\Construccion Aplic. Moviles\Flutter\FlutterTeam\build\maps_launcher\generated\res\rs\release
+com.example.maps_launcher-mergeReleaseResources-9 C:\Users\Santiago\Desktop\Hero\Ya-Ha\Construccion Aplic. Moviles\Flutter\FlutterTeam\build\maps_launcher\intermediates\incremental\release\mergeReleaseResources\merged.dir
+com.example.maps_launcher-mergeReleaseResources-10 C:\Users\Santiago\Desktop\Hero\Ya-Ha\Construccion Aplic. Moviles\Flutter\FlutterTeam\build\maps_launcher\intermediates\incremental\release\mergeReleaseResources\stripped.dir
+com.example.maps_launcher-merged_res-11 C:\Users\Santiago\Desktop\Hero\Ya-Ha\Construccion Aplic. Moviles\Flutter\FlutterTeam\build\maps_launcher\intermediates\merged_res\release

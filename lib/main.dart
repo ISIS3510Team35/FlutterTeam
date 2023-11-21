@@ -5,12 +5,12 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:fud/firebase_options.dart';
-import 'package:fud/login.dart';
+import 'package:fud/services/resources/firebase_options.dart';
+import 'package:fud/services/ui/login/login.dart';
 import 'package:fud/appRouter.dart';
 
-import 'package:fud/services/firebase_services.dart';
-import 'package:fud/services/localStorage.dart';
+import 'package:fud/services/others/firebase_services.dart';
+import 'package:fud/services/resources/localStorage.dart';
 
 void main() async {
   DateTime appStartTime = DateTime.now();
@@ -19,14 +19,16 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+
   var localStorage = LocalStorage();
-  localStorage.init();
+  await localStorage.init();
 
   await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+
   FlutterError.onError = (errorDetails) {
     FirebaseCrashlytics.instance.recordFlutterFatalError(errorDetails);
   };
-  // Pass all uncaught asynchronous errors that aren't handled by the Flutter framework to Crashlytics
+
   PlatformDispatcher.instance.onError = (error, stack) {
     FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
     return true;
@@ -46,18 +48,18 @@ void main() async {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'fUd',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(
-            seedColor: const Color.fromARGB(255, 114, 100, 94)),
+          seedColor: const Color.fromARGB(255, 114, 100, 94),
+        ),
         useMaterial3: true,
       ),
       initialRoute: LoginPage.routeName,
-      routes: AppRouter.routes,
+      routes: AppRouter.routes(context),
     );
   }
 }

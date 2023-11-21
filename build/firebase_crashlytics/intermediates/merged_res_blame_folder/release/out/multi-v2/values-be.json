@@ -4,7 +4,7 @@
             "outputFile": "io.flutter.plugins.firebase.crashlytics.firebase_crashlytics-mergeReleaseResources-13:/values-be/values-be.xml",
             "map": [
                 {
-                    "source": "/Users/Meli/.gradle/caches/transforms-3/58aa1384bde170d075503b845cfcf44c/transformed/jetified-play-services-basement-18.1.0/res/values-be/values.xml",
+                    "source": "C:\\Users\\Santiago\\.gradle\\caches\\transforms-3\\58aa1384bde170d075503b845cfcf44c\\transformed\\jetified-play-services-basement-18.1.0\\res\\values-be\\values.xml",
                     "from": {
                         "startLines": "4",
                         "startColumns": "0",
@@ -21,7 +21,7 @@
                     }
                 },
                 {
-                    "source": "/Users/Meli/.gradle/caches/transforms-3/7e9df2ac2213a6bd3cef0f2f27870d79/transformed/core-1.6.0/res/values-be/values-be.xml",
+                    "source": "C:\\Users\\Santiago\\.gradle\\caches\\transforms-3\\7e9df2ac2213a6bd3cef0f2f27870d79\\transformed\\core-1.6.0\\res\\values-be\\values-be.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",
@@ -43,7 +43,7 @@
             "outputFile": "io.flutter.plugins.firebase.crashlytics.firebase_crashlytics-merged_res-15:/values-be/values-be.xml",
             "map": [
                 {
-                    "source": "/Users/Meli/.gradle/caches/transforms-3/58aa1384bde170d075503b845cfcf44c/transformed/jetified-play-services-basement-18.1.0/res/values-be/values.xml",
+                    "source": "C:\\Users\\Santiago\\.gradle\\caches\\transforms-3\\58aa1384bde170d075503b845cfcf44c\\transformed\\jetified-play-services-basement-18.1.0\\res\\values-be\\values.xml",
                     "from": {
                         "startLines": "4",
                         "startColumns": "0",
@@ -60,7 +60,7 @@
                     }
                 },
                 {
-                    "source": "/Users/Meli/.gradle/caches/transforms-3/7e9df2ac2213a6bd3cef0f2f27870d79/transformed/core-1.6.0/res/values-be/values-be.xml",
+                    "source": "C:\\Users\\Santiago\\.gradle\\caches\\transforms-3\\7e9df2ac2213a6bd3cef0f2f27870d79\\transformed\\core-1.6.0\\res\\values-be\\values-be.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",

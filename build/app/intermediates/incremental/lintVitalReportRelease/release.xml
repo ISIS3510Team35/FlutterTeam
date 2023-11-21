@@ -4,23 +4,23 @@
     minSdkVersion="19"
     targetSdkVersion="33"
     shrinking="true"
-    mergedManifest="/Users/Meli/Documents/Moviles/FlutterTeam2/build/app/intermediates/merged_manifest/release/AndroidManifest.xml"
-    manifestMergeReport="/Users/Meli/Documents/Moviles/FlutterTeam2/build/app/outputs/logs/manifest-merger-release-report.txt"
-    proguardFiles="/Users/Meli/Documents/Moviles/FlutterTeam2/build/app/intermediates/default_proguard_files/global/proguard-android.txt-7.3.0:/Users/Meli/Documents/Moviles/FlutterTeam2/flutter/packages/flutter_tools/gradle/flutter_proguard_rules.pro:proguard-rules.pro"
-    partialResultsDir="/Users/Meli/Documents/Moviles/FlutterTeam2/build/app/intermediates/lint_vital_partial_results/release/out">
+    mergedManifest="C:\Users\Santiago\Desktop\Hero\Ya-Ha\Construccion Aplic. Moviles\Flutter\FlutterTeam\build\app\intermediates\merged_manifest\release\AndroidManifest.xml"
+    manifestMergeReport="C:\Users\Santiago\Desktop\Hero\Ya-Ha\Construccion Aplic. Moviles\Flutter\FlutterTeam\build\app\outputs\logs\manifest-merger-release-report.txt"
+    proguardFiles="C:\Users\Santiago\Desktop\Hero\Ya-Ha\Construccion Aplic. Moviles\Flutter\FlutterTeam\build\app\intermediates\default_proguard_files\global\proguard-android.txt-7.3.0;C:\Users\Santiago\Documents\flutter\packages\flutter_tools\gradle\flutter_proguard_rules.pro;proguard-rules.pro"
+    partialResultsDir="C:\Users\Santiago\Desktop\Hero\Ya-Ha\Construccion Aplic. Moviles\Flutter\FlutterTeam\build\app\intermediates\lint_vital_partial_results\release\out">
   <buildFeatures
       namespacing="REQUIRED"/>
   <sourceProviders>
     <sourceProvider
-        manifest="src/main/AndroidManifest.xml"
-        javaDirectories="src/main/java:src/main/kotlin"
-        resDirectories="src/main/res"
-        assetsDirectories="src/main/assets"/>
+        manifest="src\main\AndroidManifest.xml"
+        javaDirectories="src\main\java;src\main\kotlin"
+        resDirectories="src\main\res"
+        assetsDirectories="src\main\assets"/>
     <sourceProvider
-        manifest="src/release/AndroidManifest.xml"
-        javaDirectories="src/release/java:src/release/kotlin"
-        resDirectories="src/release/res"
-        assetsDirectories="src/release/assets"/>
+        manifest="src\release\AndroidManifest.xml"
+        javaDirectories="src\release\java;src\release\kotlin"
+        resDirectories="src\release\res"
+        assetsDirectories="src\release\assets"/>
   </sourceProviders>
   <testSourceProviders>
   </testSourceProviders>
@@ -32,9 +32,9 @@
         value="android.app.Application" />
   </manifestPlaceholders>
   <mainArtifact
-      classOutputs="/Users/Meli/Documents/Moviles/FlutterTeam2/build/app/intermediates/javac/release/classes:/Users/Meli/Documents/Moviles/FlutterTeam2/build/app/tmp/kotlin-classes/release:/Users/Meli/Documents/Moviles/FlutterTeam2/build/app/kotlinToolingMetadata:/Users/Meli/Documents/Moviles/FlutterTeam2/build/app/intermediates/compile_and_runtime_not_namespaced_r_class_jar/release/R.jar"
+      classOutputs="C:\Users\Santiago\Desktop\Hero\Ya-Ha\Construccion Aplic. Moviles\Flutter\FlutterTeam\build\app\intermediates\javac\release\classes;C:\Users\Santiago\Desktop\Hero\Ya-Ha\Construccion Aplic. Moviles\Flutter\FlutterTeam\build\app\tmp\kotlin-classes\release;C:\Users\Santiago\Desktop\Hero\Ya-Ha\Construccion Aplic. Moviles\Flutter\FlutterTeam\build\app\kotlinToolingMetadata;C:\Users\Santiago\Desktop\Hero\Ya-Ha\Construccion Aplic. Moviles\Flutter\FlutterTeam\build\app\intermediates\compile_and_runtime_not_namespaced_r_class_jar\release\R.jar"
       applicationId="com.example.fud"
-      generatedSourceFolders="/Users/Meli/Documents/Moviles/FlutterTeam2/build/app/generated/ap_generated_sources/release/out:/Users/Meli/Documents/Moviles/FlutterTeam2/build/app/generated/aidl_source_output_dir/release/out:/Users/Meli/Documents/Moviles/FlutterTeam2/build/app/generated/source/buildConfig/release:/Users/Meli/Documents/Moviles/FlutterTeam2/build/app/generated/renderscript_source_output_dir/release/out"
-      generatedResourceFolders="/Users/Meli/Documents/Moviles/FlutterTeam2/build/app/generated/res/rs/release:/Users/Meli/Documents/Moviles/FlutterTeam2/build/app/generated/res/resValues/release">
+      generatedSourceFolders="C:\Users\Santiago\Desktop\Hero\Ya-Ha\Construccion Aplic. Moviles\Flutter\FlutterTeam\build\app\generated\ap_generated_sources\release\out;C:\Users\Santiago\Desktop\Hero\Ya-Ha\Construccion Aplic. Moviles\Flutter\FlutterTeam\build\app\generated\aidl_source_output_dir\release\out;C:\Users\Santiago\Desktop\Hero\Ya-Ha\Construccion Aplic. Moviles\Flutter\FlutterTeam\build\app\generated\source\buildConfig\release;C:\Users\Santiago\Desktop\Hero\Ya-Ha\Construccion Aplic. Moviles\Flutter\FlutterTeam\build\app\generated\renderscript_source_output_dir\release\out"
+      generatedResourceFolders="C:\Users\Santiago\Desktop\Hero\Ya-Ha\Construccion Aplic. Moviles\Flutter\FlutterTeam\build\app\generated\res\rs\release;C:\Users\Santiago\Desktop\Hero\Ya-Ha\Construccion Aplic. Moviles\Flutter\FlutterTeam\build\app\generated\res\resValues\release">
   </mainArtifact>
 </variant>

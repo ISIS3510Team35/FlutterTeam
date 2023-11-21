@@ -4,7 +4,7 @@
             "outputFile": "io.flutter.plugins.firebase.core.firebase_core-mergeReleaseResources-10:/values-zu/values-zu.xml",
             "map": [
                 {
-                    "source": "/Users/Meli/.gradle/caches/transforms-3/7e9df2ac2213a6bd3cef0f2f27870d79/transformed/core-1.6.0/res/values-zu/values-zu.xml",
+                    "source": "C:\\Users\\Santiago\\.gradle\\caches\\transforms-3\\7e9df2ac2213a6bd3cef0f2f27870d79\\transformed\\core-1.6.0\\res\\values-zu\\values-zu.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",
@@ -21,7 +21,7 @@
                     }
                 },
                 {
-                    "source": "/Users/Meli/.gradle/caches/transforms-3/58aa1384bde170d075503b845cfcf44c/transformed/jetified-play-services-basement-18.1.0/res/values-zu/values.xml",
+                    "source": "C:\\Users\\Santiago\\.gradle\\caches\\transforms-3\\58aa1384bde170d075503b845cfcf44c\\transformed\\jetified-play-services-basement-18.1.0\\res\\values-zu\\values.xml",
                     "from": {
                         "startLines": "4",
                         "startColumns": "0",
@@ -43,7 +43,7 @@
             "outputFile": "io.flutter.plugins.firebase.core.firebase_core-merged_res-12:/values-zu/values-zu.xml",
             "map": [
                 {
-                    "source": "/Users/Meli/.gradle/caches/transforms-3/7e9df2ac2213a6bd3cef0f2f27870d79/transformed/core-1.6.0/res/values-zu/values-zu.xml",
+                    "source": "C:\\Users\\Santiago\\.gradle\\caches\\transforms-3\\7e9df2ac2213a6bd3cef0f2f27870d79\\transformed\\core-1.6.0\\res\\values-zu\\values-zu.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",
@@ -60,7 +60,7 @@
                     }
                 },
                 {
-                    "source": "/Users/Meli/.gradle/caches/transforms-3/58aa1384bde170d075503b845cfcf44c/transformed/jetified-play-services-basement-18.1.0/res/values-zu/values.xml",
+                    "source": "C:\\Users\\Santiago\\.gradle\\caches\\transforms-3\\58aa1384bde170d075503b845cfcf44c\\transformed\\jetified-play-services-basement-18.1.0\\res\\values-zu\\values.xml",
                     "from": {
                         "startLines": "4",
                         "startColumns": "0",
