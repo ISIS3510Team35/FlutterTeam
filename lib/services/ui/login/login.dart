@@ -20,6 +20,7 @@ class _LoginPageState extends State<LoginPage> {
   final UserBloc _userBloc = UserBloc();
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  bool _isLoading = false;
 
   @override
   void dispose() {
@@ -126,44 +127,82 @@ class _LoginPageState extends State<LoginPage> {
 
   Widget _buildElevatedButton(BuildContext context) {
     return ElevatedButton(
-      onPressed: () async {
-        String username = _usernameController.text;
-        String password = _passwordController.text;
-        _userBloc.fetchUserExistence(username, password);
+      onPressed: _isLoading
+          ? null
+          : () async {
+              setState(() {
+                _isLoading = true;
+              });
 
-        _userBloc.userResult.listen((bool response) {
-          if (mounted) {
-            if (response) {
-              GPS().getCurrentLocation();
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => HomePage(plateBloc: widget.plateBloc),
-                ),
-              );
-            } else {
-              showDialog(
-                context: context,
-                builder: (BuildContext context) {
-                  return AlertDialog(
-                    title: const Text('🤔'),
-                    content: const Text(
-                        'User does not exist or the password is incorrect.'),
-                    actions: [
-                      TextButton(
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                        },
-                        child: const Text('OK'),
+              String username = _usernameController.text;
+              String password = _passwordController.text;
+
+              // Check if username or password is blank
+              if (username.isEmpty || password.isEmpty) {
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      title: const Text('🤔'),
+                      content: const Text(
+                          'Please enter both username and password.'),
+                      actions: [
+                        TextButton(
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                          child: const Text('OK'),
+                        ),
+                      ],
+                    );
+                  },
+                );
+                setState(() {
+                  _isLoading = false;
+                });
+                return; // Exit the onPressed function if username or password is blank
+              }
+
+              _userBloc.fetchUserExistence(username, password);
+
+              _userBloc.userResult.listen((bool response) {
+                if (mounted) {
+                  if (response) {
+                    GPS().getCurrentLocation();
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            HomePage(plateBloc: widget.plateBloc),
                       ),
-                    ],
-                  );
-                },
-              );
-            }
-          }
-        });
-      },
+                    );
+                  } else {
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          title: const Text('🤔'),
+                          content: const Text(
+                              'User does not exist or the password is incorrect.'),
+                          actions: [
+                            TextButton(
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                              child: const Text('OK'),
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                  }
+
+                  setState(() {
+                    _isLoading = false;
+                  });
+                }
+              });
+            },
       style: ElevatedButton.styleFrom(
         backgroundColor: const Color.fromRGBO(255, 146, 45, 1),
         shape: RoundedRectangleBorder(
@@ -171,10 +210,14 @@ class _LoginPageState extends State<LoginPage> {
         ),
         minimumSize: const Size(190, 50),
       ),
-      child: const Text(
-        'INICIAR SESIÓN',
-        style: TextStyle(fontSize: 18),
-      ),
+      child: _isLoading
+          ? const CircularProgressIndicator(
+              valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+            )
+          : const Text(
+              'INICIAR SESIÓN',
+              style: TextStyle(fontSize: 18),
+            ),
     );
   }
 }

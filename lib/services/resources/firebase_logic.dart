@@ -2,11 +2,24 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 import 'package:fud/services/models/plate_model.dart';
 import 'package:fud/services/models/restaurant_model.dart';
+import 'package:fud/services/resources/gps_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:collection/collection.dart';
 
 /// Service class for interacting with Firestore.
 class FirestoreService {
   final FirebaseFirestore _db = FirebaseFirestore.instance;
+
+  // Make the constructor private
+  FirestoreService._();
+
+  // Create a static instance of the class
+  static final FirestoreService _instance = FirestoreService._();
+
+  // Provide a global point of access to the instance
+  factory FirestoreService() {
+    return _instance;
+  }
 
   // USERS
 
@@ -32,10 +45,11 @@ class FirestoreService {
   /// Fetches details of a specific restaurant by its [id].
   Future<Restaurant?> getPRestaurant(num id) async {
     try {
-      QuerySnapshot queryTest =
+      QuerySnapshot querySnapshot =
           await _db.collection('Restaurant').where('id', isEqualTo: id).get();
-      if (queryTest.docs.isNotEmpty) {
-        final plateData = queryTest.docs[0].data() as Map<String, dynamic>;
+
+      if (querySnapshot.docs.isNotEmpty) {
+        final plateData = querySnapshot.docs[0].data() as Map<String, dynamic>;
         final plate = Restaurant.fromJson(plateData);
         return plate;
       } else {
@@ -106,10 +120,11 @@ class FirestoreService {
   /// Fetches details of a specific plate by its [id].
   Future<Plate?> getPlate(num id) async {
     try {
-      QuerySnapshot queryTest =
+      QuerySnapshot querySnapshot =
           await _db.collection('Product').where('id', isEqualTo: id).get();
-      if (queryTest.docs.isNotEmpty) {
-        final plateData = queryTest.docs[0].data() as Map<String, dynamic>;
+
+      if (querySnapshot.docs.isNotEmpty) {
+        final plateData = querySnapshot.docs[0].data() as Map<String, dynamic>;
         final plate = Plate.fromJson(plateData);
         return plate;
       } else {
@@ -187,5 +202,140 @@ class FirestoreService {
     plateList.setPlates(favPlates);
 
     return plateList;
+  }
+
+  Future<void> createFavPromoAnalyticsDocument(
+    bool isPromotion,
+    bool isFavorite,
+  ) async {
+    try {
+      // Creating a Map containing analytics data
+      Map<String, dynamic> data = {
+        'Date': DateTime.now().millisecondsSinceEpoch,
+        'Provider': 'FlutterTeam',
+        'promotion': isPromotion,
+        'favourite': isFavorite,
+      };
+
+      // Adding the data to the Firestore collection 'Fav_Promo_Analytics'
+      await _db.collection('Fav_Promo_Analytics').add(data);
+    } catch (e) {
+      if (kDebugMode) {
+        print("Error: $e");
+      }
+    }
+  }
+
+  // ERRORES
+
+  /// Records the app startup time and duration.
+  void addStartTime(DateTime now, Duration startTime) async {
+    // Truncate the time to the beginning of the day
+    DateTime truncatedTime = DateTime(now.year, now.month, now.day);
+
+    // Reference to the 'StartingTime' collection
+    CollectionReference startingTimeCollection =
+        FirebaseFirestore.instance.collection('StartingTime');
+
+    // Prepare the data to be added
+    Map<String, dynamic> startTimeData = {
+      'Date': truncatedTime.millisecondsSinceEpoch,
+      'Now': now.millisecondsSinceEpoch,
+      'provider': 'FlutterTeam',
+      'time': startTime.inMilliseconds,
+    };
+
+    // Add the data to the collection
+    await startingTimeCollection.add(startTimeData);
+  }
+
+  /// Fetches filter information based on maxPrice, vegetariano, and vegano.
+  Future<Map<num, List>> getFilter(
+    double max_price,
+    bool vegetariano,
+    bool vegano,
+  ) async {
+    FirebaseFirestore db = FirebaseFirestore.instance;
+    List test = [];
+    List cont = [''];
+    if (vegetariano) {
+      cont.add('Vegetariano');
+    }
+    if (vegano) {
+      cont.add('Vegano');
+    }
+    if (!vegano && !vegetariano) {
+      cont.add('Normal');
+      cont.add('Vegano');
+      cont.add('Vegetariano');
+    }
+
+    await db.collection('Filter_Analytics').add({
+      'Price': max_price != 100.0,
+      'Vegano': vegano,
+      'Vegetariano': vegetariano
+    });
+
+    // -- Distance with filter
+
+    QuerySnapshot collectionReferenceTest = await db
+        .collection('Product')
+        .where('price', isLessThan: max_price)
+        .where('type', whereIn: cont)
+        .get();
+
+    for (var element in collectionReferenceTest.docs) {
+      var i, e;
+      String name;
+      GeoPoint location;
+      num idRestaurant;
+      String restaurantPhoto;
+      var gps = GPS();
+      try {
+        QuerySnapshot collectionReferenceRest = await db
+            .collection('Restaurant')
+            .where('id', isEqualTo: element['restaurantId'])
+            .get();
+
+        if (collectionReferenceRest.docs.isNotEmpty) {
+          i = collectionReferenceRest.docs[0].data();
+        }
+
+        if (i?.containsKey('name')) {
+          name = i['name'];
+          location = i['location'];
+          idRestaurant = i['id'];
+          restaurantPhoto = i['image'];
+
+          e = element.data();
+          e['restaurant_name'] = name;
+          e['restaurant_id'] = idRestaurant;
+          e['restaurant_photo'] = restaurantPhoto;
+          e['restaurant_location'] = location;
+
+          double latRes = location.latitude;
+          double longRes = location.longitude;
+
+          double latNow = gps.getLat();
+          double longNow = gps.getLong();
+
+          double dist = calculateDistance(latNow, latRes, longNow, longRes);
+          e['distancia'] = dist;
+        }
+      } catch (e) {
+        if (kDebugMode) {
+          print('No hay elementos con la condición dada');
+        }
+      }
+
+      test.add(e);
+    }
+
+    test.sort((a, b) => a['distancia'].compareTo(b['distancia']));
+
+    Map<num, List> groupedData =
+        groupBy(test, (element) => element['restaurant_id']);
+
+    return groupedData;
   }
 }

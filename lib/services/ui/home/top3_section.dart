@@ -7,7 +7,6 @@ import 'package:fud/services/blocs/restaurant_bloc.dart';
 import 'package:fud/services/models/plate_model.dart';
 import 'package:fud/services/models/restaurant_model.dart';
 import 'package:fud/services/ui/detail/plateOffer.dart';
-import 'package:fud/services/others/firebase_services.dart';
 
 RootIsolateToken? rootIsolateToken = RootIsolateToken.instance;
 
@@ -71,8 +70,7 @@ class _Top3State extends State<Top3> {
                       return ItemWidget(
                         itemData: itemData,
                         onPressed: () {
-                          createFavPromoAnalyticsDocument(
-                              false, true, rootIsolateToken);
+                          widget.plateBloc.fetchAnalyticFavorite(false, true);
                           Navigator.push(
                             context,
                             MaterialPageRoute(

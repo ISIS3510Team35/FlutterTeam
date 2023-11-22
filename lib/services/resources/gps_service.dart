@@ -16,13 +16,13 @@ class GPS {
   GPS._internal();
 
   /// Fetches the current location and updates the latitude and longitude.
-  void getCurrentLocation() async {
+  Future<void> getCurrentLocation() async {
     bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
 
     if (!serviceEnabled) {
       lat.value = 0.0;
       long.value = 0.0;
-      return Future.error('Location service is disabled');
+      throw Exception('Location service is disabled');
     }
 
     LocationPermission permission = await Geolocator.checkPermission();
@@ -32,21 +32,26 @@ class GPS {
       if (permission == LocationPermission.denied) {
         lat.value = 0.0;
         long.value = 0.0;
-        return Future.error('App does not have location access permission');
+        throw Exception('App does not have location access permission');
       }
     }
 
     if (permission == LocationPermission.deniedForever) {
       lat.value = 0.0;
       long.value = 0.0;
-      return Future.error('App does not have location access permission');
+      throw Exception('App does not have location access permission');
     }
 
-    Geolocator.getCurrentPosition().then((value) {
-      lat.value = value.latitude;
-      long.value = value.longitude;
+    try {
+      Position position = await Geolocator.getCurrentPosition();
+      lat.value = position.latitude;
+      long.value = position.longitude;
       liveLocation();
-    });
+    } catch (e) {
+      lat.value = 0.0;
+      long.value = 0.0;
+      throw Exception('Error getting current location: $e');
+    }
   }
 
   /// Gets the current latitude.

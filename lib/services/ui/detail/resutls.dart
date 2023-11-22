@@ -1,13 +1,8 @@
-import 'dart:async';
-import 'dart:isolate';
-import 'dart:ui';
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:fud/services/ui/detail/appHeader.dart';
-import 'package:fud/services/others/firebase_services.dart';
-import 'package:fud/services/resources/google_maps.dart';
+import 'package:fud/services/blocs/plate_bloc.dart';
+import 'package:fud/services/resources/google_maps.dart'; // Import the PlateBloc class
 
 class ResultsPage extends StatefulWidget {
   static const routeName = '/results';
@@ -28,31 +23,30 @@ class ResultsPage extends StatefulWidget {
 }
 
 class _ResultsPageState extends State<ResultsPage> {
-  late Future<Map<num, List<dynamic>>> filterFuture;
+  late PlateBloc _plateBloc; // Create an instance of PlateBloc
 
   @override
   void initState() {
     super.initState();
-    filterFuture = getFilterISO(widget);
+    _plateBloc = PlateBloc();
+    _plateBloc.fetchFilterInfo(
+        widget.maxPrice, widget.isVegetariano, widget.isVegano);
   }
 
-  Future<Map<num, List<dynamic>>> getFilterISO(widget) async {
-    return await Isolate.run(() async {
-      return getFilter(
-        widget.maxPrice,
-        widget.isVegetariano,
-        widget.isVegano,
-        RootIsolateToken.instance,
-      );
-    });
+  @override
+  void dispose() {
+    _plateBloc.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const AppHeader(),
-      body: FutureBuilder<Map<num, List<dynamic>>>(
-        future: filterFuture,
+      appBar: AppBar(
+        title: const Text('Results'),
+      ),
+      body: StreamBuilder<Map<num, List>>(
+        stream: _plateBloc.filterPlates,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(

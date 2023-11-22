@@ -31,6 +31,13 @@ class Restaurant {
   final String photo;
   final GeoPoint location;
 
+  // Empty constructor
+  Restaurant.empty()
+      : id = 0,
+        name = '',
+        photo = '',
+        location = const GeoPoint(0, 0);
+
   Restaurant({
     required this.id,
     required this.name,
@@ -40,10 +47,10 @@ class Restaurant {
 
   /// Creates a Restaurant from JSON data.
   Restaurant.fromJson(Map<String, dynamic> json)
-      : id = json['id'] as num,
-        name = json['name'] as String,
-        photo = json['image'] as String,
-        location = json['location'] as GeoPoint;
+      : id = json['id'] as num? ?? 0,
+        name = json['name'] as String? ?? '',
+        photo = json['image'] as String? ?? '',
+        location = json['location'] as GeoPoint? ?? GeoPoint(0, 0);
 
   /// Creates a Restaurant from database data.
   Restaurant.fromDatabase({
@@ -63,6 +70,7 @@ class Restaurant {
     };
   }
 
+  // Getters for each property
   num get getId => id;
   String get getName => name;
   String get getPhoto => photo;

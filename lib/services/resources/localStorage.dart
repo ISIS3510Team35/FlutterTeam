@@ -36,7 +36,7 @@ class LocalStorage {
   Future<Plate> getPlate(num id) async {
     final List<Map<String, dynamic>> maps = await database.query(
       'plates',
-      where: '"id" = ?',
+      where: 'id = ?',
       whereArgs: [id],
     );
     return Plate.fromJson(maps.first);
@@ -44,7 +44,7 @@ class LocalStorage {
 
   /// Retrieves a list of plates with offer prices from the local database.
   Future<List<Map<String, dynamic>>> getOfferPlates() async {
-    return database.query('plates', where: '"offerPrice" > 0');
+    return database.query('plates', where: 'offerPrice > 0');
   }
 
   /// Retrieves a list of all plates from the local database.
@@ -55,7 +55,7 @@ class LocalStorage {
   /// Retrieves a list of the best-rated plates from the local database.
   Future<List<Map<String, dynamic>>> getBestPlates() async {
     return database.rawQuery(
-      'SELECT * FROM "plates" ORDER BY "rating" DESC, "price" DESC LIMIT 3',
+      'SELECT * FROM plates ORDER BY rating DESC, price DESC LIMIT 3',
     );
   }
 }

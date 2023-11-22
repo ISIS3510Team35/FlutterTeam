@@ -37,7 +37,6 @@ class Plate {
   final double price;
   final double rating;
   final num restaurant;
-  final String restaurantName;
   final String type;
 
   Plate({
@@ -51,7 +50,6 @@ class Plate {
     required this.price,
     required this.rating,
     required this.restaurant,
-    required this.restaurantName,
     required this.type,
   });
 
@@ -67,7 +65,6 @@ class Plate {
         price = 0.0,
         rating = 0.0,
         restaurant = 0,
-        restaurantName = '',
         type = '';
 
   /// Creates a Plate from JSON data.
@@ -82,7 +79,6 @@ class Plate {
         price = (json['price'] as num? ?? 0).toDouble(),
         rating = (json['rating'] as num? ?? 0).toDouble(),
         restaurant = json['restaurantId'] as num? ?? 0,
-        restaurantName = json['restaurant_name'] as String? ?? '',
         type = json['type'] as String? ?? '';
 
   /// Creates a Plate from database data.
@@ -97,7 +93,6 @@ class Plate {
     required this.price,
     required this.rating,
     required this.restaurant,
-    required this.restaurantName,
     required this.type,
   });
 
@@ -114,11 +109,11 @@ class Plate {
       'price': price,
       'rating': rating,
       'restaurant': restaurant,
-      'restaurantName': restaurantName,
       'type': type,
     };
   }
 
+  // Getters for each property
   String get getCategory => category;
   String get getDescription => description;
   bool get getDiscount => discount;
@@ -129,6 +124,5 @@ class Plate {
   double get getPrice => price;
   double get getRating => rating;
   num get getRestaurant => restaurant;
-  String get getRestaurantName => restaurantName;
   String get getType => type;
 }
