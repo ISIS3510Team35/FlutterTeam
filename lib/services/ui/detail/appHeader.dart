@@ -51,6 +51,7 @@ class _AppHeaderState extends State<AppHeader> {
                   const Icon(
                     Icons.filter_list,
                     size: 30,
+                    color:Color.fromRGBO(255, 247, 235, 1),
                   ),
                   Image.asset(
                     'assets/Logo.png',
@@ -70,20 +71,20 @@ class _AppHeaderState extends State<AppHeader> {
                               const Icon(
                                 Icons.location_disabled,
                                 size: 25,
-                                //color: Color.fromRGBO(183, 28, 28, 1),
+                                color: Color.fromRGBO(255, 247, 235, 1),
                               )
                             else if (calculateDistance(
                                     gps.getLat(), lat_u, gps.getLong(), lon_u) <
                                 0.5)
-                              const Icon(
-                                Icons.my_location,
-                                size: 25,
-                                color: Colors.green,
+                              Image.asset(
+                                'assets/uniandes.png',
+                                height: 25,
                               )
                             else
                               const Icon(
                                 Icons.location_searching,
                                 size: 25,
+                                color: Color.fromRGBO(255, 247, 235, 1),
                               )
                           ],
                         );
