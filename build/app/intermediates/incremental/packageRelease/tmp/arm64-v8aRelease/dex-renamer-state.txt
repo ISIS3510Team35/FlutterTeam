@@ -1,4 +1,0 @@
-#Tue Nov 21 13:28:35 COT 2023
-base.0=C\:\\Users\\Santiago\\Desktop\\Hero\\Ya-Ha\\Construccion Aplic. Moviles\\Flutter\\FlutterTeam\\build\\app\\intermediates\\dex\\release\\minifyReleaseWithR8\\classes.dex
-path.0=classes.dex
-renamed.0=classes.dex

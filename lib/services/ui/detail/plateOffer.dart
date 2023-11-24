@@ -66,14 +66,18 @@ class _PlateOfferPageState extends State<PlateOfferPage> {
                 } else if (restaurantSnapshot.hasError) {
                   return const Text("Error loading restaurant data");
                 } else {
-                  return const CircularProgressIndicator();
+                  return const Center(
+              child: CircularProgressIndicator(),
+            );
                 }
               },
             );
           } else if (snapshot.hasError) {
             return const Text("Error loading plate data");
           } else {
-            return const CircularProgressIndicator();
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
           }
         },
       ),
@@ -99,6 +103,7 @@ class ImageWithCaptionSection extends StatelessWidget {
           Opacity(
             opacity: 0.9,
             child: CachedNetworkImage(
+              key:UniqueKey(),
               imageUrl: imageUrl,
               placeholder: (context, url) => const CircularProgressIndicator(),
               errorWidget: (context, url, error) => const Icon(Icons.error),
@@ -228,7 +233,7 @@ class ButtonRow extends StatefulWidget {
 
 class _ButtonRow extends State<ButtonRow> {
   late PlateBloc plateBloc;
-  String favourite = '';
+  String favourite = 'Añadir a favoritos';
   bool fav = false;
 
   @override
@@ -252,6 +257,12 @@ class _ButtonRow extends State<ButtonRow> {
         if (snapshot.hasData) {
           fav = snapshot.data!;
           favourite = fav ? 'Eliminar favorito' : 'Añadir a favoritos';
+        }
+        else if (snapshot.hasError) {
+          favourite = 'No hay conexión';
+        }
+        else{
+          favourite = 'Cargando';
         }
 
         return Row(

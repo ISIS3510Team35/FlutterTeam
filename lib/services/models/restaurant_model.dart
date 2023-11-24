@@ -66,7 +66,8 @@ class Restaurant {
       'id': id,
       'name': name,
       'photo': photo,
-      'location': location,
+      'lat': location.latitude,
+      'lon': location.longitude
     };
   }
 

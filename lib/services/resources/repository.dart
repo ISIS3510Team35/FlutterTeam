@@ -1,10 +1,13 @@
 import 'dart:async';
 
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:fud/services/models/plate_model.dart';
 import 'package:fud/services/models/restaurant_model.dart';
 import 'package:fud/services/resources/firebase_logic.dart';
+import 'package:fud/services/resources/localStorage.dart';
 
 class Repository {
+  final localStorage = LocalStorage();
   final FirestoreService _firebaseProvider = FirestoreService();
 
   // Make the constructor private
@@ -27,15 +30,43 @@ class Repository {
   // PLATES
 
   /// Fetches a list of plates available as offers.
-  Future<PlateList> fetchOfferPlates() =>
-      _firebaseProvider.getPlatesOfferFromFirestore();
+  Future<PlateList> fetchOfferPlates() async {
+    var connectivityResult = await (Connectivity().checkConnectivity());
+    if (connectivityResult != ConnectivityResult.none) {
+      var r = _firebaseProvider.getPlatesOfferFromFirestore();
+      localStorage.insertPlates(r);
+      return r;
+    }
+    else{
+      return localStorage.getOfferPlates();
+    }
+  }
 
   /// Fetches the top 3 plates.
-  Future<PlateList> fetchTop3Plates() =>
-      _firebaseProvider.getPlatesTop3FromFirestore();
-
+  Future<PlateList> fetchTop3Plates() async {
+    var connectivityResult = await (Connectivity().checkConnectivity());
+    if (connectivityResult != ConnectivityResult.none) {
+      var r = _firebaseProvider.getPlatesTop3FromFirestore();
+      localStorage.insertPlates(r);
+      return r;
+    }
+    else{
+      return localStorage.getBestPlates();
+    }
+  }
   /// Fetches details of a specific plate by its [id].
-  Future<Plate?> fetchPlate(num id) => _firebaseProvider.getPlate(id);
+  Future<Plate?> fetchPlate(num id) async { 
+    var connectivityResult = await (Connectivity().checkConnectivity());
+    
+    if (connectivityResult != ConnectivityResult.none) {
+      var r = _firebaseProvider.getPlate(id);
+      localStorage.insertPlate((await r) as Plate);
+      return r;
+    }
+    else{
+      return localStorage.getPlate(id);
+    }
+  }
 
   /// Checks if a plate with the specified [id] is marked as a favorite.
   Future<bool> fetchIsFavorite(num id) => _firebaseProvider.isFavourite(id);
@@ -60,9 +91,18 @@ class Repository {
   // RESTAURANTS
 
   /// Fetches details of a specific restaurant by its [id].
-  Future<Restaurant?> fetchRestaurant(num id) =>
-      _firebaseProvider.getPRestaurant(id);
-
+  Future<Restaurant?> fetchRestaurant(num id) async {
+    var connectivityResult = await (Connectivity().checkConnectivity());
+    if (connectivityResult != ConnectivityResult.none) {
+      var r = _firebaseProvider.getPRestaurant(id);
+      localStorage.insertRestaurant((await r) as Restaurant);
+      return r;
+    }
+    else{
+      return localStorage.getRestaurant(id);
+    }
+    
+  }
   // ERRORS
   /// Records the app startup time and duration.
   void fetchTime(DateTime now, Duration startTime) =>
