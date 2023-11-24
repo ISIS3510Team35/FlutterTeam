@@ -100,7 +100,7 @@ class _LoginPageState extends State<LoginPage> {
             autocorrect: true,
             obscureText: obscureText,
             decoration: InputDecoration(
-              hintText: obscureText ? '************' : 'usuario',
+              hintText: obscureText ? '************' : 'Usuario',
               hintStyle: const TextStyle(color: Colors.grey),
               filled: true,
               fillColor: Colors.white,
@@ -216,7 +216,7 @@ class _LoginPageState extends State<LoginPage> {
             )
           : const Text(
               'INICIAR SESIÓN',
-              style: TextStyle(fontSize: 18),
+              style: TextStyle(fontSize: 18,color: Colors.white),
             ),
     );
   }

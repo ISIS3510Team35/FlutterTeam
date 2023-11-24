@@ -1,3 +1,4 @@
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:fud/services/ui/detail/resutls.dart';
 import 'package:fud/services/resources/gps_service.dart';
@@ -290,37 +291,91 @@ class _AppHeaderState extends State<AppHeader> {
                     ),*/
                     Align(
                       alignment: Alignment.center,
-                      child: ElevatedButton(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => ResultsPage(
-                                maxPrice: _price,
-                                isVegano: vegano,
-                                isVegetariano: vegetariano,
-                              ),
-                            ),
-                          );
-                        },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: const Color.fromRGBO(255, 146, 45,
-                              1), // Cambia el color de fondo a naranja
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(7.0),
-                          ),
-                          minimumSize:
-                              const Size(190, 50), // Cambia el tamaño del botón
-                        ),
-                        child: const Text(
-                          'Aplicar Filtros',
-                          style: TextStyle(
-                              fontSize: 18,
-                              fontFamily: "Manrope",
-                              color:
-                                  Colors.white), // Cambia el tamaño del texto
-                        ),
-                      ),
+                      child: 
+                      FutureBuilder(
+                        future: Connectivity().checkConnectivity() , 
+                        builder: (BuildContext context, AsyncSnapshot<ConnectivityResult> snapshot){
+                          if(snapshot.hasData){
+                            if(snapshot.data!=ConnectivityResult.none){
+                              return ElevatedButton(
+                                      onPressed: () {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) => ResultsPage(
+                                              maxPrice: _price,
+                                              isVegano: vegano,
+                                              isVegetariano: vegetariano,
+                                            ),
+                                          ),
+                                        );
+                                      },
+                                      style: ElevatedButton.styleFrom(
+                                        backgroundColor: const Color.fromRGBO(255, 146, 45,
+                                            1), // Cambia el color de fondo a naranja
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(7.0),
+                                        ),
+                                        minimumSize:
+                                            const Size(190, 50), // Cambia el tamaño del botón
+                                      ),
+                                      child: const Text(
+                                        'Aplicar Filtros',
+                                        style: TextStyle(
+                                            fontSize: 18,
+                                            fontFamily: "Manrope",
+                                            color:
+                                                Colors.white), // Cambia el tamaño del texto
+                                      ),
+                                    );
+                            }
+                            else{
+                              return ElevatedButton(
+                                      onPressed: () {
+                                      },
+                                      style: ElevatedButton.styleFrom(
+                                        backgroundColor: Color.fromRGBO(255, 188, 91, 1), // Cambia el color de fondo a naranja
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(7.0),
+                                        ),
+                                        minimumSize:
+                                            const Size(190, 50), // Cambia el tamaño del botón
+                                      ),
+                                      child: const Text(
+                                        'No hay conexión 😨',
+                                        style: TextStyle(
+                                            fontSize: 18,
+                                            fontFamily: "Manrope",
+                                            color:
+                                                Colors.white), // Cambia el tamaño del texto
+                                      ),
+                                    );
+                            }
+                          }
+                          else{
+return ElevatedButton(
+                                      onPressed: () {
+                                      },
+                                      style: ElevatedButton.styleFrom(
+                                        backgroundColor: const Color.fromRGBO(255, 188, 91, 1), // Cambia el color de fondo a naranja
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(7.0),
+                                        ),
+                                        minimumSize:
+                                            const Size(190, 50), // Cambia el tamaño del botón
+                                      ),
+                                      child: const Text(
+                                        'No hay conexión 😨',
+                                        style: TextStyle(
+                                            fontSize: 18,
+                                            fontFamily: "Manrope",
+                                            color:
+                                                Colors.white), // Cambia el tamaño del texto
+                                      ),
+                                    );
+                          }
+                        }
+                      )
                     ),
                   ],
                 ),
