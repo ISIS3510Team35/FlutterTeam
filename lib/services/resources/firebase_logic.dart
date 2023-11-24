@@ -270,10 +270,15 @@ class FirestoreService {
       cont.add('Vegetariano');
     }
 
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    int userId = pref.getInt('user')!;
+
     await db.collection('Filter_Analytics').add({
       'Price': max_price != 100.0,
       'Vegano': vegano,
-      'Vegetariano': vegetariano
+      'Vegetariano': vegetariano,
+      'idUser': userId,
+      'limitPrice': max_price
     });
 
     // -- Distance with filter
@@ -337,5 +342,77 @@ class FirestoreService {
         groupBy(test, (element) => element['restaurant_id']);
 
     return groupedData;
+  }
+  
+    Future<PlateList> listRecimendations() async {
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    int userId = pref.getInt('user')!;
+
+    QuerySnapshot querySnapshot = await _db
+        .collection('Filter_Analytics')
+        .where('idUser', isEqualTo: userId)
+        .get();
+
+    int priceCount = 0;
+    num totalPrices = 0;
+
+    for (var document in querySnapshot.docs) {
+      if (document['Price'] == true && document['limitPrice'] != null) {
+        var limitPrice = document['limitPrice'];
+
+        if (limitPrice is num) {
+          totalPrices += limitPrice;
+          priceCount++;
+        }
+      }
+    }
+
+    num averagePrice = priceCount > 0 ? totalPrices / priceCount : 0.0;
+    int veganCount = querySnapshot.docs
+        .where((document) => document['Vegano'] == true)
+        .length;
+
+    int vegetarianCount = querySnapshot.docs
+        .where((document) => document['Vegetariano'] == true)
+        .length;
+
+    String highestCategory;
+
+    if (priceCount >= veganCount && priceCount >= vegetarianCount) {
+      highestCategory = 'Price';
+    } else if (veganCount >= priceCount && veganCount >= vegetarianCount) {
+      highestCategory = 'Vegano';
+    } else {
+      highestCategory = 'Vegetariano';
+    }
+
+    QuerySnapshot collectionReferenceTest;
+
+    if (highestCategory == 'Vegano' || highestCategory == 'Vegetariano') {
+      collectionReferenceTest = await _db
+          .collection('Product')
+          .where('type', whereIn: [highestCategory]).get();
+    } else {
+      collectionReferenceTest = await _db
+          .collection('Product')
+          .where('price', isLessThan: averagePrice)
+          .get();
+    }
+
+    List<Plate> plates = collectionReferenceTest.docs.map((documentSnapshot) {
+      Map<String, dynamic>? data =
+          documentSnapshot.data() as Map<String, dynamic>?;
+
+      if (data != null) {
+        return Plate.fromJson(data);
+      } else {
+        return Plate.empty();
+      }
+    }).toList();
+
+    PlateList plateList = PlateList();
+    plateList.setPlates(plates);
+
+    return plateList;
   }
 }

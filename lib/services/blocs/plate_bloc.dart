@@ -13,6 +13,7 @@ class PlateBloc {
   final _isRemAddFetcher = PublishSubject<bool>();
   final _favoritiesFetcher = PublishSubject<PlateList>();
   final _filterFetcher = PublishSubject<Map<num, List>>();
+  final _recomendationFetcher = PublishSubject<PlateList>();
 
   /// Stream for accessing the list of plates offered.
   Stream<PlateList> get offerPlates => _plateOfferFetcher.stream;
@@ -35,6 +36,8 @@ class PlateBloc {
   /// Stream for accessing filter information based on maxPrice, vegetariano, and vegano.
   Stream<Map<num, List>> get filterPlates => _filterFetcher.stream;
 
+  /// Stream for accessing recomendations
+  Stream<PlateList> get recomendationPlates => _recomendationFetcher.stream;
   /// Fetches the list of plates offered.
   Future<void> fetchOfferPlates() async {
     try {
@@ -115,6 +118,17 @@ class PlateBloc {
       _filterFetcher.sink.add(filterInfo);
     } catch (error) {
       _filterFetcher.addError(error.toString());
+    }
+  }
+  
+  /// Fetches recomended plates based on maxPrice, vegetariano, and vegano.
+  Future<void> fetchRecomendedPlates() async {
+    try {
+      PlateList platerecomendationList =
+          await _repository.fetchRecomendations();
+      _recomendationFetcher.sink.add(platerecomendationList);
+    } catch (error) {
+      _recomendationFetcher.addError(error.toString());
     }
   }
 

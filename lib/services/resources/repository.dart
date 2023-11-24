@@ -88,6 +88,10 @@ class Repository {
           double maxPrice, bool vegetariano, bool vegano) =>
       _firebaseProvider.getFilter(maxPrice, vegetariano, vegano);
 
+  /// Fetches recomendations based on maxPrice, vegetariano, and vegano.
+  Future<PlateList> fetchRecomendations() =>
+      _firebaseProvider.listRecimendations();
+  
   // RESTAURANTS
 
   /// Fetches details of a specific restaurant by its [id].
@@ -103,6 +107,8 @@ class Repository {
     }
     
   }
+
+  
   // ERRORS
   /// Records the app startup time and duration.
   void fetchTime(DateTime now, Duration startTime) =>

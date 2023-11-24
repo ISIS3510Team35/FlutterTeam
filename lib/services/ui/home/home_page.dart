@@ -3,6 +3,7 @@ import 'package:fud/services/blocs/plate_bloc.dart';
 import 'package:fud/services/ui/detail/appHeader.dart';
 import 'package:fud/services/ui/home/discount_section.dart';
 import 'package:fud/services/ui/home/favority_section.dart';
+import 'package:fud/services/ui/home/recomendation_section.dart';
 import 'package:fud/services/ui/home/top3_section.dart';
 
 class HomePage extends StatefulWidget {
@@ -37,6 +38,8 @@ class _HomePageState extends State<HomePage> {
           DiscountSection(plateBloc: widget.plateBloc),
           const SizedBox(height: 7),
           FavouritesSection(plateBloc: widget.plateBloc),
+          const SizedBox(height: 7),
+          Recommendations(plateBloc: widget.plateBloc),
         ],
       ),
     );
