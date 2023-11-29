@@ -1,12 +1,12 @@
 <lint-module
     format="1"
-    dir="/Users/Meli/Documents/Moviles/FlutterTeam2/android/app"
+    dir="C:\Users\Usuario\Documents\Universidad\Semestre 11\Moviles\Proyecto\_\v8\FlutterTeam\android\app"
     name=":app"
     type="APP"
     maven="android:app:"
     gradle="7.3.0"
-    buildFolder="/Users/Meli/Documents/Moviles/FlutterTeam2/build/app"
-    bootClassPath="/Users/Meli/Library/Android/sdk/platforms/android-33/android.jar:/Users/Meli/Library/Android/sdk/build-tools/30.0.3/core-lambda-stubs.jar"
+    buildFolder="C:\Users\Usuario\Documents\Universidad\Semestre 11\Moviles\Proyecto\_\v8\FlutterTeam\build\app"
+    bootClassPath="C:\Users\Usuario\AppData\Local\Android\sdk\platforms\android-33\android.jar;C:\Users\Usuario\AppData\Local\Android\sdk\build-tools\30.0.3\core-lambda-stubs.jar"
     javaSourceLevel="1.8"
     compileTarget="android-33">
   <lintOptions
