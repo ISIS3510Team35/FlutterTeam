@@ -98,7 +98,11 @@ class Repository {
       localStorage.insertPlates(r);
       return r;
     } else {
-      return localStorage.getCategoryPlates(category);
+      if (idR != 0) {
+        return localStorage.getCategoryPlates(category);
+      } else {
+        return localStorage.getRestaurantPlates(idR);
+      }
     }
   }
 

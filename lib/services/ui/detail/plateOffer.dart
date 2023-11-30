@@ -44,7 +44,7 @@ class _PlateOfferPageState extends State<PlateOfferPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const AppHeader(),
+        title: const Text("Detail"),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () {
