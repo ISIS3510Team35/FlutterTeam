@@ -84,7 +84,7 @@ class CategoryItem extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  'Hora de $category: Ver todos los platos.',
+                  'Hora de $category: Ver platos.',
                   style: const TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 18,

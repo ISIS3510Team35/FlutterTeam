@@ -1,119 +1,180 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:fud/services/ui/detail/appHeader.dart';
-import 'package:fud/services/ui/detail/plateOffer.dart';
+import 'package:fud/services/models/plate_model.dart';
+import 'package:fud/services/blocs/restaurant_bloc.dart';
+import 'package:fud/services/blocs/plate_bloc.dart';
+import 'package:fud/services/models/restaurant_model.dart';
+import 'package:fud/services/resources/google_maps.dart';
 
 class RestaurantPage extends StatefulWidget {
   static const routeName = '/restaurant';
 
-  const RestaurantPage({Key? key}) : super(key: key);
+  const RestaurantPage({Key? key, required this.restaurantId})
+      : super(key: key);
+
+  final num restaurantId;
 
   @override
   State<RestaurantPage> createState() => _RestaurantPageState();
 }
 
 class _RestaurantPageState extends State<RestaurantPage> {
+  final _restaurantBloc = RestaurantBloc();
+  final _plateBloc = PlateBloc();
+
   @override
   void initState() {
     super.initState();
+    _restaurantBloc.fetchRestaurantDetails(widget.restaurantId);
+    _plateBloc.fetchCategoryOrRestaurantPlates('', widget.restaurantId);
+  }
+
+  @override
+  void dispose() {
+    _restaurantBloc.dispose();
+    _plateBloc.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const AppHeader(),
+      appBar: AppBar(
+        title: const Text(""),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.maybePop(context);
+          },
+        ),
+      ),
       body: ListView(
-        children: const [
-          ImageWithCaptionSection(),
-          RecommendationsSection(),
-          OthersSection(),
+        children: [
+          RestaurantImageWithCaptionSection(restaurantBloc: _restaurantBloc),
+          RestaurantRecommendationsSection(
+            plateBloc: _plateBloc,
+          ),
         ],
       ),
     );
   }
 }
 
-// ------------------------------------------------------------------------------ IMAGEN
+class RestaurantImageWithCaptionSection extends StatelessWidget {
+  final RestaurantBloc restaurantBloc;
 
-class ImageWithCaptionSection extends StatelessWidget {
-  const ImageWithCaptionSection({Key? key});
+  const RestaurantImageWithCaptionSection(
+      {Key? key, required this.restaurantBloc})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.all(5),
-      child: Stack(
-        alignment: Alignment.bottomLeft,
-        children: [
-          Opacity(
-            opacity: 0.9,
-            child: Image.asset(
-              'assets/1.png',
-              width: double.infinity,
-              height: 180,
-              fit: BoxFit.cover,
-            ),
-          ),
-          Container(
-            padding: const EdgeInsets.all(20),
-            width: 346,
-            color: const Color.fromARGB(255, 131, 130, 130).withOpacity(0.5),
-            child: const Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Row(
+    return StreamBuilder(
+      stream: restaurantBloc.restaurantDetails,
+      builder: (context, AsyncSnapshot<Restaurant> snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        } else if (snapshot.hasError) {
+          return const Center(
+            child: Text('Error loading restaurant data'),
+          );
+        } else if (!snapshot.hasData) {
+          return const Center(
+            child: Text('No restaurant data available'),
+          );
+        } else {
+          final restaurant = snapshot.data!;
+          return Column(
+            children: [
+              Container(
+                margin: const EdgeInsets.all(5),
+                child: Stack(
+                  alignment: Alignment.bottomLeft,
                   children: [
-                    Text(
-                      'Cafetería Central Uniandes',
-                      style: TextStyle(
-                        fontSize: 18,
-                        color: Colors.white,
-                        fontFamily: 'Manrope',
+                    Opacity(
+                      opacity: 0.9,
+                      child: Image.network(
+                        restaurant.photo,
+                        width: double.infinity,
+                        height: 180,
+                        fit: BoxFit.cover,
                       ),
                     ),
-                    SizedBox(width: 20),
-                    Icon(
-                      Icons.star,
-                      color: Color.fromARGB(255, 188, 91, 1),
+                    Container(
+                      padding: const EdgeInsets.all(20),
+                      width: 346,
+                      color: const Color.fromARGB(255, 131, 130, 130)
+                          .withOpacity(0.5),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Row(
+                            children: [
+                              Text(
+                                restaurant.name,
+                                style: const TextStyle(
+                                  fontSize: 18,
+                                  color: Colors.white,
+                                  fontFamily: 'Manrope',
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
                     ),
-                    Text(
-                      '4.3',
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontFamily: 'Manrope',
-                        color: Color.fromARGB(255, 255, 255, 255),
+                    Align(
+                      alignment: Alignment.bottomRight,
+                      child: SizedBox(
+                        width: 120,
+                        height: 68,
+                        child: ElevatedButton.icon(
+                          onPressed: () {
+                            MapUtils().openMap(restaurant.location.latitude,
+                                restaurant.location.longitude);
+                          },
+                          label: const Text(
+                            '¿Cómo llegar?',
+                            style: TextStyle(color: Colors.white),
+                          ),
+                          icon: const Icon(
+                            Icons.map_rounded,
+                            color: Colors.white,
+                          ),
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor:
+                                const Color.fromRGBO(245, 90, 81, 1),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8.0),
+                            ),
+                          ),
+                        ),
                       ),
                     ),
                   ],
                 ),
-              ],
-            ),
-          ),
-        ],
-      ),
+              ),
+            ],
+          );
+        }
+      },
     );
   }
 }
 
-// ------------------------------------------------------------------------------ RECOMENDACIONES
+class RestaurantRecommendationsSection extends StatelessWidget {
+  final PlateBloc plateBloc;
 
-class RecommendationsSection extends StatelessWidget {
-  const RecommendationsSection({Key? key});
+  const RestaurantRecommendationsSection({
+    Key? key,
+    required this.plateBloc,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    const items = 3;
     return GestureDetector(
-      onTap: () {
-        // Navegar a la vista deseada aquí, por ejemplo:
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => const PlateOfferPage(
-              plateId: 1,
-            ),
-          ),
-        );
-      },
       child: Container(
         padding: const EdgeInsets.all(8),
         alignment: Alignment.bottomLeft,
@@ -121,7 +182,7 @@ class RecommendationsSection extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const Text(
-              'Recomendados para ti',
+              'Platos',
               style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
@@ -129,13 +190,43 @@ class RecommendationsSection extends StatelessWidget {
               ),
               textAlign: TextAlign.left,
             ),
-            SizedBox(
-              height: 280,
-              child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                itemCount: items,
-                itemBuilder: (context, index) => ItemWidget(index: index),
-              ),
+            StreamBuilder(
+              stream: plateBloc.categoryPlates,
+              builder: (context, AsyncSnapshot<PlateList> snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const Center(
+                    child: CircularProgressIndicator(),
+                  );
+                } else if (snapshot.hasError) {
+                  return const Center(
+                    child: Text('Error loading plate data'),
+                  );
+                } else if (!snapshot.hasData || snapshot.data!.isEmpty()) {
+                  return const Center(
+                    child: Text('No plate data available'),
+                  );
+                } else {
+                  final items = snapshot.data?.plates;
+                  return GridView.builder(
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      crossAxisSpacing: 8.0,
+                      mainAxisSpacing: 8.0,
+                    ),
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemCount: items?.length,
+                    itemBuilder: (context, index) {
+                      final itemData = items?[index];
+                      return ItemWidget(
+                        itemData: itemData,
+                        restaurantBloc: RestaurantBloc(),
+                      );
+                    },
+                  );
+                }
+              },
             ),
           ],
         ),
@@ -144,163 +235,107 @@ class RecommendationsSection extends StatelessWidget {
   }
 }
 
-class ItemWidget extends StatelessWidget {
+class ItemWidget extends StatefulWidget {
   const ItemWidget({
     Key? key,
-    required this.index,
+    required this.itemData,
+    required this.restaurantBloc,
   }) : super(key: key);
 
-  final int index;
+  final Plate? itemData;
+  final RestaurantBloc restaurantBloc;
+
+  @override
+  _ItemWidgetState createState() => _ItemWidgetState();
+}
+
+class _ItemWidgetState extends State<ItemWidget> {
+  Restaurant? restaurantData;
+
+  @override
+  void initState() {
+    super.initState();
+    widget.restaurantBloc.restaurantDetails.listen((restaurant) {
+      setState(() {
+        restaurantData = restaurant;
+      });
+    });
+
+    if (widget.itemData != null && widget.itemData?.restaurant != null) {
+      widget.restaurantBloc.fetchRestaurantDetails(widget.itemData!.restaurant);
+    }
+  }
+
+  @override
+  void dispose() {
+    widget.restaurantBloc.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.all(10.0),
-      child: Material(
-        elevation: 4,
-        borderRadius: BorderRadius.circular(10.0),
-        child: ClipRRect(
+    return GestureDetector(
+      child: Container(
+        margin: const EdgeInsets.all(12.0),
+        child: Material(
+          elevation: 4,
           borderRadius: BorderRadius.circular(10.0),
-          child: Container(
-            width: 200,
-            color: Colors.white,
-            child: Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  CircleAvatar(
-                    radius: 80,
-                    backgroundImage: AssetImage('assets/$index.png'),
-                  ),
-                  const SizedBox(height: 10),
-                  const Text(
-                    'Hamburguesa',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 18,
-                      fontFamily: 'Manrope',
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(10.0),
+            child: Container(
+              width: 200,
+              color: Colors.white,
+              child: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    CircleAvatar(
+                      radius: 42,
+                      backgroundImage: CachedNetworkImageProvider(
+                        widget.itemData?.getPhoto ?? '',
+                      ),
                     ),
-                    textAlign: TextAlign.center,
-                  ),
-                  Text(
-                    'Item $index',
-                    style: const TextStyle(
-                      fontSize: 16,
-                      color: Colors.grey,
-                      fontFamily: 'Manrope',
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
-                  const SizedBox(height: 10),
-                  Text(
-                    '${index + 1 * 10} K ',
-                    style: const TextStyle(
-                        fontSize: 20,
+                    const SizedBox(height: 10),
+                    Text(
+                      widget.itemData?.name ?? '',
+                      style: const TextStyle(
                         fontWeight: FontWeight.bold,
+                        fontSize: 16,
                         fontFamily: 'Manrope',
-                        color: Color.fromRGBO(255, 146, 45, 1)),
-                    textAlign: TextAlign.center,
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-// ------------------------------------------------------------------------------ OTROS
-
-class OthersSection extends StatelessWidget {
-  const OthersSection({Key? key});
-
-  @override
-  Widget build(BuildContext context) {
-    const items = 6;
-    return Container(
-      padding: const EdgeInsets.all(8),
-      alignment: Alignment.bottomLeft,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const Text(
-            'Otros Platos',
-            style: TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
-              fontFamily: 'Manrope',
-            ),
-            textAlign: TextAlign.left,
-          ),
-          SizedBox(
-            height: 150,
-            child: ListView.builder(
-              scrollDirection: Axis.horizontal,
-              itemCount: items,
-              itemBuilder: (context, index) => OtherWidget(index: index),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class OtherWidget extends StatelessWidget {
-  const OtherWidget({
-    Key? key,
-    required this.index,
-  }) : super(key: key);
-
-  final int index;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.all(10.0), // Espacio entre las tarjetas
-      child: Material(
-        elevation: 4,
-        borderRadius: BorderRadius.circular(10.0),
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(10.0),
-          child: Container(
-            width: 100,
-            color: Colors.white,
-            child: Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Image.asset(
-                    'assets/$index.png',
-                    height: 85,
-                    width: 100,
-                    fit: BoxFit.cover,
-                  ),
-                  const SizedBox(height: 5),
-                  const Text(
-                    'Hamburguesa',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 12,
-                      fontFamily: 'Manrope',
+                      ),
+                      textAlign: TextAlign.center,
                     ),
-                    textAlign: TextAlign.center,
-                  ),
-                  const SizedBox(height: 5),
-                  Text(
-                    ' ${index + 1 * 10} K',
-                    style: const TextStyle(
+                    Text(
+                      '${widget.itemData?.price} K',
+                      style: const TextStyle(
                         fontSize: 12,
                         fontWeight: FontWeight.bold,
                         fontFamily: 'Manrope',
-                        color: Color.fromRGBO(255, 146, 45, 1)),
-                    textAlign: TextAlign.center,
-                  ),
-                ],
+                        color: Color.fromRGBO(255, 146, 45, 1),
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                    const SizedBox(height: 2),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const Icon(
+                          Icons.star,
+                          color: Color.fromRGBO(255, 146, 45, 1),
+                        ),
+                        Text(
+                          widget.itemData?.rating.toString() ?? '',
+                          style: const TextStyle(
+                            fontSize: 12,
+                            fontFamily: 'Manrope',
+                            color: Colors.black,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
