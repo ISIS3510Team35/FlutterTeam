@@ -10,6 +10,7 @@ class LocalStorage {
   static final LocalStorage _singleton = LocalStorage._internal();
   LocalStorage._internal();
 
+  // ignore: prefer_typing_uninitialized_variables
   late final database;
 
   /// Initializes the local database.
@@ -39,13 +40,10 @@ class LocalStorage {
   }
 
   Future<void> insertPlates(Future<PlateList> plateList) async {
-    final db = await database;
     var list = await plateList;
-    for(Plate plate in list.plates){
+    for (Plate plate in list.plates) {
       insertPlate(plate);
     }
-    
-        
   }
 
   Future<void> insertRestaurant(Restaurant restaurant) async {
@@ -59,59 +57,57 @@ class LocalStorage {
 
   Future<Restaurant> getRestaurant(num id) async {
     final db = await database;
-    final List<Map<String, dynamic>> maps = await db.query(
-      'restaurants',
-      where: '"id" = $id'
-    );
+    final List<Map<String, dynamic>> maps =
+        await db.query('restaurants', where: '"id" = $id');
     return Restaurant(
-      id: maps[0]['id'], 
-      name: maps[0]['name'], 
-      photo: maps[0]['photo'], 
-      location: GeoPoint(maps[0]['lat'] as double, maps[0]['lon'] as double), 
-
+      id: maps[0]['id'],
+      name: maps[0]['name'],
+      photo: maps[0]['photo'],
+      location: GeoPoint(maps[0]['lat'] as double, maps[0]['lon'] as double),
     );
   }
+
   /// Retrieves a [Plate] with the specified [id] from the local database.
   Future<Plate> getPlate(num id) async {
     final db = await database;
-    final List<Map<String, dynamic>> q =await db.query('plates', where: '"id" = $id');
+    final List<Map<String, dynamic>> q =
+        await db.query('plates', where: '"id" = $id');
     var i = 0;
     return Plate(
-        id: q[i]['id'] as num,
-        name: q[i]['name'] as String,
-        category: q[i]['category'] as String, 
-        description: q[i]['description'] as String, 
-        discount: (q[i]['discount']==0?true:false), 
-        offerPrice: q[i]['offerPrice'] as double, 
-        photo: q[i]['photo'] as String, 
-        price: q[i]['price'] as double, 
-        rating: q[i]['rating'] as double, 
-        restaurant: q[i]['restaurant'] as num, 
-        type: q[i]['type'] as String,
-
-      );
+      id: q[i]['id'] as num,
+      name: q[i]['name'] as String,
+      category: q[i]['category'] as String,
+      description: q[i]['description'] as String,
+      discount: (q[i]['discount'] == 0 ? true : false),
+      offerPrice: q[i]['offerPrice'] as double,
+      photo: q[i]['photo'] as String,
+      price: q[i]['price'] as double,
+      rating: q[i]['rating'] as double,
+      restaurant: q[i]['restaurant'] as num,
+      type: q[i]['type'] as String,
+    );
   }
 
   /// Retrieves a list of plates with offer prices from the local database.
   Future<PlateList> getOfferPlates() async {
     final db = await database;
-    final List<Map<String, dynamic>> q =await db.query('plates', where: 'offerPrice > 0');
-    
+    final List<Map<String, dynamic>> q =
+        await db.query('plates', where: 'offerPrice > 0');
+
     PlateList plateList = PlateList();
-    List<Plate> plates =  List.generate(q.length, (i) {
+    List<Plate> plates = List.generate(q.length, (i) {
       return Plate(
         id: q[i]['id'] as num,
         name: q[i]['name'] as String,
-        category: q[i]['category'] as String, 
-        description: q[i]['description'] as String, 
-        discount: (q[i]['discount']==0?true:false), 
-        offerPrice: q[i]['offerPrice'] as double, 
-        photo: q[i]['photo'] as String, 
-        price: q[i]['price'] as double, 
-        rating: q[i]['rating'] as double, 
-        restaurant: q[i]['restaurant'] as num, 
+        category: q[i]['category'] as String,
+        description: q[i]['description'] as String,
+        discount: (q[i]['discount'] == 0 ? true : false),
+        offerPrice: q[i]['offerPrice'] as double,
+        photo: q[i]['photo'] as String,
+        price: q[i]['price'] as double,
+        rating: q[i]['rating'] as double,
+        restaurant: q[i]['restaurant'] as num,
         type: q[i]['type'] as String,
-
       );
     });
     plateList.setPlates(plates);
@@ -121,38 +117,87 @@ class LocalStorage {
   /// Retrieves a list of all plates from the local database.
   Future<PlateList> getAllPlates() async {
     final db = await database;
-    List<Map<String, Object?>> q =await db.query('plates');
-     List<Plate> plates=[] ;
-     q.map((plate)=>{
-       plates.add(Plate.fromJson(plate))
-     });
-     PlateList plateList = PlateList();
-     plateList.setPlates(plates);
-     return plateList;
+    List<Map<String, Object?>> q = await db.query('plates');
+    List<Plate> plates = [];
+    q.map((plate) => {plates.add(Plate.fromJson(plate))});
+    PlateList plateList = PlateList();
+    plateList.setPlates(plates);
+    return plateList;
   }
 
   /// Retrieves a list of the best-rated plates from the local database.
   Future<PlateList> getBestPlates() async {
     final db = await database;
-    final List<Map<String, dynamic>>  q =await db.rawQuery(
+    final List<Map<String, dynamic>> q = await db.rawQuery(
       'SELECT * FROM plates ORDER BY rating DESC, price DESC LIMIT 3',
     );
-    
+
     PlateList plateList = PlateList();
-    List<Plate> plates =  List.generate(q.length, (i) {
+    List<Plate> plates = List.generate(q.length, (i) {
       return Plate(
         id: q[i]['id'] as num,
         name: q[i]['name'] as String,
-        category: q[i]['category'] as String, 
-        description: q[i]['description'] as String, 
-        discount: (q[i]['discount']==0?true:false), 
-        offerPrice: q[i]['offerPrice'] as double, 
-        photo: q[i]['photo'] as String, 
-        price: q[i]['price'] as double, 
-        rating: q[i]['rating'] as double, 
-        restaurant: q[i]['restaurant'] as num, 
+        category: q[i]['category'] as String,
+        description: q[i]['description'] as String,
+        discount: (q[i]['discount'] == 0 ? true : false),
+        offerPrice: q[i]['offerPrice'] as double,
+        photo: q[i]['photo'] as String,
+        price: q[i]['price'] as double,
+        rating: q[i]['rating'] as double,
+        restaurant: q[i]['restaurant'] as num,
         type: q[i]['type'] as String,
+      );
+    });
+    plateList.setPlates(plates);
+    return plateList;
+  }
 
+  /// Retrieves a list of plates with a specific category from the local database.
+  Future<PlateList> getCategoryPlates(String category) async {
+    final db = await database;
+    final List<Map<String, dynamic>> q = await db.query('plates',
+        where: 'category == \'$category\'', orderBy: 'rating DESC, price DESC');
+
+    PlateList plateList = PlateList();
+    List<Plate> plates = List.generate(q.length, (i) {
+      return Plate(
+        id: q[i]['id'] as num,
+        name: q[i]['name'] as String,
+        category: q[i]['category'] as String,
+        description: q[i]['description'] as String,
+        discount: (q[i]['discount'] == 0 ? true : false),
+        offerPrice: q[i]['offerPrice'] as double,
+        photo: q[i]['photo'] as String,
+        price: q[i]['price'] as double,
+        rating: q[i]['rating'] as double,
+        restaurant: q[i]['restaurant'] as num,
+        type: q[i]['type'] as String,
+      );
+    });
+    plateList.setPlates(plates);
+    return plateList;
+  }
+
+  /// Retrieves a list of plates with a specific category from the local database.
+  Future<PlateList> getRestaurantPlates(num id) async {
+    final db = await database;
+    final List<Map<String, dynamic>> q = await db.query('plates',
+        where: 'restaurant == $id', orderBy: 'rating DESC, price DESC');
+
+    PlateList plateList = PlateList();
+    List<Plate> plates = List.generate(q.length, (i) {
+      return Plate(
+        id: q[i]['id'] as num,
+        name: q[i]['name'] as String,
+        category: q[i]['category'] as String,
+        description: q[i]['description'] as String,
+        discount: (q[i]['discount'] == 0 ? true : false),
+        offerPrice: q[i]['offerPrice'] as double,
+        photo: q[i]['photo'] as String,
+        price: q[i]['price'] as double,
+        rating: q[i]['rating'] as double,
+        restaurant: q[i]['restaurant'] as num,
+        type: q[i]['type'] as String,
       );
     });
     plateList.setPlates(plates);

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:fud/services/blocs/plate_bloc.dart';
 import 'package:fud/services/ui/detail/appHeader.dart';
+import 'package:fud/services/ui/detail/seeAll.dart';
+import 'package:fud/services/ui/home/category_section.dart';
 import 'package:fud/services/ui/home/discount_section.dart';
 import 'package:fud/services/ui/home/favority_section.dart';
 import 'package:fud/services/ui/home/recomendation_section.dart';
@@ -31,7 +33,7 @@ class _HomePageState extends State<HomePage> {
       body: ListView(
         padding: const EdgeInsets.symmetric(vertical: 7),
         children: [
-          // const CategorySection(),
+          const CategorySection(),
           const SizedBox(height: 7),
           Top3(plateBloc: widget.plateBloc),
           const SizedBox(height: 7),
@@ -40,6 +42,7 @@ class _HomePageState extends State<HomePage> {
           FavouritesSection(plateBloc: widget.plateBloc),
           const SizedBox(height: 7),
           Recommendations(plateBloc: widget.plateBloc),
+          const SizedBox(height: 20), // Adjust the height as needed
         ],
       ),
     );

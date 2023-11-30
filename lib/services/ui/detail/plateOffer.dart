@@ -35,7 +35,7 @@ class _PlateOfferPageState extends State<PlateOfferPage> {
 
   @override
   void dispose() {
-    plateBloc.dispose();
+    //plateBloc.dispose();
     restaurantBloc.dispose();
     super.dispose();
   }
@@ -67,8 +67,8 @@ class _PlateOfferPageState extends State<PlateOfferPage> {
                   return const Text("Error loading restaurant data");
                 } else {
                   return const Center(
-              child: CircularProgressIndicator(),
-            );
+                    child: CircularProgressIndicator(),
+                  );
                 }
               },
             );
@@ -103,7 +103,7 @@ class ImageWithCaptionSection extends StatelessWidget {
           Opacity(
             opacity: 0.9,
             child: CachedNetworkImage(
-              key:UniqueKey(),
+              key: UniqueKey(),
               imageUrl: imageUrl,
               placeholder: (context, url) => const CircularProgressIndicator(),
               errorWidget: (context, url, error) => const Icon(Icons.error),
@@ -245,7 +245,7 @@ class _ButtonRow extends State<ButtonRow> {
 
   @override
   void dispose() {
-    plateBloc.dispose();
+    //plateBloc.dispose();
     super.dispose();
   }
 
@@ -257,11 +257,9 @@ class _ButtonRow extends State<ButtonRow> {
         if (snapshot.hasData) {
           fav = snapshot.data!;
           favourite = fav ? 'Eliminar favorito' : 'Añadir a favoritos';
-        }
-        else if (snapshot.hasError) {
+        } else if (snapshot.hasError) {
           favourite = 'No hay conexión';
-        }
-        else{
+        } else {
           favourite = 'Cargando';
         }
 
@@ -328,7 +326,7 @@ class _ButtonRow extends State<ButtonRow> {
 }
 
 class OthersSection extends StatelessWidget {
-  const OthersSection({Key? key});
+  const OthersSection({super.key, Key? keys});
 
   @override
   Widget build(BuildContext context) {

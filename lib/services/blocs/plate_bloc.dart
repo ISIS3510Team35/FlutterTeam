@@ -14,6 +14,7 @@ class PlateBloc {
   final _favoritiesFetcher = PublishSubject<PlateList>();
   final _filterFetcher = PublishSubject<Map<num, List>>();
   final _recomendationFetcher = PublishSubject<PlateList>();
+  final _categoryOrRestaurantFetcher = PublishSubject<PlateList>();
 
   /// Stream for accessing the list of plates offered.
   Stream<PlateList> get offerPlates => _plateOfferFetcher.stream;
@@ -38,6 +39,10 @@ class PlateBloc {
 
   /// Stream for accessing recomendations
   Stream<PlateList> get recomendationPlates => _recomendationFetcher.stream;
+
+  /// Stream for categry or restaurant plates
+  Stream<PlateList> get categoryPlates => _categoryOrRestaurantFetcher.stream;
+
   /// Fetches the list of plates offered.
   Future<void> fetchOfferPlates() async {
     try {
@@ -120,7 +125,7 @@ class PlateBloc {
       _filterFetcher.addError(error.toString());
     }
   }
-  
+
   /// Fetches recomended plates based on maxPrice, vegetariano, and vegano.
   Future<void> fetchRecomendedPlates() async {
     try {
@@ -132,6 +137,18 @@ class PlateBloc {
     }
   }
 
+  /// Fetches the list of plates offered.
+  Future<void> fetchCategoryOrRestaurantPlates(
+      String category, num restaurantId) {
+    return _repository
+        .fetchPlatesCategoryOrRestaurant(category, restaurantId)
+        .then((PlateList plateCategoryOrRestaurantsList) {
+      _categoryOrRestaurantFetcher.sink.add(plateCategoryOrRestaurantsList);
+    }).catchError((error) {
+      _categoryOrRestaurantFetcher.addError(error.toString());
+    });
+  }
+
   /// Disposes the BLoC by closing all the streams.
   void dispose() {
     _plateTop3Fetcher.close();
@@ -141,5 +158,6 @@ class PlateBloc {
     _isRemAddFetcher.close();
     _favoritiesFetcher.close();
     _filterFetcher.close();
+    _categoryOrRestaurantFetcher.close();
   }
 }
