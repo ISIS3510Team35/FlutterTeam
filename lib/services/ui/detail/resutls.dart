@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:fud/services/blocs/plate_bloc.dart';
 import 'package:fud/services/resources/google_maps.dart';
+import 'package:fud/services/ui/detail/restaurant.dart';
 import 'package:fud/services/ui/detail/seeAll.dart'; // Import the PlateBloc class
 
 class ResultsPage extends StatefulWidget {
@@ -133,6 +134,14 @@ class RestaurantResume extends StatelessWidget {
     num restaurantId = data[0]['restaurant_id'];
 
     return GestureDetector(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const RestaurantPage(),
+          ),
+        );
+      },
       child: Container(
         padding: const EdgeInsets.symmetric(
           horizontal: 25,
