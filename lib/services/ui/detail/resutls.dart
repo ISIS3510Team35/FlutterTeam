@@ -1,8 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:fud/services/blocs/plate_bloc.dart';
-import 'package:fud/services/resources/google_maps.dart';
 import 'package:fud/services/ui/detail/restaurant.dart';
 import 'package:fud/services/ui/detail/seeAll.dart'; // Import the PlateBloc class
 
@@ -138,7 +136,7 @@ class RestaurantResume extends StatelessWidget {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => const RestaurantPage(),
+            builder: (context) => RestaurantPage(restaurantId: restaurantId),
           ),
         );
       },

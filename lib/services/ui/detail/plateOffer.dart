@@ -4,7 +4,6 @@ import 'package:fud/services/blocs/plate_bloc.dart';
 import 'package:fud/services/blocs/restaurant_bloc.dart';
 import 'package:fud/services/models/plate_model.dart';
 import 'package:fud/services/models/restaurant_model.dart';
-import 'package:fud/services/ui/detail/appHeader.dart';
 import 'package:fud/services/resources/google_maps.dart';
 
 class PlateOfferPage extends StatefulWidget {
@@ -68,7 +67,7 @@ class _PlateOfferPageState extends State<PlateOfferPage> {
                     children: [
                       ImageWithCaptionSection(imageUrl: plate.photo),
                       OneCardSection(plate: plate, restaurant: restaurant),
-                      const OthersSection(),
+                      //const OthersSection(),
                     ],
                   );
                 } else if (restaurantSnapshot.hasError) {
@@ -333,99 +332,100 @@ class _ButtonRow extends State<ButtonRow> {
   }
 }
 
-class OthersSection extends StatelessWidget {
-  const OthersSection({super.key, Key? keys});
-
-  @override
-  Widget build(BuildContext context) {
-    const items = 6;
-    return Container(
-      padding: const EdgeInsets.all(8),
-      alignment: Alignment.bottomLeft,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const Text(
-            'Otros Platos',
-            style: TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
-              fontFamily: 'Manrope',
-            ),
-            textAlign: TextAlign.left,
-          ),
-          SizedBox(
-            height: 150,
-            child: ListView.builder(
-              scrollDirection: Axis.horizontal,
-              itemCount: items,
-              itemBuilder: (context, index) => OtherWidget(index: index),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class OtherWidget extends StatelessWidget {
-  const OtherWidget({
-    Key? key,
-    required this.index,
-  }) : super(key: key);
-
-  final int index;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.all(10.0),
-      child: Material(
-        elevation: 4,
-        borderRadius: BorderRadius.circular(10.0),
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(10.0),
-          child: Container(
-            width: 100,
-            color: Colors.white,
-            child: Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Image.asset(
-                    'assets/$index.png',
-                    height: 85,
-                    width: 100,
-                    fit: BoxFit.cover,
-                  ),
-                  const SizedBox(height: 5),
-                  const Text(
-                    'Hamburguesa',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 12,
-                      fontFamily: 'Manrope',
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
-                  const SizedBox(height: 5),
-                  Text(
-                    ' ${index + 1 * 10} K',
-                    style: const TextStyle(
-                      fontSize: 12,
-                      fontWeight: FontWeight.bold,
-                      fontFamily: 'Manrope',
-                      color: Color.fromRGBO(255, 146, 45, 1),
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-}
+//class OthersSection extends StatelessWidget {
+//  const OthersSection({super.key, Key? keys});
+//
+//  @override
+//  Widget build(BuildContext context) {
+//    const items = 6;
+//    return Container(
+//      padding: const EdgeInsets.all(8),
+//      alignment: Alignment.bottomLeft,
+//      child: Column(
+//        crossAxisAlignment: CrossAxisAlignment.start,
+//        children: [
+//          const Text(
+//            'Otros Platos',
+//            style: TextStyle(
+//              fontSize: 18,
+//              fontWeight: FontWeight.bold,
+//              fontFamily: 'Manrope',
+//            ),
+//            textAlign: TextAlign.left,
+//          ),
+//          SizedBox(
+//            height: 150,
+//            child: ListView.builder(
+//              scrollDirection: Axis.horizontal,
+//              itemCount: items,
+//              itemBuilder: (context, index) => OtherWidget(index: index),
+//            ),
+//          ),
+//        ],
+//      ),
+//    );
+//  }
+//}
+//
+//class OtherWidget extends StatelessWidget {
+//  const OtherWidget({
+//    Key? key,
+//    required this.index,
+//  }) : super(key: key);
+//
+//  final int index;
+//
+//  @override
+//  Widget build(BuildContext context) {
+//    return Container(
+//      margin: const EdgeInsets.all(10.0),
+//      child: Material(
+//        elevation: 4,
+//        borderRadius: BorderRadius.circular(10.0),
+//        child: ClipRRect(
+//          borderRadius: BorderRadius.circular(10.0),
+//          child: Container(
+//            width: 100,
+//            color: Colors.white,
+//            child: Center(
+//              child: Column(
+//                mainAxisAlignment: MainAxisAlignment.center,
+//                crossAxisAlignment: CrossAxisAlignment.center,
+//                children: [
+//                  Image.asset(
+//                    'assets/$index.png',
+//                    height: 85,
+//                    width: 100,
+//                    fit: BoxFit.cover,
+//                  ),
+//                  const SizedBox(height: 5),
+//                  const Text(
+//                    'Hamburguesa',
+//                    style: TextStyle(
+//                      fontWeight: FontWeight.bold,
+//                      fontSize: 12,
+//                      fontFamily: 'Manrope',
+//                    ),
+//                    textAlign: TextAlign.center,
+//                  ),
+//                  const SizedBox(height: 5),
+//                  Text(
+//                    ' ${index + 1 * 10} K',
+//                    style: const TextStyle(
+//                      fontSize: 12,
+//                      fontWeight: FontWeight.bold,
+//                      fontFamily: 'Manrope',
+//                      color: Color.fromRGBO(255, 146, 45, 1),
+//                    ),
+//                    textAlign: TextAlign.center,
+//                  ),
+//                ],
+//              ),
+//            ),
+//          ),
+//        ),
+//      ),
+//    );
+//  }
+//}
+//
