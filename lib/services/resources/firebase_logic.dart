@@ -251,7 +251,7 @@ class FirestoreService {
 
   /// Fetches filter information based on maxPrice, vegetariano, and vegano.
   Future<Map<num, List>> getFilter(
-    double max_price,
+    double maxPrice,
     bool vegetariano,
     bool vegano,
   ) async {
@@ -274,22 +274,23 @@ class FirestoreService {
     int userId = pref.getInt('user')!;
 
     await db.collection('Filter_Analytics').add({
-      'Price': max_price != 100.0,
+      'Price': maxPrice != 100.0,
       'Vegano': vegano,
       'Vegetariano': vegetariano,
       'idUser': userId,
-      'limitPrice': max_price
+      'limitPrice': maxPrice
     });
 
     // -- Distance with filter
 
     QuerySnapshot collectionReferenceTest = await db
         .collection('Product')
-        .where('price', isLessThan: max_price)
+        .where('price', isLessThan: maxPrice)
         .where('type', whereIn: cont)
         .get();
 
     for (var element in collectionReferenceTest.docs) {
+      // ignore: prefer_typing_uninitialized_variables
       var i, e;
       String name;
       GeoPoint location;
@@ -343,8 +344,8 @@ class FirestoreService {
 
     return groupedData;
   }
-  
-    Future<PlateList> listRecimendations() async {
+
+  Future<PlateList> listRecimendations() async {
     SharedPreferences pref = await SharedPreferences.getInstance();
     int userId = pref.getInt('user')!;
 
@@ -400,6 +401,44 @@ class FirestoreService {
     }
 
     List<Plate> plates = collectionReferenceTest.docs.map((documentSnapshot) {
+      Map<String, dynamic>? data =
+          documentSnapshot.data() as Map<String, dynamic>?;
+
+      if (data != null) {
+        return Plate.fromJson(data);
+      } else {
+        return Plate.empty();
+      }
+    }).toList();
+
+    PlateList plateList = PlateList();
+    plateList.setPlates(plates);
+
+    return plateList;
+  }
+
+  /// Fetches a list of plates available as offers.
+  Future<PlateList> getPlatesCategoryOrRestaurant(
+      String category, num idR) async {
+    QuerySnapshot querySnapshot;
+
+    if (idR == 0) {
+      querySnapshot = await _db
+          .collection('Product')
+          .where('category', isEqualTo: category)
+          .orderBy('rating', descending: true)
+          .orderBy('price', descending: true)
+          .get();
+    } else {
+      querySnapshot = await _db
+          .collection('Product')
+          .where('restaurantId', isEqualTo: idR)
+          .orderBy('rating', descending: true)
+          .orderBy('price', descending: true)
+          .get();
+    }
+
+    List<Plate> plates = querySnapshot.docs.map((documentSnapshot) {
       Map<String, dynamic>? data =
           documentSnapshot.data() as Map<String, dynamic>?;
 

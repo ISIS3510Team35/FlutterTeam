@@ -36,8 +36,7 @@ class Repository {
       var r = _firebaseProvider.getPlatesOfferFromFirestore();
       localStorage.insertPlates(r);
       return r;
-    }
-    else{
+    } else {
       return localStorage.getOfferPlates();
     }
   }
@@ -49,21 +48,20 @@ class Repository {
       var r = _firebaseProvider.getPlatesTop3FromFirestore();
       localStorage.insertPlates(r);
       return r;
-    }
-    else{
+    } else {
       return localStorage.getBestPlates();
     }
   }
+
   /// Fetches details of a specific plate by its [id].
-  Future<Plate?> fetchPlate(num id) async { 
+  Future<Plate?> fetchPlate(num id) async {
     var connectivityResult = await (Connectivity().checkConnectivity());
-    
+
     if (connectivityResult != ConnectivityResult.none) {
       var r = _firebaseProvider.getPlate(id);
       localStorage.insertPlate((await r) as Plate);
       return r;
-    }
-    else{
+    } else {
       return localStorage.getPlate(id);
     }
   }
@@ -91,7 +89,19 @@ class Repository {
   /// Fetches recomendations based on maxPrice, vegetariano, and vegano.
   Future<PlateList> fetchRecomendations() =>
       _firebaseProvider.listRecimendations();
-  
+
+  Future<PlateList> fetchPlatesCategoryOrRestaurant(
+      String category, num idR) async {
+    var connectivityResult = await (Connectivity().checkConnectivity());
+    if (connectivityResult != ConnectivityResult.none) {
+      var r = _firebaseProvider.getPlatesCategoryOrRestaurant(category, idR);
+      localStorage.insertPlates(r);
+      return r;
+    } else {
+      return localStorage.getCategoryPlates(category);
+    }
+  }
+
   // RESTAURANTS
 
   /// Fetches details of a specific restaurant by its [id].
@@ -101,14 +111,11 @@ class Repository {
       var r = _firebaseProvider.getPRestaurant(id);
       localStorage.insertRestaurant((await r) as Restaurant);
       return r;
-    }
-    else{
+    } else {
       return localStorage.getRestaurant(id);
     }
-    
   }
 
-  
   // ERRORS
   /// Records the app startup time and duration.
   void fetchTime(DateTime now, Duration startTime) =>

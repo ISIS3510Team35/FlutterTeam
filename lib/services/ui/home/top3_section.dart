@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:fud/services/blocs/plate_bloc.dart';
@@ -8,14 +6,13 @@ import 'package:fud/services/models/plate_model.dart';
 import 'package:fud/services/models/restaurant_model.dart';
 import 'package:fud/services/ui/detail/plateOffer.dart';
 
-RootIsolateToken? rootIsolateToken = RootIsolateToken.instance;
-
 class Top3 extends StatefulWidget {
   const Top3({Key? key, required this.plateBloc}) : super(key: key);
 
   final PlateBloc plateBloc;
 
   @override
+  // ignore: library_private_types_in_public_api
   _Top3State createState() => _Top3State();
 }
 
@@ -107,6 +104,7 @@ class ItemWidget extends StatefulWidget {
   final RestaurantBloc restaurantBloc;
 
   @override
+  // ignore: library_private_types_in_public_api
   _ItemWidgetState createState() => _ItemWidgetState();
 }
 
