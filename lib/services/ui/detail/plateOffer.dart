@@ -35,7 +35,7 @@ class _PlateOfferPageState extends State<PlateOfferPage> {
 
   @override
   void dispose() {
-    //plateBloc.dispose();
+    plateBloc.dispose();
     restaurantBloc.dispose();
     super.dispose();
   }
@@ -43,7 +43,15 @@ class _PlateOfferPageState extends State<PlateOfferPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const AppHeader(),
+      appBar: AppBar(
+        title: const Text("Detail"),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.maybePop(context);
+          },
+        ),
+      ),
       body: StreamBuilder<Plate>(
         stream: plateBloc.idPlate,
         builder: (context, snapshot) {

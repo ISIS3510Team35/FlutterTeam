@@ -319,6 +319,10 @@ class FirestoreService {
     Map<num, List> groupedData =
         groupBy(test, (element) => element['restaurant_id']);
 
+    groupedData.forEach((key, value) {
+      groupedData[key] = value.take(3).toList();
+    });
+
     return groupedData;
   }
 

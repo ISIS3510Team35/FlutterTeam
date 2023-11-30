@@ -2,7 +2,9 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:fud/services/blocs/plate_bloc.dart';
-import 'package:fud/services/resources/google_maps.dart'; // Import the PlateBloc class
+import 'package:fud/services/resources/google_maps.dart';
+import 'package:fud/services/ui/detail/restaurant.dart';
+import 'package:fud/services/ui/detail/seeAll.dart'; // Import the PlateBloc class
 
 class ResultsPage extends StatefulWidget {
   static const routeName = '/results';
@@ -43,8 +45,13 @@ class _ResultsPageState extends State<ResultsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Results'),
-      ),
+          title: const Text('Results'),
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back),
+            onPressed: () {
+              Navigator.maybePop(context);
+            },
+          )),
       body: StreamBuilder<Map<num, List>>(
         stream: _plateBloc.filterPlates,
         builder: (context, snapshot) {
@@ -122,13 +129,19 @@ class RestaurantResume extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     String restaurantName = data[0]['restaurant_name'].toString();
-    GeoPoint addressPoint = data[0]['restaurant_location'];
-    double latitude = addressPoint.latitude;
-    double longitude = addressPoint.longitude;
     String address = "A ${data[0]['distancia'].toStringAsFixed(3)} Km de ti";
     String photo = data[0]['restaurant_photo'].toString();
+    num restaurantId = data[0]['restaurant_id'];
 
     return GestureDetector(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const RestaurantPage(),
+          ),
+        );
+      },
       child: Container(
         padding: const EdgeInsets.symmetric(
           horizontal: 25,
@@ -173,65 +186,56 @@ class RestaurantResume extends StatelessWidget {
               ],
             ),
             OthersSection(data: data),
-            Row(
-              mainAxisSize: MainAxisSize.max,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                TextButton(
-                  onPressed: () {},
-                  style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all<Color>(
-                        const Color.fromRGBO(245, 90, 81, 1)),
-                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                      RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(7.0),
-                      ),
-                    ),
-                  ),
-                  child: const Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        "Añadir a favoritos",
-                        style: TextStyle(fontSize: 16, color: Colors.white),
-                      ),
-                      Icon(
-                        Icons.favorite_border,
-                        color: Colors.white,
-                      )
-                    ],
-                  ),
-                ),
-                TextButton(
-                  onPressed: () {
-                    MapUtils().openMap(latitude, longitude);
-                  },
-                  style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all<Color>(
-                        const Color.fromRGBO(245, 90, 81, 1)),
-                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                      RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(7.0),
-                      ),
-                    ),
-                  ),
-                  child: const Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        "Cómo llegar",
-                        style: TextStyle(fontSize: 16, color: Colors.white),
-                      ),
-                      Icon(
-                        Icons.favorite_border,
-                        color: Colors.white,
-                      )
-                    ],
-                  ),
-                ),
-              ],
-            )
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: ButtonRow(
+                restaurantId: restaurantId,
+              ),
+            ),
           ],
+        ),
+      ),
+    );
+  }
+}
+
+class ButtonRow extends StatelessWidget {
+  final num restaurantId;
+
+  const ButtonRow({
+    Key? key,
+    required this.restaurantId,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: 135,
+      height: 50,
+      child: ElevatedButton.icon(
+        onPressed: () {
+          // Navigate to another page and pass the restaurant ID
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) =>
+                  AllPlates(category: '', restaurantId: restaurantId),
+            ),
+          );
+        },
+        label: const Text(
+          'See All',
+          style: TextStyle(color: Colors.white),
+        ),
+        icon: const Icon(
+          Icons.navigate_next_outlined,
+          color: Colors.white,
+        ),
+        style: ElevatedButton.styleFrom(
+          backgroundColor: const Color.fromRGBO(245, 90, 81, 1),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(8.0),
+          ),
         ),
       ),
     );
