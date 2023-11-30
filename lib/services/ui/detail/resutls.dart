@@ -43,8 +43,13 @@ class _ResultsPageState extends State<ResultsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Results'),
-      ),
+          title: const Text('Results'),
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back),
+            onPressed: () {
+              Navigator.maybePop(context);
+            },
+          )),
       body: StreamBuilder<Map<num, List>>(
         stream: _plateBloc.filterPlates,
         builder: (context, snapshot) {

@@ -20,6 +20,7 @@ class AllPlates extends StatefulWidget {
   final num restaurantId;
 
   @override
+  // ignore: library_private_types_in_public_api
   _AllPlatesState createState() => _AllPlatesState();
 }
 
@@ -60,7 +61,7 @@ class _AllPlatesState extends State<AllPlates> {
         ),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
-          onPressed: () => Navigator.pop(context),
+          onPressed: () => Navigator.maybePop(context),
         ),
       ),
       body: Container(
@@ -72,8 +73,8 @@ class _AllPlatesState extends State<AllPlates> {
           children: [
             // Show message when there's no internet connection
             if (connectivityResult == ConnectivityResult.none)
-              Padding(
-                padding: const EdgeInsets.all(8.0),
+              const Padding(
+                padding: EdgeInsets.all(8.0),
                 child: Text(
                   'No internet: Cache information',
                   style: TextStyle(

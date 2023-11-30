@@ -169,13 +169,7 @@ class _LoginPageState extends State<LoginPage> {
                 if (mounted) {
                   if (response) {
                     GPS().getCurrentLocation();
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) =>
-                            HomePage(plateBloc: widget.plateBloc),
-                      ),
-                    );
+                    Navigator.pushReplacementNamed(context, HomePage.routeName);
                   } else {
                     showDialog(
                       context: context,
@@ -216,7 +210,7 @@ class _LoginPageState extends State<LoginPage> {
             )
           : const Text(
               'INICIAR SESIÓN',
-              style: TextStyle(fontSize: 18,color: Colors.white),
+              style: TextStyle(fontSize: 18, color: Colors.white),
             ),
     );
   }
