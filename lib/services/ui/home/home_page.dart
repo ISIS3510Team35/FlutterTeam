@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fud/services/blocs/plate_bloc.dart';
 import 'package:fud/services/ui/detail/appHeader.dart';
-import 'package:fud/services/ui/detail/seeAll.dart';
 import 'package:fud/services/ui/home/category_section.dart';
 import 'package:fud/services/ui/home/discount_section.dart';
 import 'package:fud/services/ui/home/favority_section.dart';

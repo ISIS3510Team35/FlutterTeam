@@ -120,4 +120,6 @@ class Repository {
   /// Records the app startup time and duration.
   void fetchTime(DateTime now, Duration startTime) =>
       _firebaseProvider.addStartTime(now, startTime);
+
+  void fetchDayTime(DateTime now) => _firebaseProvider.addDayTime(now);
 }
