@@ -1,3 +1,6 @@
+import 'dart:async';
+import 'dart:isolate';
+
 import 'package:rxdart/rxdart.dart';
 import '../resources/repository.dart';
 import '../models/plate_model.dart';
@@ -14,7 +17,8 @@ class PlateBloc {
   final _favoritiesFetcher = PublishSubject<PlateList>();
   final _filterFetcher = PublishSubject<Map<num, List>>();
   final _recomendationFetcher = PublishSubject<PlateList>();
-  final _categoryOrRestaurantFetcher = PublishSubject<PlateList>();
+
+  final _categoryPlatesController = StreamController<PlateList>.broadcast();
 
   /// Stream for accessing the list of plates offered.
   Stream<PlateList> get offerPlates => _plateOfferFetcher.stream;
@@ -41,7 +45,7 @@ class PlateBloc {
   Stream<PlateList> get recomendationPlates => _recomendationFetcher.stream;
 
   /// Stream for categry or restaurant plates
-  Stream<PlateList> get categoryPlates => _categoryOrRestaurantFetcher.stream;
+  Stream<PlateList> get categoryPlates => _categoryPlatesController.stream;
 
   /// Fetches the list of plates offered.
   Future<void> fetchOfferPlates() async {
@@ -137,17 +141,54 @@ class PlateBloc {
     }
   }
 
-  /// Fetches the list of plates offered.
+  /// ------------------------------------------------------------------------------------------------------
+
   Future<void> fetchCategoryOrRestaurantPlates(
-      String category, num restaurantId) {
-    return _repository
-        .fetchPlatesCategoryOrRestaurant(category, restaurantId)
-        .then((PlateList plateCategoryOrRestaurantsList) {
-      _categoryOrRestaurantFetcher.sink.add(plateCategoryOrRestaurantsList);
-    }).catchError((error) {
-      _categoryOrRestaurantFetcher.addError(error.toString());
+      String category, num restaurantId) async {
+    final receivePort = ReceivePort();
+
+    // Use the top-level callback function
+    receivePort.listen((dynamic message) {
+      onDataFromIsolate(message, _categoryPlatesController);
     });
+
+    final isolate = await Isolate.spawn(
+      _fetchDataIsolate,
+      IsolateSpawnParams(category, restaurantId, receivePort.sendPort,
+          _categoryPlatesController),
+    );
+
+    isolate.kill(priority: Isolate.beforeNextEvent);
+    receivePort.close();
   }
+
+  static void onDataFromIsolate(
+      dynamic data, StreamController<dynamic> controller) {
+    if (data is PlateList) {
+      controller.sink.add(data);
+    } else if (data is Error) {
+      print(data);
+      controller.addError(data);
+    }
+  }
+
+  static void _fetchDataIsolate(IsolateSpawnParams params) async {
+    try {
+      final result = await Repository().fetchPlatesCategoryOrRestaurant(
+        params.category,
+        params.restaurantId,
+      );
+
+      // Send only the relevant data, not the PublishSubject
+      params.sendPort.send(result);
+    } catch (error) {
+      print(error.toString());
+      // Handle error
+      //params.sendPort.send(Error(error.toString()));
+    }
+  }
+
+  /// ------------------------------------------------------------------------------------------------------
 
   /// Disposes the BLoC by closing all the streams.
   void dispose() {
@@ -158,6 +199,18 @@ class PlateBloc {
     _isRemAddFetcher.close();
     _favoritiesFetcher.close();
     _filterFetcher.close();
-    _categoryOrRestaurantFetcher.close();
+    _categoryPlatesController.close();
   }
+}
+
+/// ------------------------------------------------------------------------------------------------------
+
+class IsolateSpawnParams {
+  final String category;
+  final num restaurantId;
+  final SendPort sendPort;
+  final StreamController<dynamic> controller;
+
+  IsolateSpawnParams(
+      this.category, this.restaurantId, this.sendPort, this.controller);
 }

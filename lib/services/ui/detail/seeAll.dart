@@ -72,8 +72,8 @@ class _AllPlatesState extends State<AllPlates> {
           children: [
             // Show message when there's no internet connection
             if (connectivityResult == ConnectivityResult.none)
-              Padding(
-                padding: const EdgeInsets.all(8.0),
+              const Padding(
+                padding: EdgeInsets.all(8.0),
                 child: Text(
                   'No internet: Cache information',
                   style: TextStyle(
