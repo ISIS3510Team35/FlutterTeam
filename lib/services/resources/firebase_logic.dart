@@ -226,29 +226,6 @@ class FirestoreService {
     }
   }
 
-  // ERRORES
-
-  /// Records the app startup time and duration.
-  void addStartTime(DateTime now, Duration startTime) async {
-    // Truncate the time to the beginning of the day
-    DateTime truncatedTime = DateTime(now.year, now.month, now.day);
-
-    // Reference to the 'StartingTime' collection
-    CollectionReference startingTimeCollection =
-        FirebaseFirestore.instance.collection('StartingTime');
-
-    // Prepare the data to be added
-    Map<String, dynamic> startTimeData = {
-      'Date': truncatedTime.millisecondsSinceEpoch,
-      'Now': now.millisecondsSinceEpoch,
-      'provider': 'FlutterTeam',
-      'time': startTime.inMilliseconds,
-    };
-
-    // Add the data to the collection
-    await startingTimeCollection.add(startTimeData);
-  }
-
   /// Fetches filter information based on maxPrice, vegetariano, and vegano.
   Future<Map<num, List>> getFilter(
     double maxPrice,
@@ -453,5 +430,71 @@ class FirestoreService {
     plateList.setPlates(plates);
 
     return plateList;
+  }
+
+  // ERRORES
+
+  /// Records the app startup time and duration.
+  void addStartTime(DateTime now, Duration startTime) async {
+    // Truncate the time to the beginning of the day
+    DateTime truncatedTime = DateTime(now.year, now.month, now.day);
+
+    // Reference to the 'StartingTime' collection
+    CollectionReference startingTimeCollection =
+        FirebaseFirestore.instance.collection('StartingTime');
+
+    // Prepare the data to be added
+    Map<String, dynamic> startTimeData = {
+      'Date': truncatedTime.millisecondsSinceEpoch,
+      'Now': now.millisecondsSinceEpoch,
+      'provider': 'FlutterTeam',
+      'time': startTime.inMilliseconds,
+    };
+
+    // Add the data to the collection
+    await startingTimeCollection.add(startTimeData);
+  }
+
+  // ERRORES
+
+  /// Records the app startup time and duration.
+  void addDayTime(DateTime now) async {
+    // Truncate the time to the beginning of the day
+    int currentHour = now.hour;
+    String dayOfWeek = getDayOfWeek(now.weekday);
+
+    // Reference to the 'StartingTime' collection
+    CollectionReference startingTimeCollection =
+        FirebaseFirestore.instance.collection('Date_Time_Analysis');
+
+    // Prepare the data to be added
+    Map<String, dynamic> startTimeData = {
+      'Day': dayOfWeek,
+      'Hour': currentHour,
+    };
+
+    // Add the data to the collection
+    await startingTimeCollection.add(startTimeData);
+  }
+
+  String getDayOfWeek(int day) {
+    switch (day) {
+      case 1:
+        return 'Monday';
+      case 2:
+        return 'Tuesday';
+      case 3:
+        return 'Wednesday';
+      case 4:
+        return 'Thursday';
+      case 5:
+        return 'Friday';
+      case 6:
+        return 'Saturday';
+      case 7:
+        return 'Sunday';
+      default:
+        return 'Unknown';
+    }
   }
 }
