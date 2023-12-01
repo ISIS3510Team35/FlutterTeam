@@ -34,6 +34,13 @@ class Repository {
     return response;
   }
 
+  Future<bool> changeUserInfo(String newUserName, String newNumber) {
+    return _firebaseProvider.changeUserInfo(newUserName, newNumber);
+  }
+
+  Future<bool> deleteInfo() {
+    return _firebaseProvider.deleteAccount();
+  }
   // PLATES
 
   /// Fetches a list of plates available as offers.
@@ -97,6 +104,22 @@ class Repository {
   Future<PlateList> fetchRecomendations() =>
       _firebaseProvider.listRecimendations();
 
+  Future<PlateList> fetchPlatesCategoryOrRestaurant(
+      String category, num idR) async {
+    var connectivityResult = await (Connectivity().checkConnectivity());
+    if (connectivityResult != ConnectivityResult.none) {
+      var r = _firebaseProvider.getPlatesCategoryOrRestaurant(category, idR);
+      localStorage.insertPlates(r);
+      return r;
+    } else {
+      if (idR != 0) {
+        return localStorage.getCategoryPlates(category);
+      } else {
+        return localStorage.getRestaurantPlates(idR);
+      }
+    }
+  }
+
   // RESTAURANTS
 
   /// Fetches details of a specific restaurant by its [id].
@@ -115,4 +138,6 @@ class Repository {
   /// Records the app startup time and duration.
   void fetchTime(DateTime now, Duration startTime) =>
       _firebaseProvider.addStartTime(now, startTime);
+
+  void fetchDayTime(DateTime now) => _firebaseProvider.addDayTime(now);
 }

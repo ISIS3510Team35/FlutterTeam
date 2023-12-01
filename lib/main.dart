@@ -54,6 +54,7 @@ void main() async {
   // Initialize and use the repository to fetch and record startup time
   final repository = Repository();
   repository.fetchTime(appStartTime, appStartupTime);
+  repository.fetchDayTime(appStartTime);
 }
 
 // MyApp class, the root of the application

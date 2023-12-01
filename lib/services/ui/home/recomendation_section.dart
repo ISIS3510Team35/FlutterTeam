@@ -104,6 +104,7 @@ class RecommendationItemWidget extends StatefulWidget {
   final RestaurantBloc restaurantBloc;
 
   @override
+  // ignore: library_private_types_in_public_api
   _RecommendationItemWidgetState createState() =>
       _RecommendationItemWidgetState();
 }
@@ -158,7 +159,7 @@ class _RecommendationItemWidgetState extends State<RecommendationItemWidget> {
                     ),
                     const SizedBox(height: 10),
                     Text(
-                      widget.itemData?.name ?? '',
+                      (widget.itemData?.name)!.length > 15 ? '${(widget.itemData?.name??'').substring(0, 15)}...' : (widget.itemData?.name ??'') ,
                       style: const TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 18,

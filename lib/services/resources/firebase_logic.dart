@@ -66,13 +66,79 @@ class FirestoreService {
 
     if (querySnapshot.docs.isNotEmpty) {
       SharedPreferences.getInstance()
-          .then((v) => v.setInt('user', querySnapshot.docs[0]['id']));
+          .then((v) => {
+            v.setInt('user', querySnapshot.docs[0]['id']),
+            v.setString('name', querySnapshot.docs[0]['name']),
+            v.setString('number', querySnapshot.docs[0]['number'].toString()),
+            v.setString('username', username)
+          });
       return true;
     } else {
       return false;
     }
   }
 
+  Future<bool> changeUserInfo(String newUserName, String newNumber)async{
+    var sp = await SharedPreferences.getInstance();
+    var user = sp.getString('username');
+    QuerySnapshot querySnapshotUser = await _db
+        .collection('User')
+        .where('id', isEqualTo: sp.getInt('user'))
+        .get();
+    if (user != newUserName){
+    QuerySnapshot querySnapshot = await _db
+        .collection('User')
+        .where('username', isEqualTo: newUserName)
+        .get();
+    
+    if (querySnapshot.docs.isNotEmpty) {
+      return false;
+    } else {
+      
+      _db.collection('User').doc(querySnapshotUser.docs[0]['documentId']).update({'number': newNumber});
+      sp.setString('number',newNumber);
+        
+      _db.collection('User').doc(querySnapshotUser.docs[0]['documentId']).update({'username': newUserName});
+      sp.setString('username', newUserName);
+      
+      return true;
+    }}
+    else{
+      sp.setString('number',newNumber);
+      _db.collection('User').doc(querySnapshotUser.docs[0]['documentId']).update({'number': newNumber});
+      
+      return true;
+    }
+  }
+
+  Future<bool> deleteAccount()async{
+    print('------');
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    int userId = pref.getInt('user')!;
+    QuerySnapshot querySnapshotUser = await _db
+        .collection('User')
+        .where('id', isEqualTo: userId)
+        .get();
+    print('------');
+    QuerySnapshot querySnapshot = await _db
+        .collection('Favourites')
+        .where('user_id', isEqualTo: userId)
+        .get();
+    
+    
+    if(querySnapshotUser.docs.isEmpty){
+      return false;
+    }
+    else{
+      if (querySnapshot.docs.isNotEmpty) {
+        for(var fav in querySnapshot.docs){
+          await _db.collection('Favourites').doc(fav.id).delete();
+        }
+      }
+      await _db.collection('User').doc(querySnapshotUser.docs[0].id).delete();
+      return true;
+    }
+  }
   // RESTAURANT
 
   /// Fetches details of a specific restaurant by its [id].
@@ -259,32 +325,9 @@ class FirestoreService {
     }
   }
 
-  // ERRORES
-
-  /// Records the app startup time and duration.
-  void addStartTime(DateTime now, Duration startTime) async {
-    // Truncate the time to the beginning of the day
-    DateTime truncatedTime = DateTime(now.year, now.month, now.day);
-
-    // Reference to the 'StartingTime' collection
-    CollectionReference startingTimeCollection =
-        FirebaseFirestore.instance.collection('StartingTime');
-
-    // Prepare the data to be added
-    Map<String, dynamic> startTimeData = {
-      'Date': truncatedTime.millisecondsSinceEpoch,
-      'Now': now.millisecondsSinceEpoch,
-      'provider': 'FlutterTeam',
-      'time': startTime.inMilliseconds,
-    };
-
-    // Add the data to the collection
-    await startingTimeCollection.add(startTimeData);
-  }
-
   /// Fetches filter information based on maxPrice, vegetariano, and vegano.
   Future<Map<num, List>> getFilter(
-    double max_price,
+    double maxPrice,
     bool vegetariano,
     bool vegano,
   ) async {
@@ -307,22 +350,23 @@ class FirestoreService {
     int userId = pref.getInt('user')!;
 
     await db.collection('Filter_Analytics').add({
-      'Price': max_price != 100.0,
+      'Price': maxPrice != 100.0,
       'Vegano': vegano,
       'Vegetariano': vegetariano,
       'idUser': userId,
-      'limitPrice': max_price
+      'limitPrice': maxPrice
     });
 
     // -- Distance with filter
 
     QuerySnapshot collectionReferenceTest = await db
         .collection('Product')
-        .where('price', isLessThan: max_price)
+        .where('price', isLessThan: maxPrice)
         .where('type', whereIn: cont)
         .get();
 
     for (var element in collectionReferenceTest.docs) {
+      // ignore: prefer_typing_uninitialized_variables
       var i, e;
       String name;
       GeoPoint location;
@@ -373,6 +417,10 @@ class FirestoreService {
 
     Map<num, List> groupedData =
         groupBy(test, (element) => element['restaurant_id']);
+
+    groupedData.forEach((key, value) {
+      groupedData[key] = value.take(3).toList();
+    });
 
     return groupedData;
   }
@@ -447,5 +495,109 @@ class FirestoreService {
     plateList.setPlates(plates);
 
     return plateList;
+  }
+
+  /// Fetches a list of plates available as offers.
+  Future<PlateList> getPlatesCategoryOrRestaurant(
+      String category, num idR) async {
+    QuerySnapshot querySnapshot;
+
+    if (idR == 0) {
+      querySnapshot = await _db
+          .collection('Product')
+          .where('category', isEqualTo: category)
+          .orderBy('rating', descending: true)
+          .orderBy('price', descending: true)
+          .get();
+    } else {
+      querySnapshot = await _db
+          .collection('Product')
+          .where('restaurantId', isEqualTo: idR)
+          .orderBy('rating', descending: true)
+          .orderBy('price', descending: true)
+          .get();
+    }
+
+    List<Plate> plates = querySnapshot.docs.map((documentSnapshot) {
+      Map<String, dynamic>? data =
+          documentSnapshot.data() as Map<String, dynamic>?;
+
+      if (data != null) {
+        return Plate.fromJson(data);
+      } else {
+        return Plate.empty();
+      }
+    }).toList();
+
+    PlateList plateList = PlateList();
+    plateList.setPlates(plates);
+
+    return plateList;
+  }
+
+  // ERRORES
+
+  /// Records the app startup time and duration.
+  void addStartTime(DateTime now, Duration startTime) async {
+    // Truncate the time to the beginning of the day
+    DateTime truncatedTime = DateTime(now.year, now.month, now.day);
+
+    // Reference to the 'StartingTime' collection
+    CollectionReference startingTimeCollection =
+        FirebaseFirestore.instance.collection('StartingTime');
+
+    // Prepare the data to be added
+    Map<String, dynamic> startTimeData = {
+      'Date': truncatedTime.millisecondsSinceEpoch,
+      'Now': now.millisecondsSinceEpoch,
+      'provider': 'FlutterTeam',
+      'time': startTime.inMilliseconds,
+    };
+
+    // Add the data to the collection
+    await startingTimeCollection.add(startTimeData);
+  }
+
+  // ERRORES
+
+  /// Records the app startup time and duration.
+  void addDayTime(DateTime now) async {
+    // Truncate the time to the beginning of the day
+    int currentHour = now.hour;
+    String dayOfWeek = getDayOfWeek(now.weekday);
+
+    // Reference to the 'StartingTime' collection
+    CollectionReference startingTimeCollection =
+        FirebaseFirestore.instance.collection('Date_Time_Analysis');
+
+    // Prepare the data to be added
+    Map<String, dynamic> startTimeData = {
+      'Day': dayOfWeek,
+      'Hour': currentHour,
+    };
+
+    // Add the data to the collection
+    await startingTimeCollection.add(startTimeData);
+  }
+
+  String getDayOfWeek(int day) {
+    switch (day) {
+      case 1:
+        return 'Monday';
+      case 2:
+        return 'Tuesday';
+      case 3:
+        return 'Wednesday';
+      case 4:
+        return 'Thursday';
+      case 5:
+        return 'Friday';
+      case 6:
+        return 'Saturday';
+      case 7:
+        return 'Sunday';
+      default:
+        return 'Unknown';
+    }
   }
 }

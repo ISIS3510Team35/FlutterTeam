@@ -1,5 +1,6 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
+import 'package:fud/services/ui/detail/account.dart';
 import 'package:fud/services/ui/detail/resutls.dart';
 import 'package:fud/services/resources/gps_service.dart';
 
@@ -22,7 +23,9 @@ class _AppHeaderState extends State<AppHeader> {
     gps.liveLocation();
   }
 
+  // ignore: non_constant_identifier_names
   double lat_u = 4.6031;
+  // ignore: non_constant_identifier_names
   double lon_u = -74.0659;
   double _price = 100.0;
 
@@ -33,7 +36,7 @@ class _AppHeaderState extends State<AppHeader> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Container(
-        color: Color.fromRGBO(255, 247, 235, 1),
+        color: const Color.fromRGBO(255, 247, 235, 1),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -43,16 +46,24 @@ class _AppHeaderState extends State<AppHeader> {
                 vertical: 25 / 2.5,
               ),
               height: 80,
-              color: Color.fromRGBO(255, 247, 235, 1),
+              color: const Color.fromRGBO(255, 247, 235, 1),
               child: Row(
                 mainAxisSize: MainAxisSize.max,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const Icon(
-                    Icons.filter_list,
+                  IconButton(
+                    onPressed: (){
+                      Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) =>const AccountPage(),
+                      ),
+                    );
+                  }, icon: const Icon(
+                    Icons.account_circle,
                     size: 30,
-                    color:Color.fromRGBO(255, 247, 235, 1),
-                  ),
+                    color: Colors.grey,
+                  )) ,
                   Image.asset(
                     'assets/Logo.png',
                     height: 40,
@@ -98,7 +109,7 @@ class _AppHeaderState extends State<AppHeader> {
                   vertical: 25 / 2.5,
                 ),
                 height: 80,
-                color: Color.fromRGBO(255, 247, 235, 1),
+                color: const Color.fromRGBO(255, 247, 235, 1),
                 child: Row(
                   mainAxisSize: MainAxisSize.max,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -157,7 +168,7 @@ class _AppHeaderState extends State<AppHeader> {
                   vertical: 10,
                 ),
                 height: 300,
-                color: Color.fromRGBO(253, 249, 242, 1),
+                color: const Color.fromRGBO(253, 249, 242, 1),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -201,8 +212,10 @@ class _AppHeaderState extends State<AppHeader> {
                                 max: 100.0,
                                 min: 10.0,
                                 value: _price,
-                                thumbColor: Color.fromRGBO(253, 218, 168, 1),
-                                activeColor: Color.fromRGBO(255, 188, 91, 1),
+                                thumbColor:
+                                    const Color.fromRGBO(253, 218, 168, 1),
+                                activeColor:
+                                    const Color.fromRGBO(255, 188, 91, 1),
                                 onChanged: (double newValue) {
                                   setState(() {
                                     _price = newValue;
@@ -233,12 +246,12 @@ class _AppHeaderState extends State<AppHeader> {
                             });
                           },
                           thumbColor: MaterialStateProperty.all<Color>(
-                              Color.fromRGBO(255, 188, 91, 1)),
-                          activeColor: Color.fromRGBO(253, 218, 168, 1),
+                              const Color.fromRGBO(255, 188, 91, 1)),
+                          activeColor: const Color.fromRGBO(253, 218, 168, 1),
                           trackOutlineColor: MaterialStateProperty.all<Color>(
                               Colors.transparent),
                           inactiveTrackColor:
-                              Color.fromRGBO(253, 218, 168, 0.4),
+                              const Color.fromRGBO(253, 218, 168, 0.4),
                         ),
                         const Text("Vegana",
                             style: TextStyle(
@@ -253,12 +266,12 @@ class _AppHeaderState extends State<AppHeader> {
                             });
                           },
                           thumbColor: MaterialStateProperty.all<Color>(
-                              Color.fromRGBO(255, 188, 91, 1)),
-                          activeColor: Color.fromRGBO(253, 218, 168, 1),
+                              const Color.fromRGBO(255, 188, 91, 1)),
+                          activeColor: const Color.fromRGBO(253, 218, 168, 1),
                           trackOutlineColor: MaterialStateProperty.all<Color>(
                               Colors.transparent),
                           inactiveTrackColor:
-                              Color.fromRGBO(253, 218, 168, 0.4),
+                              const Color.fromRGBO(253, 218, 168, 0.4),
                         ),
                         const Text("Vegetariana",
                             style: TextStyle(
@@ -291,93 +304,100 @@ class _AppHeaderState extends State<AppHeader> {
                       ],
                     ),*/
                     Align(
-                      alignment: Alignment.center,
-                      child: 
-                      FutureBuilder(
-                        future: Connectivity().checkConnectivity() , 
-                        builder: (BuildContext context, AsyncSnapshot<ConnectivityResult> snapshot){
-                          if(snapshot.hasData){
-                            if(snapshot.data!=ConnectivityResult.none){
-                              return ElevatedButton(
-                                      onPressed: () {
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (context) => ResultsPage(
-                                              maxPrice: _price,
-                                              isVegano: vegano,
-                                              isVegetariano: vegetariano,
-                                            ),
+                        alignment: Alignment.center,
+                        child: FutureBuilder(
+                            future: Connectivity().checkConnectivity(),
+                            builder: (BuildContext context,
+                                AsyncSnapshot<ConnectivityResult> snapshot) {
+                              if (snapshot.hasData) {
+                                if (snapshot.data != ConnectivityResult.none) {
+                                  return ElevatedButton(
+                                    onPressed: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => ResultsPage(
+                                            maxPrice: _price,
+                                            isVegano: vegano,
+                                            isVegetariano: vegetariano,
                                           ),
-                                        );
-                                      },
-                                      style: ElevatedButton.styleFrom(
-                                        backgroundColor: const Color.fromRGBO(255, 146, 45,
-                                            1), // Cambia el color de fondo a naranja
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(7.0),
                                         ),
-                                        minimumSize:
-                                            const Size(190, 50), // Cambia el tamaño del botón
+                                      );
+                                    },
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor: const Color.fromRGBO(
+                                          255,
+                                          146,
+                                          45,
+                                          1), // Cambia el color de fondo a naranja
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(7.0),
                                       ),
-                                      child: const Text(
-                                        'Aplicar Filtros',
-                                        style: TextStyle(
-                                            fontSize: 18,
-                                            fontFamily: "Manrope",
-                                            color:
-                                                Colors.white), // Cambia el tamaño del texto
+                                      minimumSize: const Size(190,
+                                          50), // Cambia el tamaño del botón
+                                    ),
+                                    child: const Text(
+                                      'Aplicar Filtros',
+                                      style: TextStyle(
+                                          fontSize: 18,
+                                          fontFamily: "Manrope",
+                                          color: Colors
+                                              .white), // Cambia el tamaño del texto
+                                    ),
+                                  );
+                                } else {
+                                  return ElevatedButton(
+                                    onPressed: () {},
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor: const Color.fromRGBO(
+                                          255,
+                                          188,
+                                          91,
+                                          1), // Cambia el color de fondo a naranja
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(7.0),
                                       ),
-                                    );
-                            }
-                            else{
-                              return ElevatedButton(
-                                      onPressed: () {
-                                      },
-                                      style: ElevatedButton.styleFrom(
-                                        backgroundColor: Color.fromRGBO(255, 188, 91, 1), // Cambia el color de fondo a naranja
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(7.0),
-                                        ),
-                                        minimumSize:
-                                            const Size(190, 50), // Cambia el tamaño del botón
-                                      ),
-                                      child: const Text(
-                                        'No hay conexión 😨',
-                                        style: TextStyle(
-                                            fontSize: 18,
-                                            fontFamily: "Manrope",
-                                            color:
-                                                Colors.white), // Cambia el tamaño del texto
-                                      ),
-                                    );
-                            }
-                          }
-                          else{
-return ElevatedButton(
-                                      onPressed: () {
-                                      },
-                                      style: ElevatedButton.styleFrom(
-                                        backgroundColor: const Color.fromRGBO(255, 188, 91, 1), // Cambia el color de fondo a naranja
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(7.0),
-                                        ),
-                                        minimumSize:
-                                            const Size(190, 50), // Cambia el tamaño del botón
-                                      ),
-                                      child: const Text(
-                                        'No hay conexión 😨',
-                                        style: TextStyle(
-                                            fontSize: 18,
-                                            fontFamily: "Manrope",
-                                            color:
-                                                Colors.white), // Cambia el tamaño del texto
-                                      ),
-                                    );
-                          }
-                        }
-                      )
-                    ),
+                                      minimumSize: const Size(190,
+                                          50), // Cambia el tamaño del botón
+                                    ),
+                                    child: const Text(
+                                      'No hay conexión 😨',
+                                      style: TextStyle(
+                                          fontSize: 18,
+                                          fontFamily: "Manrope",
+                                          color: Colors
+                                              .white), // Cambia el tamaño del texto
+                                    ),
+                                  );
+                                }
+                              } else {
+                                return ElevatedButton(
+                                  onPressed: () {},
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: const Color.fromRGBO(
+                                        255,
+                                        188,
+                                        91,
+                                        1), // Cambia el color de fondo a naranja
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(7.0),
+                                    ),
+                                    minimumSize: const Size(
+                                        190, 50), // Cambia el tamaño del botón
+                                  ),
+                                  child: const Text(
+                                    'No hay conexión 😨',
+                                    style: TextStyle(
+                                        fontSize: 18,
+                                        fontFamily: "Manrope",
+                                        color: Colors
+                                            .white), // Cambia el tamaño del texto
+                                  ),
+                                );
+                              }
+                            })),
                   ],
                 ),
               ),
