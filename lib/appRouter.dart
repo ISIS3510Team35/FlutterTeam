@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fud/services/blocs/plate_bloc.dart';
+import 'package:fud/services/ui/detail/account.dart';
 import 'package:fud/services/ui/detail/plateOffer.dart';
 import 'package:fud/services/ui/detail/resutls.dart';
 import 'package:fud/services/ui/home/home_page.dart';
@@ -23,6 +24,7 @@ class AppRouter {
             isVegano: false,
             isVegetariano: false,
           ),
+      AccountPage.routeName: (context) => const AccountPage(),
     };
   }
 }

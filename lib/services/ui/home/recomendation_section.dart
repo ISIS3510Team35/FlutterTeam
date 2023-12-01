@@ -159,7 +159,7 @@ class _RecommendationItemWidgetState extends State<RecommendationItemWidget> {
                     ),
                     const SizedBox(height: 10),
                     Text(
-                      widget.itemData?.name ?? '',
+                      (widget.itemData?.name)!.length > 15 ? '${(widget.itemData?.name??'').substring(0, 15)}...' : (widget.itemData?.name ??'') ,
                       style: const TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 18,

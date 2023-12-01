@@ -26,6 +26,26 @@ class UserBloc {
     }
   }
 
+  Future<void> changeUserInfo(String newUser, String newNumber) async {
+    try{
+      await _repository.changeUserInfo(newUser, newNumber);
+    }
+    catch(error){
+      print(error);
+      _userFetcher.addError(error.toString());
+    }
+  }
+
+  Future<void> deleteAccount()async{
+    try{
+      await _repository.deleteInfo();
+    }
+    catch(error){
+      print(error);
+      _userFetcher.addError(error.toString());
+    }
+  }
+
   void dispose() {
     _userFetcher.close();
   }

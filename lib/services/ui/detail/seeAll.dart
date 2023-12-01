@@ -199,7 +199,7 @@ class _ItemWidgetState extends State<ItemWidget> {
                   ),
                   const SizedBox(height: 6),
                   Text(
-                    widget.itemData!.name,
+                    widget.itemData!.name.length > 15 ? '${widget.itemData!.name.substring(0, 15)}...' : widget.itemData!.name ,
                     style: const TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 16,
