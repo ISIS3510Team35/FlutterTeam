@@ -1,5 +1,6 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
+import 'package:fud/services/ui/detail/account.dart';
 import 'package:fud/services/ui/detail/resutls.dart';
 import 'package:fud/services/resources/gps_service.dart';
 
@@ -50,11 +51,19 @@ class _AppHeaderState extends State<AppHeader> {
                 mainAxisSize: MainAxisSize.max,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const Icon(
-                    Icons.filter_list,
+                  IconButton(
+                    onPressed: (){
+                      Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) =>const AccountPage(),
+                      ),
+                    );
+                  }, icon: const Icon(
+                    Icons.account_circle,
                     size: 30,
-                    color: Color.fromRGBO(255, 247, 235, 1),
-                  ),
+                    color: Colors.grey,
+                  )) ,
                   Image.asset(
                     'assets/Logo.png',
                     height: 40,

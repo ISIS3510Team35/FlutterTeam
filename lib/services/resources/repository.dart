@@ -27,6 +27,13 @@ class Repository {
   Future<bool> doesUserExist(String username, String password) =>
       _firebaseProvider.doesUserExist(username, password);
 
+  Future<bool> changeUserInfo(String newUserName, String newNumber) {
+    return _firebaseProvider.changeUserInfo(newUserName,newNumber);
+  }
+
+  Future<bool> deleteInfo() {
+    return _firebaseProvider.deleteAccount();
+  }
   // PLATES
 
   /// Fetches a list of plates available as offers.

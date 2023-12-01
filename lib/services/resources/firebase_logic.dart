@@ -33,13 +33,79 @@ class FirestoreService {
 
     if (querySnapshot.docs.isNotEmpty) {
       SharedPreferences.getInstance()
-          .then((v) => v.setInt('user', querySnapshot.docs[0]['id']));
+          .then((v) => {
+            v.setInt('user', querySnapshot.docs[0]['id']),
+            v.setString('name', querySnapshot.docs[0]['name']),
+            v.setString('number', querySnapshot.docs[0]['number'].toString()),
+            v.setString('username', username)
+          });
       return true;
     } else {
       return false;
     }
   }
 
+  Future<bool> changeUserInfo(String newUserName, String newNumber)async{
+    var sp = await SharedPreferences.getInstance();
+    var user = sp.getString('username');
+    QuerySnapshot querySnapshotUser = await _db
+        .collection('User')
+        .where('id', isEqualTo: sp.getInt('user'))
+        .get();
+    if (user != newUserName){
+    QuerySnapshot querySnapshot = await _db
+        .collection('User')
+        .where('username', isEqualTo: newUserName)
+        .get();
+    
+    if (querySnapshot.docs.isNotEmpty) {
+      return false;
+    } else {
+      
+      _db.collection('User').doc(querySnapshotUser.docs[0]['documentId']).update({'number': newNumber});
+      sp.setString('number',newNumber);
+        
+      _db.collection('User').doc(querySnapshotUser.docs[0]['documentId']).update({'username': newUserName});
+      sp.setString('username', newUserName);
+      
+      return true;
+    }}
+    else{
+      sp.setString('number',newNumber);
+      _db.collection('User').doc(querySnapshotUser.docs[0]['documentId']).update({'number': newNumber});
+      
+      return true;
+    }
+  }
+
+  Future<bool> deleteAccount()async{
+    print('------');
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    int userId = pref.getInt('user')!;
+    QuerySnapshot querySnapshotUser = await _db
+        .collection('User')
+        .where('id', isEqualTo: userId)
+        .get();
+    print('------');
+    QuerySnapshot querySnapshot = await _db
+        .collection('Favourites')
+        .where('user_id', isEqualTo: userId)
+        .get();
+    
+    
+    if(querySnapshotUser.docs.isEmpty){
+      return false;
+    }
+    else{
+      if (querySnapshot.docs.isNotEmpty) {
+        for(var fav in querySnapshot.docs){
+          await _db.collection('Favourites').doc(fav.id).delete();
+        }
+      }
+      await _db.collection('User').doc(querySnapshotUser.docs[0].id).delete();
+      return true;
+    }
+  }
   // RESTAURANT
 
   /// Fetches details of a specific restaurant by its [id].
