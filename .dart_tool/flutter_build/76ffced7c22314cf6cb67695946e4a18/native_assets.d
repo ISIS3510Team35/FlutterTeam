@@ -1,0 +1,1 @@
+ /Users/Meli/Documents/Moviles/FlutterTeam2/.dart_tool/flutter_build/76ffced7c22314cf6cb67695946e4a18/native_assets.yaml: 

@@ -1,5 +1,9 @@
+import 'package:logger/logger.dart';
 import 'package:rxdart/rxdart.dart';
 import '../resources/repository.dart';
+import 'package:logger/logger.dart';
+
+final logger = Logger();
 
 class UserBloc {
   final _repository = Repository();
