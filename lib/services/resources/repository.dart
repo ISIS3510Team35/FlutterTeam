@@ -42,6 +42,12 @@ class Repository {
           String username, String name, String phone, String password) =>
       _firebaseProvider.postUser(username, name, phone, password);
 
+  Future<bool> doesOnlyUserExist(String username) =>
+      _firebaseProvider.doesOnlyUserExist(username);
+
+  Future<bool> changePassword(String username, String newPassword) =>
+      _firebaseProvider.updatePassword(username, newPassword);
+
   Future<bool> deleteInfo() {
     return _firebaseProvider.deleteAccount();
   }

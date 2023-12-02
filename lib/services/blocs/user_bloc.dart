@@ -30,6 +30,15 @@ class UserBloc {
     }
   }
 
+  Future<void> fetchOnlyUserExistence(String username) async {
+    try {
+      bool userExists = await _repository.doesOnlyUserExist(username);
+      _userFetcher.sink.add(userExists);
+    } catch (error) {
+      _userFetcher.addError(error.toString());
+    }
+  }
+
   Future<void> registerUser(
       String username, String name, String phone, String password) async {
     try {
@@ -46,6 +55,15 @@ class UserBloc {
   Future<void> changeUserInfo(String newUser, String newNumber) async {
     try {
       await _repository.changeUserInfo(newUser, newNumber);
+    } catch (error) {
+      print(error);
+      _userFetcher.addError(error.toString());
+    }
+  }
+
+  Future<void> changePassword(String username, String newPassword) async {
+    try {
+      await _repository.changePassword(username, newPassword);
     } catch (error) {
       print(error);
       _userFetcher.addError(error.toString());
