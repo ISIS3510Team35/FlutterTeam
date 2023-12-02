@@ -75,6 +75,20 @@ class FirestoreService {
     }
   }
 
+  Future<bool> doesOnlyUserExist(String username) async {
+    QuerySnapshot querySnapshot = await _db
+        .collection('User')
+        .where('username', isEqualTo: username)
+        .get();
+    if (querySnapshot.docs.isNotEmpty) {
+      SharedPreferences.getInstance()
+          .then((v) => v.setInt('user', querySnapshot.docs[0]['id']));
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   Future<bool> changeUserInfo(String newUserName, String newNumber) async {
     var sp = await SharedPreferences.getInstance();
     var user = sp.getString('username');
@@ -216,6 +230,37 @@ class FirestoreService {
         print("Error: $error");
       }
       logger.e("Error al agregar usuario a Firestore: $error");
+      return false;
+    }
+  }
+
+  Future<bool> updatePassword(String username, String newPassword) async {
+    try {
+      // Busca el documento del usuario por el nombre de usuario
+      QuerySnapshot querySnapshot = await _db
+          .collection('User')
+          .where('username', isEqualTo: username)
+          .get();
+
+      if (querySnapshot.docs.isNotEmpty) {
+        // Obtiene el ID del primer documento (debería ser único por nombre de usuario)
+        String userId = querySnapshot.docs[0].id;
+
+        // Actualiza la contraseña en la base de datos
+        await _db
+            .collection('User')
+            .doc(userId)
+            .update({'password': newPassword});
+
+        // Operación exitosa
+        return true;
+      } else {
+        // Usuario no encontrado
+        return false;
+      }
+    } catch (e) {
+      // Maneja errores si es necesario
+      logger.d('Error al actualizar la contraseña: $e');
       return false;
     }
   }

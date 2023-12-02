@@ -4,6 +4,7 @@ import 'package:fud/services/blocs/plate_bloc.dart';
 import 'package:fud/services/blocs/user_bloc.dart';
 import 'package:fud/services/ui/home/home_page.dart';
 import 'package:fud/services/resources/gps_service.dart';
+import 'package:fud/services/ui/login/forgot_password.dart';
 import 'package:fud/services/ui/login/register.dart';
 
 class LoginPage extends StatefulWidget {
@@ -47,6 +48,30 @@ class _LoginPageState extends State<LoginPage> {
                   Icons.lock,
                   _passwordController,
                   obscureText: true,
+                ),
+                const SizedBox(height: 5),
+                Container(
+                  padding: const EdgeInsets.only(left: 140),
+                  child: GestureDetector(
+                    onTap: () {
+                      // Navegar a la pantalla de recuperación de contraseña
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const ForgotPage()),
+                      );
+                    },
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(vertical: 5),
+                      child: const Text(
+                        'Olvidaste tu contraseña?',
+                        style: TextStyle(
+                          color: Color.fromARGB(255, 0, 0, 0),
+                          decoration: TextDecoration.underline,
+                        ),
+                      ),
+                    ),
+                  ),
                 ),
                 const SizedBox(height: 10),
                 _buildElevatedButton(context),
