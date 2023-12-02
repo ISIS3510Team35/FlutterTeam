@@ -196,7 +196,7 @@ class FirestoreService {
         // Creating a Map containing analytics data
         Map<String, dynamic> data = {
           'documentId': documentId,
-          'id': nextId.toString(),
+          'id': nextId,
           'name': name,
           'phone': int.parse(phone),
           'password': password,
