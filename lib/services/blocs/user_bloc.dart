@@ -30,21 +30,32 @@ class UserBloc {
     }
   }
 
-  Future<void> changeUserInfo(String newUser, String newNumber) async {
-    try{
-      await _repository.changeUserInfo(newUser, newNumber);
+  Future<void> registerUser(
+      String username, String name, String phone, String password) async {
+    try {
+      bool registrationSuccessful =
+          await _repository.addUser(username, name, phone, password);
+      _userFetcher.sink.add(registrationSuccessful);
+      logger.d("Despues del sink");
+    } catch (error) {
+      _userFetcher.addError(error.toString());
     }
-    catch(error){
+    logger.d("registerUser");
+  }
+
+  Future<void> changeUserInfo(String newUser, String newNumber) async {
+    try {
+      await _repository.changeUserInfo(newUser, newNumber);
+    } catch (error) {
       print(error);
       _userFetcher.addError(error.toString());
     }
   }
 
-  Future<void> deleteAccount()async{
-    try{
+  Future<void> deleteAccount() async {
+    try {
       await _repository.deleteInfo();
-    }
-    catch(error){
+    } catch (error) {
       print(error);
       _userFetcher.addError(error.toString());
     }

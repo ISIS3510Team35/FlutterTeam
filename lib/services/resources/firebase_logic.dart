@@ -53,12 +53,13 @@ class FirestoreService {
     if (rootIsolateToken == null) {
       return Future(() => false);
     }
+
     BackgroundIsolateBinaryMessenger.ensureInitialized(rootIsolateToken);
     await Firebase.initializeApp(
       options: DefaultFirebaseOptions.currentPlatform,
     );
-
-    QuerySnapshot querySnapshot = await _db
+    FirebaseFirestore db = FirebaseFirestore.instance;
+    QuerySnapshot querySnapshot = await db
         .collection('User')
         .where('username', isEqualTo: username)
         .where('password', isEqualTo: password)
@@ -66,72 +67,72 @@ class FirestoreService {
 
     if (querySnapshot.docs.isNotEmpty) {
       SharedPreferences.getInstance()
-          .then((v) => {
-            v.setInt('user', querySnapshot.docs[0]['id']),
-            v.setString('name', querySnapshot.docs[0]['name']),
-            v.setString('number', querySnapshot.docs[0]['number'].toString()),
-            v.setString('username', username)
-          });
+          .then((v) => v.setInt('user', querySnapshot.docs[0]['id']));
+
       return true;
     } else {
       return false;
     }
   }
 
-  Future<bool> changeUserInfo(String newUserName, String newNumber)async{
+  Future<bool> changeUserInfo(String newUserName, String newNumber) async {
     var sp = await SharedPreferences.getInstance();
     var user = sp.getString('username');
     QuerySnapshot querySnapshotUser = await _db
         .collection('User')
         .where('id', isEqualTo: sp.getInt('user'))
         .get();
-    if (user != newUserName){
-    QuerySnapshot querySnapshot = await _db
-        .collection('User')
-        .where('username', isEqualTo: newUserName)
-        .get();
-    
-    if (querySnapshot.docs.isNotEmpty) {
-      return false;
+    if (user != newUserName) {
+      QuerySnapshot querySnapshot = await _db
+          .collection('User')
+          .where('username', isEqualTo: newUserName)
+          .get();
+
+      if (querySnapshot.docs.isNotEmpty) {
+        return false;
+      } else {
+        _db
+            .collection('User')
+            .doc(querySnapshotUser.docs[0]['documentId'])
+            .update({'number': newNumber});
+        sp.setString('number', newNumber);
+
+        _db
+            .collection('User')
+            .doc(querySnapshotUser.docs[0]['documentId'])
+            .update({'username': newUserName});
+        sp.setString('username', newUserName);
+
+        return true;
+      }
     } else {
-      
-      _db.collection('User').doc(querySnapshotUser.docs[0]['documentId']).update({'number': newNumber});
-      sp.setString('number',newNumber);
-        
-      _db.collection('User').doc(querySnapshotUser.docs[0]['documentId']).update({'username': newUserName});
-      sp.setString('username', newUserName);
-      
-      return true;
-    }}
-    else{
-      sp.setString('number',newNumber);
-      _db.collection('User').doc(querySnapshotUser.docs[0]['documentId']).update({'number': newNumber});
-      
+      sp.setString('number', newNumber);
+      _db
+          .collection('User')
+          .doc(querySnapshotUser.docs[0]['documentId'])
+          .update({'number': newNumber});
+
       return true;
     }
   }
 
-  Future<bool> deleteAccount()async{
+  Future<bool> deleteAccount() async {
     print('------');
     SharedPreferences pref = await SharedPreferences.getInstance();
     int userId = pref.getInt('user')!;
-    QuerySnapshot querySnapshotUser = await _db
-        .collection('User')
-        .where('id', isEqualTo: userId)
-        .get();
+    QuerySnapshot querySnapshotUser =
+        await _db.collection('User').where('id', isEqualTo: userId).get();
     print('------');
     QuerySnapshot querySnapshot = await _db
         .collection('Favourites')
         .where('user_id', isEqualTo: userId)
         .get();
-    
-    
-    if(querySnapshotUser.docs.isEmpty){
+
+    if (querySnapshotUser.docs.isEmpty) {
       return false;
-    }
-    else{
+    } else {
       if (querySnapshot.docs.isNotEmpty) {
-        for(var fav in querySnapshot.docs){
+        for (var fav in querySnapshot.docs) {
           await _db.collection('Favourites').doc(fav.id).delete();
         }
       }
@@ -139,6 +140,86 @@ class FirestoreService {
       return true;
     }
   }
+
+  Future<int?> getNextAvailableId() async {
+    try {
+      QuerySnapshot querySnapshot = await _db
+          .collection('User')
+          .orderBy('id', descending: true)
+          .limit(1)
+          .get();
+
+      if (querySnapshot.docs.isNotEmpty) {
+        int lastId = querySnapshot.docs[0]['id'];
+        // Incrementa el último ID para obtener el próximo ID disponible
+        int nextId = lastId + 1;
+        return nextId;
+      } else {
+        // Si no hay documentos en la colección, el próximo ID es 1
+        return 1;
+      }
+    } catch (e) {
+      // Maneja errores si es necesario
+      logger.d('Error al obtener el próximo ID: $e');
+      return null;
+    }
+  }
+
+  String generateDocumentId(String username, String password) {
+    // Concatena el username y password para crear un string único
+    String dataToHash = '$username$password';
+    // Calcula el hash SHA-256
+    var bytes = utf8.encode(dataToHash);
+    var hash = sha256.convert(bytes);
+    // Convierte el hash a una cadena hexadecimal
+    return hash.toString();
+  }
+
+  Future<bool> postUser(
+      String username, String name, String phone, String password) async {
+    try {
+      // Obtén el próximo ID disponible
+      int? nextId = await getNextAvailableId();
+      if (nextId == null) {
+        // Maneja el caso de error al obtener el próximo ID
+        return Future(() => false);
+      }
+      logger.d(nextId);
+      var documentId = generateDocumentId(username, password);
+      logger.d(documentId);
+      // Validación de datos
+      if (username.isNotEmpty &&
+          password.isNotEmpty &&
+          name.isNotEmpty &&
+          phone.isNotEmpty) {
+        logger.d("Pasó filtros de isNotEmpty");
+        // Creating a Map containing analytics data
+        Map<String, dynamic> data = {
+          'documentId': documentId,
+          'id': nextId,
+          'name': name,
+          'phone': int.parse(phone),
+          'password': password,
+          'username': username,
+        };
+        await _db.collection('User').add(data);
+        logger.d("User agregado");
+        // Operación exitosa
+        return true;
+      } else {
+        // Datos incompletos, operación fallida
+        return false;
+      }
+    } catch (error) {
+      // Manejar errores de Firestore
+      if (kDebugMode) {
+        print("Error: $error");
+      }
+      logger.e("Error al agregar usuario a Firestore: $error");
+      return false;
+    }
+  }
+
   // RESTAURANT
 
   /// Fetches details of a specific restaurant by its [id].

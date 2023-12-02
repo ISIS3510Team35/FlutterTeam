@@ -38,6 +38,10 @@ class Repository {
     return _firebaseProvider.changeUserInfo(newUserName, newNumber);
   }
 
+  Future<bool> addUser(
+          String username, String name, String phone, String password) =>
+      _firebaseProvider.postUser(username, name, phone, password);
+
   Future<bool> deleteInfo() {
     return _firebaseProvider.deleteAccount();
   }
