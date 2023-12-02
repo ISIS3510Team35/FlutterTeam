@@ -192,17 +192,19 @@ class _ItemWidgetState extends State<ItemWidget> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   CircleAvatar(
-                    radius: 42,
+                    radius: 36,
                     backgroundImage: CachedNetworkImageProvider(
                       widget.itemData?.getPhoto ?? '',
                     ),
                   ),
                   const SizedBox(height: 6),
                   Text(
-                    widget.itemData!.name.length > 15 ? '${widget.itemData!.name.substring(0, 15)}...' : widget.itemData!.name ,
+                    widget.itemData!.name.length > 15
+                        ? '${widget.itemData!.name.substring(0, 15)}...'
+                        : widget.itemData!.name,
                     style: const TextStyle(
                       fontWeight: FontWeight.bold,
-                      fontSize: 16,
+                      fontSize: 15,
                       fontFamily: 'Manrope',
                     ),
                     textAlign: TextAlign.center,
@@ -229,7 +231,7 @@ class _ItemWidgetState extends State<ItemWidget> {
                       Text(
                         widget.itemData?.rating.toString() ?? '',
                         style: const TextStyle(
-                          fontSize: 12,
+                          fontSize: 11,
                           fontFamily: 'Manrope',
                           color: Colors.black,
                         ),
