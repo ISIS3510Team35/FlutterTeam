@@ -145,7 +145,7 @@ class _LoginPageState extends State<LoginPage> {
                     return AlertDialog(
                       title: const Text('🤔'),
                       content: const Text(
-                          'Please enter both username and password.'),
+                          'Por favor ingrese el usuario y contraseña.'),
                       actions: [
                         TextButton(
                           onPressed: () {
@@ -177,7 +177,7 @@ class _LoginPageState extends State<LoginPage> {
                         return AlertDialog(
                           title: const Text('🤔'),
                           content: const Text(
-                              'User does not exist or the password is incorrect.'),
+                              'El usuario no existe o la contraseña es incorrecta.'),
                           actions: [
                             TextButton(
                               onPressed: () {

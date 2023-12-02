@@ -1,10 +1,20 @@
+import 'dart:ui';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/services.dart';
 import 'package:fud/services/models/plate_model.dart';
 import 'package:fud/services/models/restaurant_model.dart';
+import 'package:fud/services/resources/firebase_options.dart';
 import 'package:fud/services/resources/gps_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:collection/collection.dart';
+import 'package:logger/logger.dart';
+import 'dart:convert';
+import 'package:crypto/crypto.dart';
+
+final logger = Logger();
 
 /// Service class for interacting with Firestore.
 class FirestoreService {
@@ -21,10 +31,33 @@ class FirestoreService {
     return _instance;
   }
 
+  Future<dynamic> runFirebaseIsolateFunction(
+      RootIsolateToken? rootIsolateToken) async {
+    final logger = Logger();
+    if (rootIsolateToken == null) {
+      return Future(() => null);
+    }
+    BackgroundIsolateBinaryMessenger.ensureInitialized(rootIsolateToken);
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
+    logger.d("runFirebaseIsolateFunction");
+  }
+
   // USERS
 
   /// Checks if a user with the provided [username] and [password] exists.
-  Future<bool> doesUserExist(String username, String password) async {
+  Future<bool> doesUserExist(String username, String password,
+      RootIsolateToken? rootIsolateToken) async {
+    await runFirebaseIsolateFunction(rootIsolateToken);
+    if (rootIsolateToken == null) {
+      return Future(() => false);
+    }
+    BackgroundIsolateBinaryMessenger.ensureInitialized(rootIsolateToken);
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
+
     QuerySnapshot querySnapshot = await _db
         .collection('User')
         .where('username', isEqualTo: username)

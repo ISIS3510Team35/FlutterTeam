@@ -1,5 +1,6 @@
 import 'dart:async';
-
+import 'dart:isolate';
+import 'dart:ui';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:fud/services/models/plate_model.dart';
 import 'package:fud/services/models/restaurant_model.dart';
@@ -24,11 +25,17 @@ class Repository {
   // USERS
 
   /// Checks if a user with the provided [username] and [password] exists.
-  Future<bool> doesUserExist(String username, String password) =>
-      _firebaseProvider.doesUserExist(username, password);
+  Future<bool> doesUserExist(String username, String password) async {
+    RootIsolateToken? rootIsolateToken = RootIsolateToken.instance;
+    bool response = await Isolate.run(() async {
+      return _firebaseProvider.doesUserExist(
+          username, password, rootIsolateToken);
+    });
+    return response;
+  }
 
   Future<bool> changeUserInfo(String newUserName, String newNumber) {
-    return _firebaseProvider.changeUserInfo(newUserName,newNumber);
+    return _firebaseProvider.changeUserInfo(newUserName, newNumber);
   }
 
   Future<bool> deleteInfo() {
