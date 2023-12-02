@@ -1,4 +1,4 @@
-#Wed Nov 29 18:16:53 COT 2023
+#Fri Dec 01 22:53:34 COT 2023
 base.0=/Users/Meli/Documents/Moviles/FlutterTeam2/build/app/intermediates/dex/release/minifyReleaseWithR8/classes.dex
 renamed.0=classes.dex
 path.0=classes.dex

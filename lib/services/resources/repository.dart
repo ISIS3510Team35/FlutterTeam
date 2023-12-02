@@ -51,6 +51,9 @@ class Repository {
   Future<bool> deleteInfo() {
     return _firebaseProvider.deleteAccount();
   }
+
+  Future<bool> addTimeView(int duration, String view) =>
+      _firebaseProvider.postDuration(duration, view);
   // PLATES
 
   /// Fetches a list of plates available as offers.

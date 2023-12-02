@@ -31,6 +31,7 @@ class FirestoreService {
     return _instance;
   }
 
+  //ISOLATE
   Future<dynamic> runFirebaseIsolateFunction(
       RootIsolateToken? rootIsolateToken) async {
     final logger = Logger();
@@ -42,6 +43,29 @@ class FirestoreService {
       options: DefaultFirebaseOptions.currentPlatform,
     );
     logger.d("runFirebaseIsolateFunction");
+  }
+
+  //TIME
+  Future<bool> postDuration(int duration, String view) async {
+    try {
+      Map<String, dynamic> data = {
+        'provider': 'FlutterTeam',
+        'screen': view,
+        'time': duration,
+      };
+
+      await _db.collection('Time_Spent_Analytics').add(data);
+      logger.d("Tiempo de $view agregado");
+      // Operación exitosa
+      return true;
+    } catch (error) {
+      // Manejar errores de Firestore
+      if (kDebugMode) {
+        print("Error: $error");
+      }
+      logger.e("Error al agregar el tiempo de la vista $view: $error");
+      return false;
+    }
   }
 
   // USERS
