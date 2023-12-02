@@ -4,14 +4,12 @@ import 'package:fud/services/blocs/plate_bloc.dart';
 import 'package:fud/services/blocs/user_bloc.dart';
 import 'package:fud/services/ui/home/home_page.dart';
 import 'package:fud/services/resources/gps_service.dart';
+import 'package:fud/services/ui/login/register.dart';
 
 class LoginPage extends StatefulWidget {
   static const routeName = '/login';
-
   final PlateBloc plateBloc;
-
   const LoginPage({Key? key, required this.plateBloc}) : super(key: key);
-
   @override
   State<LoginPage> createState() => _LoginPageState();
 }
@@ -21,7 +19,6 @@ class _LoginPageState extends State<LoginPage> {
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   bool _isLoading = false;
-
   @override
   void dispose() {
     _usernameController.dispose();
@@ -51,7 +48,7 @@ class _LoginPageState extends State<LoginPage> {
                   _passwordController,
                   obscureText: true,
                 ),
-                const SizedBox(height: 40),
+                const SizedBox(height: 10),
                 _buildElevatedButton(context),
               ],
             ),
@@ -126,58 +123,27 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   Widget _buildElevatedButton(BuildContext context) {
-    return ElevatedButton(
-      onPressed: _isLoading
-          ? null
-          : () async {
-              setState(() {
-                _isLoading = true;
-              });
-
-              String username = _usernameController.text;
-              String password = _passwordController.text;
-
-              // Check if username or password is blank
-              if (username.isEmpty || password.isEmpty) {
-                showDialog(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return AlertDialog(
-                      title: const Text('🤔'),
-                      content: const Text(
-                          'Por favor ingrese el usuario y contraseña.'),
-                      actions: [
-                        TextButton(
-                          onPressed: () {
-                            Navigator.of(context).pop();
-                          },
-                          child: const Text('OK'),
-                        ),
-                      ],
-                    );
-                  },
-                );
-                setState(() {
-                  _isLoading = false;
-                });
-                return; // Exit the onPressed function if username or password is blank
-              }
-
-              _userBloc.fetchUserExistence(username, password);
-
-              _userBloc.userResult.listen((bool response) {
-                if (mounted) {
-                  if (response) {
-                    GPS().getCurrentLocation();
-                    Navigator.pushReplacementNamed(context, HomePage.routeName);
-                  } else {
+    return Column(
+      children: [
+        const SizedBox(height: 10), // Espaciado entre el enlace y el botón
+        ElevatedButton(
+          onPressed: _isLoading
+              ? null
+              : () async {
+                  setState(() {
+                    _isLoading = true;
+                  });
+                  String username = _usernameController.text;
+                  String password = _passwordController.text;
+                  // Check if username or password is blank
+                  if (username.isEmpty || password.isEmpty) {
                     showDialog(
                       context: context,
                       builder: (BuildContext context) {
                         return AlertDialog(
                           title: const Text('🤔'),
                           content: const Text(
-                              'El usuario no existe o la contraseña es incorrecta.'),
+                              'Por favor ingrese el usuario y contraseña.'),
                           actions: [
                             TextButton(
                               onPressed: () {
@@ -189,29 +155,97 @@ class _LoginPageState extends State<LoginPage> {
                         );
                       },
                     );
+                    setState(() {
+                      _isLoading = false;
+                    });
+                    return; // Exit the onPressed function if username or password is blank
                   }
-
-                  setState(() {
-                    _isLoading = false;
+                  _userBloc.fetchUserExistence(username, password);
+                  _userBloc.userResult.listen((bool response) {
+                    if (mounted) {
+                      if (response) {
+                        GPS().getCurrentLocation();
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                HomePage(plateBloc: widget.plateBloc),
+                          ),
+                        );
+                      } else {
+                        showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                              title: const Text('🤔'),
+                              content: const Text(
+                                  'El usuario no existe o la contraseña es incorrecta.'),
+                              actions: [
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                  child: const Text('OK'),
+                                ),
+                              ],
+                            );
+                          },
+                        );
+                      }
+                      setState(() {
+                        _isLoading = false;
+                      });
+                    }
                   });
-                }
-              });
-            },
-      style: ElevatedButton.styleFrom(
-        backgroundColor: const Color.fromRGBO(255, 146, 45, 1),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(20.0),
-        ),
-        minimumSize: const Size(190, 50),
-      ),
-      child: _isLoading
-          ? const CircularProgressIndicator(
-              valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
-            )
-          : const Text(
-              'INICIAR SESIÓN',
-              style: TextStyle(fontSize: 18, color: Colors.white),
+                },
+          style: ElevatedButton.styleFrom(
+            backgroundColor: const Color.fromRGBO(255, 146, 45, 1),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20.0),
             ),
+            minimumSize: const Size(190, 50),
+          ),
+          child: _isLoading
+              ? const CircularProgressIndicator(
+                  valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                )
+              : const Text(
+                  'INICIAR SESIÓN',
+                  style: TextStyle(fontSize: 18, color: Colors.white),
+                ),
+        ),
+        const SizedBox(
+            height: 50), // Espaciado entre el botón y el nuevo enlace
+        GestureDetector(
+          onTap: () {
+            // Navegar a la pantalla de registro (RegisterPage)
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => RegisterPage()),
+            );
+          },
+          child: RichText(
+            text: const TextSpan(
+              style: TextStyle(
+                fontSize: 16, // Puedes ajustar el tamaño del texto aquí
+                color: Colors.black, // Puedes ajustar el color del texto aquí
+                fontWeight: FontWeight.bold,
+              ),
+              children: [
+                TextSpan(
+                  text: 'No tienes cuenta? ',
+                ),
+                TextSpan(
+                  text: 'REGISTRATE',
+                  style: TextStyle(
+                    color: Colors.orange,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ],
     );
   }
 }
