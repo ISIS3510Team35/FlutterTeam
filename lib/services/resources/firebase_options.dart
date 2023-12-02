@@ -44,38 +44,38 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyA6iShifolUst6a_MJGARyNtKOutkQv7rk',
-    appId: '1:473546218661:web:160096a6509633ac55414c',
-    messagingSenderId: '473546218661',
-    projectId: 'fudbd-6bec5',
-    authDomain: 'fudbd-6bec5.firebaseapp.com',
-    storageBucket: 'fudbd-6bec5.appspot.com',
-    measurementId: 'G-N5TF9D9DCP',
+    apiKey: 'AIzaSyDu-jzkWKFHOwLWrVRwAqeAPh__dZLrvic',
+    appId: '1:310529725079:web:f7d7ef3fee7a1f01e84fd2',
+    messagingSenderId: '310529725079',
+    projectId: 'fud-moviles',
+    authDomain: 'fud-moviles.firebaseapp.com',
+    storageBucket: 'fud-moviles.appspot.com',
+    measurementId: 'G-C2G1E23Y38',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyBRbQ5qmIy0vpwCayydaE5goDEcQOXua9s',
-    appId: '1:473546218661:android:57b9a346875f757855414c',
-    messagingSenderId: '473546218661',
-    projectId: 'fudbd-6bec5',
-    storageBucket: 'fudbd-6bec5.appspot.com',
+    apiKey: 'AIzaSyBYqL3IumkTqhffQInSs2Wkz5qeGx5tF84',
+    appId: '1:310529725079:android:c5b6d034c578bb98e84fd2',
+    messagingSenderId: '310529725079',
+    projectId: 'fud-moviles',
+    storageBucket: 'fud-moviles.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyBxUywhS193OMZ59So_MuUie0gFsCyOyoQ',
-    appId: '1:473546218661:ios:7474841727063c6655414c',
-    messagingSenderId: '473546218661',
-    projectId: 'fudbd-6bec5',
-    storageBucket: 'fudbd-6bec5.appspot.com',
+    apiKey: 'AIzaSyCMfLQFikO1pREiX9ywlvfpQEPr3IxaDOU',
+    appId: '1:310529725079:ios:c4f29d0573736f00e84fd2',
+    messagingSenderId: '310529725079',
+    projectId: 'fud-moviles',
+    storageBucket: 'fud-moviles.appspot.com',
     iosBundleId: 'com.example.fud',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
-    apiKey: 'AIzaSyBxUywhS193OMZ59So_MuUie0gFsCyOyoQ',
-    appId: '1:473546218661:ios:a61d5e9e7fa86d5455414c',
-    messagingSenderId: '473546218661',
-    projectId: 'fudbd-6bec5',
-    storageBucket: 'fudbd-6bec5.appspot.com',
+    apiKey: 'AIzaSyCMfLQFikO1pREiX9ywlvfpQEPr3IxaDOU',
+    appId: '1:310529725079:ios:84221c4e7920e04fe84fd2',
+    messagingSenderId: '310529725079',
+    projectId: 'fud-moviles',
+    storageBucket: 'fud-moviles.appspot.com',
     iosBundleId: 'com.example.fud.RunnerTests',
   );
 }

@@ -75,7 +75,7 @@
     },
     {
       "name": "collection",
-      "rootUri": "file:///Users/Meli/.pub-cache/hosted/pub.dev/collection-1.18.0",
+      "rootUri": "file:///Users/Meli/.pub-cache/hosted/pub.dev/collection-1.17.2",
       "packageUri": "lib/",
       "languageVersion": "2.18"
     },
@@ -177,9 +177,9 @@
     },
     {
       "name": "flutter",
-      "rootUri": "file:///Users/Meli/Documents/Moviles/FlutterTeam2/flutter/packages/flutter",
+      "rootUri": "file:///Users/Meli/Documents/flutter/flutter/packages/flutter",
       "packageUri": "lib/",
-      "languageVersion": "3.2"
+      "languageVersion": "3.0"
     },
     {
       "name": "flutter_cache_manager",
@@ -201,15 +201,15 @@
     },
     {
       "name": "flutter_test",
-      "rootUri": "file:///Users/Meli/Documents/Moviles/FlutterTeam2/flutter/packages/flutter_test",
+      "rootUri": "file:///Users/Meli/Documents/flutter/flutter/packages/flutter_test",
       "packageUri": "lib/",
-      "languageVersion": "3.2"
+      "languageVersion": "3.0"
     },
     {
       "name": "flutter_web_plugins",
-      "rootUri": "file:///Users/Meli/Documents/Moviles/FlutterTeam2/flutter/packages/flutter_web_plugins",
+      "rootUri": "file:///Users/Meli/Documents/flutter/flutter/packages/flutter_web_plugins",
       "packageUri": "lib/",
-      "languageVersion": "3.2"
+      "languageVersion": "3.0"
     },
     {
       "name": "geolocator",
@@ -297,7 +297,7 @@
     },
     {
       "name": "meta",
-      "rootUri": "file:///Users/Meli/.pub-cache/hosted/pub.dev/meta-1.10.0",
+      "rootUri": "file:///Users/Meli/.pub-cache/hosted/pub.dev/meta-1.9.1",
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
@@ -429,9 +429,9 @@
     },
     {
       "name": "sky_engine",
-      "rootUri": "file:///Users/Meli/Documents/Moviles/FlutterTeam2/flutter/bin/cache/pkg/sky_engine",
+      "rootUri": "file:///Users/Meli/Documents/flutter/flutter/bin/cache/pkg/sky_engine",
       "packageUri": "lib/",
-      "languageVersion": "3.2"
+      "languageVersion": "3.0"
     },
     {
       "name": "source_span",
@@ -453,15 +453,15 @@
     },
     {
       "name": "stack_trace",
-      "rootUri": "file:///Users/Meli/.pub-cache/hosted/pub.dev/stack_trace-1.11.1",
+      "rootUri": "file:///Users/Meli/.pub-cache/hosted/pub.dev/stack_trace-1.11.0",
       "packageUri": "lib/",
       "languageVersion": "2.18"
     },
     {
       "name": "stream_channel",
-      "rootUri": "file:///Users/Meli/.pub-cache/hosted/pub.dev/stream_channel-2.1.2",
+      "rootUri": "file:///Users/Meli/.pub-cache/hosted/pub.dev/stream_channel-2.1.1",
       "packageUri": "lib/",
-      "languageVersion": "2.19"
+      "languageVersion": "2.14"
     },
     {
       "name": "string_scanner",
@@ -483,9 +483,9 @@
     },
     {
       "name": "test_api",
-      "rootUri": "file:///Users/Meli/.pub-cache/hosted/pub.dev/test_api-0.6.1",
+      "rootUri": "file:///Users/Meli/.pub-cache/hosted/pub.dev/test_api-0.6.0",
       "packageUri": "lib/",
-      "languageVersion": "3.0"
+      "languageVersion": "2.18"
     },
     {
       "name": "typed_data",
@@ -573,9 +573,9 @@
     },
     {
       "name": "web",
-      "rootUri": "file:///Users/Meli/.pub-cache/hosted/pub.dev/web-0.3.0",
+      "rootUri": "file:///Users/Meli/.pub-cache/hosted/pub.dev/web-0.1.4-beta",
       "packageUri": "lib/",
-      "languageVersion": "3.2"
+      "languageVersion": "3.1"
     },
     {
       "name": "win32",
@@ -602,7 +602,7 @@
       "languageVersion": "3.1"
     }
   ],
-  "generated": "2023-12-02T03:49:16.491433Z",
+  "generated": "2023-12-02T14:19:01.844292Z",
   "generator": "pub",
-  "generatorVersion": "3.2.0"
+  "generatorVersion": "3.1.2"
 }

@@ -1,13 +1,32 @@
 {
   "project_info": {
-    "project_number": "473546218661",
-    "project_id": "fudbd-6bec5",
-    "storage_bucket": "fudbd-6bec5.appspot.com"
+    "project_number": "310529725079",
+    "project_id": "fud-moviles",
+    "storage_bucket": "fud-moviles.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:473546218661:android:57b9a346875f757855414c",
+        "mobilesdk_app_id": "1:310529725079:android:cf4c97893784d1b1e84fd2",
+        "android_client_info": {
+          "package_name": "com.edu.uniandes.fud"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBYqL3IumkTqhffQInSs2Wkz5qeGx5tF84"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:310529725079:android:c5b6d034c578bb98e84fd2",
         "android_client_info": {
           "package_name": "com.example.fud"
         }
@@ -15,7 +34,26 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyBRbQ5qmIy0vpwCayydaE5goDEcQOXua9s"
+          "current_key": "AIzaSyBYqL3IumkTqhffQInSs2Wkz5qeGx5tF84"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:310529725079:android:7c216dbd78f48230e84fd2",
+        "android_client_info": {
+          "package_name": "com.fud.android"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBYqL3IumkTqhffQInSs2Wkz5qeGx5tF84"
         }
       ],
       "services": {
