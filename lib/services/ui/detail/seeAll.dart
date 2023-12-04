@@ -1,6 +1,7 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:fud/services/blocs/plate_bloc.dart';
 import 'package:fud/services/blocs/restaurant_bloc.dart';
 import 'package:fud/services/models/plate_model.dart';
@@ -50,8 +51,38 @@ class _AllPlatesState extends State<AllPlates> {
     return result;
   }
 
+  void _showConnectivityToast() async {
+    ConnectivityResult result = await checkConnectivity();
+
+    if (result == ConnectivityResult.none) {
+      _showToast(
+        'No internet connection: Showing possible old information.',
+        0xFFFFD2D2, // Red color
+      );
+    } else {
+      _showToast(
+        'Connected to the internet: Showing the latest information.',
+        0xFFC2FFC2, // Green color
+      );
+    }
+  }
+
+// Function to show toast notifications
+  void _showToast(String message, int backgroundColorHex) {
+    Fluttertoast.showToast(
+      msg: message,
+      toastLength: Toast.LENGTH_SHORT,
+      gravity: ToastGravity.BOTTOM,
+      timeInSecForIosWeb: 3,
+      fontSize: 16.0,
+      backgroundColor: Color(backgroundColorHex),
+      textColor: Colors.white,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
+    _showConnectivityToast();
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -71,19 +102,6 @@ class _AllPlatesState extends State<AllPlates> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Show message when there's no internet connection
-            if (connectivityResult == ConnectivityResult.none)
-              const Padding(
-                padding: EdgeInsets.all(8.0),
-                child: Text(
-                  'No internet: Cache information',
-                  style: TextStyle(
-                    color: Colors.red,
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
             StreamBuilder(
               stream: plateBloc.categoryPlates,
               builder: (context, AsyncSnapshot<PlateList> snapshot) {
@@ -97,6 +115,7 @@ class _AllPlatesState extends State<AllPlates> {
                   final items = snapshot.data?.plates;
                   return Expanded(
                     child: GridView.builder(
+                      //cacheExtent: 10,
                       gridDelegate:
                           const SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 2,

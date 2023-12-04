@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:fud/services/blocs/plate_bloc.dart';
+import 'package:fud/services/ui/detail/plateOffer.dart';
 import 'package:fud/services/ui/detail/restaurant.dart';
 import 'package:fud/services/ui/detail/seeAll.dart'; // Import the PlateBloc class
 import 'package:fud/services/blocs/user_bloc.dart';
@@ -270,10 +271,10 @@ class OthersSection extends StatelessWidget {
               scrollDirection: Axis.horizontal,
               itemCount: data.length,
               itemBuilder: (context, index) => OtherWidget(
-                asset: data[index]['image'],
-                name: data[index]['name'],
-                price: data[index]['price'],
-              ),
+                  asset: data[index]['image'],
+                  name: data[index]['name'],
+                  price: data[index]['price'],
+                  id: data[index]['id']),
             ),
           ),
         ],
@@ -288,57 +289,69 @@ class OtherWidget extends StatelessWidget {
     required this.asset,
     required this.name,
     required this.price,
+    required this.id,
   }) : super(key: key);
 
   final String asset;
   final String name;
   final num price;
+  final num id;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.all(12.0),
-      child: Material(
-        elevation: 4,
-        borderRadius: BorderRadius.circular(10.0),
-        child: ClipRRect(
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => PlateOfferPage(plateId: id),
+          ),
+        );
+      },
+      child: Container(
+        margin: const EdgeInsets.all(12.0),
+        child: Material(
+          elevation: 4,
           borderRadius: BorderRadius.circular(10.0),
-          child: Container(
-            width: 120,
-            color: Colors.white,
-            child: Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Image(
-                    image: CachedNetworkImageProvider(asset),
-                    height: 92,
-                    width: 200,
-                    fit: BoxFit.cover,
-                  ),
-                  const SizedBox(height: 5),
-                  Text(
-                    name,
-                    style: const TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 12,
-                      fontFamily: 'Manrope',
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(10.0),
+            child: Container(
+              width: 120,
+              color: Colors.white,
+              child: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Image(
+                      image: CachedNetworkImageProvider(asset),
+                      height: 92,
+                      width: 200,
+                      fit: BoxFit.cover,
                     ),
-                    textAlign: TextAlign.center,
-                  ),
-                  const SizedBox(height: 5),
-                  Text(
-                    '$price K',
-                    style: const TextStyle(
-                      fontSize: 12,
-                      fontWeight: FontWeight.bold,
-                      fontFamily: 'Manrope',
-                      color: Color.fromRGBO(255, 146, 45, 1),
+                    const SizedBox(height: 5),
+                    Text(
+                      name,
+                      style: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 12,
+                        fontFamily: 'Manrope',
+                      ),
+                      textAlign: TextAlign.center,
                     ),
-                    textAlign: TextAlign.center,
-                  ),
-                ],
+                    const SizedBox(height: 5),
+                    Text(
+                      '$price K',
+                      style: const TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.bold,
+                        fontFamily: 'Manrope',
+                        color: Color.fromRGBO(255, 146, 45, 1),
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
