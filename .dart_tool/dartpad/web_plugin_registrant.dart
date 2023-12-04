@@ -10,6 +10,7 @@ import 'package:cloud_firestore_web/cloud_firestore_web.dart';
 import 'package:connectivity_plus/src/connectivity_plus_web.dart';
 import 'package:firebase_analytics_web/firebase_analytics_web.dart';
 import 'package:firebase_core_web/firebase_core_web.dart';
+import 'package:fluttertoast/fluttertoast_web.dart';
 import 'package:geolocator_web/geolocator_web.dart';
 import 'package:maps_launcher/maps_launcher_web.dart';
 import 'package:shared_preferences_web/shared_preferences_web.dart';
@@ -22,6 +23,7 @@ void registerPlugins([final Registrar? pluginRegistrar]) {
   ConnectivityPlusWebPlugin.registerWith(registrar);
   FirebaseAnalyticsWeb.registerWith(registrar);
   FirebaseCoreWeb.registerWith(registrar);
+  FluttertoastWebPlugin.registerWith(registrar);
   GeolocatorPlugin.registerWith(registrar);
   MapsLauncherWeb.registerWith(registrar);
   SharedPreferencesPlugin.registerWith(registrar);
