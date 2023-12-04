@@ -5,7 +5,6 @@ import 'package:fud/services/blocs/restaurant_bloc.dart';
 import 'package:fud/services/blocs/plate_bloc.dart';
 import 'package:fud/services/models/restaurant_model.dart';
 import 'package:fud/services/resources/google_maps.dart';
-import 'package:fud/services/blocs/user_bloc.dart';
 
 class RestaurantPage extends StatefulWidget {
   static const routeName = '/restaurant';
@@ -22,13 +21,10 @@ class RestaurantPage extends StatefulWidget {
 class _RestaurantPageState extends State<RestaurantPage> {
   final _restaurantBloc = RestaurantBloc();
   final _plateBloc = PlateBloc();
-  late DateTime entryTime;
-  final UserBloc _userBloc = UserBloc();
 
   @override
   void initState() {
     super.initState();
-    entryTime = DateTime.now();
     _restaurantBloc.fetchRestaurantDetails(widget.restaurantId);
     _plateBloc.fetchCategoryOrRestaurantPlates('', widget.restaurantId);
   }
@@ -37,11 +33,6 @@ class _RestaurantPageState extends State<RestaurantPage> {
   void dispose() {
     _restaurantBloc.dispose();
     _plateBloc.dispose();
-    // Calcular la duración al salir de la vista
-    Duration duration = DateTime.now().difference(entryTime);
-
-    // Enviar la duración a Firebase o realizar cualquier acción necesaria
-    _userBloc.timeView(duration.inMilliseconds, 'Restaurant Screen');
     super.dispose();
   }
 

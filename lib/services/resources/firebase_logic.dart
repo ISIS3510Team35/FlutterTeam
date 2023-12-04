@@ -31,34 +31,35 @@ class FirestoreService {
     return _instance;
   }
 
-  //TIME
-  Future<bool> postDuration(int duration, String view) async {
-    try {
-      Map<String, dynamic> data = {
-        'provider': 'FlutterTeam',
-        'screen': view,
-        'time': duration,
-      };
-
-      await _db.collection('Time_Spent_Analytics').add(data);
-      logger.d("Tiempo de $view agregado");
-      // Operación exitosa
-      return true;
-    } catch (error) {
-      // Manejar errores de Firestore
-      if (kDebugMode) {
-        print("Error: $error");
-      }
-      logger.e("Error al agregar el tiempo de la vista $view: $error");
-      return false;
+  Future<dynamic> runFirebaseIsolateFunction(
+      RootIsolateToken? rootIsolateToken) async {
+    final logger = Logger();
+    if (rootIsolateToken == null) {
+      return Future(() => null);
     }
+    BackgroundIsolateBinaryMessenger.ensureInitialized(rootIsolateToken);
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
+    logger.d("runFirebaseIsolateFunction");
   }
 
   // USERS
 
   /// Checks if a user with the provided [username] and [password] exists.
-  Future<bool> doesUserExist(String username, String password) async {
-    QuerySnapshot querySnapshot = await _db
+  Future<bool> doesUserExist(String username, String password,
+      RootIsolateToken? rootIsolateToken) async {
+    await runFirebaseIsolateFunction(rootIsolateToken);
+    if (rootIsolateToken == null) {
+      return Future(() => false);
+    }
+
+    BackgroundIsolateBinaryMessenger.ensureInitialized(rootIsolateToken);
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
+    FirebaseFirestore db = FirebaseFirestore.instance;
+    QuerySnapshot querySnapshot = await db
         .collection('User')
         .where('username', isEqualTo: username)
         .where('password', isEqualTo: password)

@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:fud/services/blocs/plate_bloc.dart';
 import 'package:fud/services/ui/detail/restaurant.dart';
 import 'package:fud/services/ui/detail/seeAll.dart'; // Import the PlateBloc class
-import 'package:fud/services/blocs/user_bloc.dart';
 
 class ResultsPage extends StatefulWidget {
   static const routeName = '/results';
@@ -25,13 +24,10 @@ class ResultsPage extends StatefulWidget {
 
 class _ResultsPageState extends State<ResultsPage> {
   late PlateBloc _plateBloc; // Create an instance of PlateBloc
-  late DateTime entryTime;
-  final UserBloc _userBloc = UserBloc();
 
   @override
   void initState() {
     super.initState();
-    entryTime = DateTime.now();
     _plateBloc = PlateBloc();
     _plateBloc.fetchFilterInfo(
         widget.maxPrice, widget.isVegetariano, widget.isVegano);
@@ -39,12 +35,6 @@ class _ResultsPageState extends State<ResultsPage> {
 
   @override
   void dispose() {
-    // Calcular la duración al salir de la vista
-    Duration duration = DateTime.now().difference(entryTime);
-
-    // Enviar la duración a Firebase o realizar cualquier acción necesaria
-    _userBloc.timeView(duration.inMilliseconds, 'Search Screen');
-
     _plateBloc.dispose();
     super.dispose();
   }
