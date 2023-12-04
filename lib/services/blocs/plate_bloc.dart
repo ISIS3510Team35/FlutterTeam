@@ -15,6 +15,7 @@ class PlateBloc {
   final _filterFetcher = PublishSubject<Map<num, List>>();
   final _recomendationFetcher = PublishSubject<PlateList>();
   final _categoryOrRestaurantFetcher = PublishSubject<PlateList>();
+  final _MinMaxPriceRestaurant = PublishSubject<PlateList>();
 
   /// Stream for accessing the list of plates offered.
   Stream<PlateList> get offerPlates => _plateOfferFetcher.stream;
@@ -42,6 +43,8 @@ class PlateBloc {
 
   /// Stream for categry or restaurant plates
   Stream<PlateList> get categoryPlates => _categoryOrRestaurantFetcher.stream;
+
+  Stream<PlateList> get minmaxPlates => _MinMaxPriceRestaurant.stream;
 
   /// Fetches the list of plates offered.
   Future<void> fetchOfferPlates() async {
@@ -147,6 +150,17 @@ class PlateBloc {
     }).catchError((error) {
       print(error);
       _categoryOrRestaurantFetcher.addError(error.toString());
+    });
+  }
+
+  Future<void> fetchMinMaxPrice(num rest){
+    return _repository
+        .fetchMinMaxPrice(rest)
+        .then((PlateList plates) {
+      _MinMaxPriceRestaurant.sink.add(plates);
+    }).catchError((error) {
+      print(error);
+      _MinMaxPriceRestaurant.addError(error.toString());
     });
   }
 

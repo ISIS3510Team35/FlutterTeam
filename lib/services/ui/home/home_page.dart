@@ -2,10 +2,12 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:fud/services/blocs/plate_bloc.dart';
+import 'package:fud/services/blocs/restaurant_bloc.dart';
 import 'package:fud/services/ui/detail/appHeader.dart';
 import 'package:fud/services/ui/home/category_section.dart';
 import 'package:fud/services/ui/home/discount_section.dart';
 import 'package:fud/services/ui/home/favority_section.dart';
+import 'package:fud/services/ui/home/most_interacted_rest.dart';
 import 'package:fud/services/ui/home/recomendation_section.dart';
 import 'package:fud/services/ui/home/top3_section.dart';
 import 'package:fud/services/blocs/user_bloc.dart';
@@ -24,6 +26,8 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   late DateTime entryTime;
   final UserBloc _userBloc = UserBloc();
+  
+  final RestaurantBloc _restaurantBloc = RestaurantBloc();
 
   @override
   void initState() {
@@ -95,6 +99,8 @@ class _HomePageState extends State<HomePage> {
           FavouritesSection(plateBloc: widget.plateBloc),
           const SizedBox(height: 7),
           Recommendations(plateBloc: widget.plateBloc),
+          const SizedBox(height: 7),
+          MostInteractedSection(restaurantBloc: _restaurantBloc, plateBloc: widget.plateBloc,),
           const SizedBox(height: 20), // Adjust the height as needed
         ],
       ),
