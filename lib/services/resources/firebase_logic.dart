@@ -31,20 +31,6 @@ class FirestoreService {
     return _instance;
   }
 
-  //ISOLATE
-  Future<dynamic> runFirebaseIsolateFunction(
-      RootIsolateToken? rootIsolateToken) async {
-    final logger = Logger();
-    if (rootIsolateToken == null) {
-      return Future(() => null);
-    }
-    BackgroundIsolateBinaryMessenger.ensureInitialized(rootIsolateToken);
-    await Firebase.initializeApp(
-      options: DefaultFirebaseOptions.currentPlatform,
-    );
-    logger.d("runFirebaseIsolateFunction");
-  }
-
   //TIME
   Future<bool> postDuration(int duration, String view) async {
     try {
@@ -71,19 +57,8 @@ class FirestoreService {
   // USERS
 
   /// Checks if a user with the provided [username] and [password] exists.
-  Future<bool> doesUserExist(String username, String password,
-      RootIsolateToken? rootIsolateToken) async {
-    await runFirebaseIsolateFunction(rootIsolateToken);
-    if (rootIsolateToken == null) {
-      return Future(() => false);
-    }
-
-    BackgroundIsolateBinaryMessenger.ensureInitialized(rootIsolateToken);
-    await Firebase.initializeApp(
-      options: DefaultFirebaseOptions.currentPlatform,
-    );
-    FirebaseFirestore db = FirebaseFirestore.instance;
-    QuerySnapshot querySnapshot = await db
+  Future<bool> doesUserExist(String username, String password) async {
+    QuerySnapshot querySnapshot = await _db
         .collection('User')
         .where('username', isEqualTo: username)
         .where('password', isEqualTo: password)

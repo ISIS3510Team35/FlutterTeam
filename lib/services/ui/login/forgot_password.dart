@@ -154,6 +154,7 @@ class _ForgotPageState extends State<ForgotPage> {
                   String username = _usernameController.text;
                   String password = _passwordController.text;
                   String confirmPassword = _confirmPasswordController.text;
+
                   _userBloc.fetchOnlyUserExistence(username);
                   _userBloc.userResult.listen((bool response) {
                     if (mounted) {

@@ -26,12 +26,7 @@ class Repository {
 
   /// Checks if a user with the provided [username] and [password] exists.
   Future<bool> doesUserExist(String username, String password) async {
-    RootIsolateToken? rootIsolateToken = RootIsolateToken.instance;
-    bool response = await Isolate.run(() async {
-      return _firebaseProvider.doesUserExist(
-          username, password, rootIsolateToken);
-    });
-    return response;
+    return _firebaseProvider.doesUserExist(username, password);
   }
 
   Future<bool> changeUserInfo(String newUserName, String newNumber) {
