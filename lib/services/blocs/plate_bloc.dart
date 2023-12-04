@@ -145,6 +145,7 @@ class PlateBloc {
         .then((PlateList plateCategoryOrRestaurantsList) {
       _categoryOrRestaurantFetcher.sink.add(plateCategoryOrRestaurantsList);
     }).catchError((error) {
+      print(error);
       _categoryOrRestaurantFetcher.addError(error.toString());
     });
   }

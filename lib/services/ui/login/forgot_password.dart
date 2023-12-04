@@ -30,13 +30,13 @@ class _ForgotPageState extends State<ForgotPage> {
     _usernameController.dispose();
     _passwordController.dispose();
     _confirmPasswordController.dispose();
-    _userBloc.dispose();
 
     // Calcular la duración al salir de la vista
     Duration duration = DateTime.now().difference(entryTime);
 
     // Enviar la duración a Firebase o realizar cualquier acción necesaria
     _userBloc.timeView(duration.inMilliseconds, 'ForgotPW Screen');
+    _userBloc.dispose();
 
     super.dispose();
   }

@@ -42,6 +42,7 @@ class _RestaurantPageState extends State<RestaurantPage> {
 
     // Enviar la duración a Firebase o realizar cualquier acción necesaria
     _userBloc.timeView(duration.inMilliseconds, 'Restaurant Screen');
+    _userBloc.dispose();
     super.dispose();
   }
 

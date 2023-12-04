@@ -37,7 +37,7 @@ class _HomePageState extends State<HomePage> {
 
     // Enviar la duración a Firebase o realizar cualquier acción necesaria
     _userBloc.timeView(duration.inMilliseconds, 'Home Screen');
-
+    _userBloc.dispose();
     super.dispose();
   }
 

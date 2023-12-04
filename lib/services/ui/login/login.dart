@@ -32,13 +32,14 @@ class _LoginPageState extends State<LoginPage> {
   void dispose() {
     _usernameController.dispose();
     _passwordController.dispose();
-    _userBloc.dispose();
 
     // Calcular la duración al salir de la vista
     Duration duration = DateTime.now().difference(entryTime);
 
     // Enviar la duración a Firebase o realizar cualquier acción necesaria
     _userBloc.timeView(duration.inMilliseconds, 'Login Screen');
+
+    _userBloc.dispose();
 
     super.dispose();
   }
@@ -205,12 +206,9 @@ class _LoginPageState extends State<LoginPage> {
                     if (mounted) {
                       if (response) {
                         GPS().getCurrentLocation();
-                        Navigator.push(
+                        Navigator.pushReplacementNamed(
                           context,
-                          MaterialPageRoute(
-                            builder: (context) =>
-                                HomePage(plateBloc: widget.plateBloc),
-                          ),
+                          HomePage.routeName
                         );
                       } else {
                         showDialog(

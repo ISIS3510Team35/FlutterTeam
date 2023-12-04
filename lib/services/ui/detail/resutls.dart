@@ -46,6 +46,7 @@ class _ResultsPageState extends State<ResultsPage> {
     _userBloc.timeView(duration.inMilliseconds, 'Search Screen');
 
     _plateBloc.dispose();
+    _userBloc.dispose();
     super.dispose();
   }
 

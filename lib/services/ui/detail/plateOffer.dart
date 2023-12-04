@@ -37,7 +37,7 @@ class _PlateOfferPageState extends State<PlateOfferPage> {
   }
 
   @override
-  void dispose() {
+  void dispose()async {
     // Calcular la duración al salir de la vista
     Duration duration = DateTime.now().difference(entryTime);
 
@@ -46,6 +46,7 @@ class _PlateOfferPageState extends State<PlateOfferPage> {
 
     plateBloc.dispose();
     restaurantBloc.dispose();
+    //_userBloc.dispose();
 
     super.dispose();
   }
