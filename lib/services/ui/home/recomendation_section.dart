@@ -32,7 +32,7 @@ class _RecommendationsState extends State<Recommendations> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const Text(
-            '    Recommendations',
+            '    Recomendaciones',
             style: TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.bold,
@@ -49,11 +49,11 @@ class _RecommendationsState extends State<Recommendations> {
                 );
               } else if (snapshot.hasError) {
                 return const Center(
-                  child: Text('Error loading data'),
+                  child: Text('Error al cargar datos'),
                 );
               } else if (!snapshot.hasData || snapshot.data!.isEmpty()) {
                 return const Center(
-                  child: Text('No data available'),
+                  child: Text('No hay datos disponibles'),
                 );
               } else {
                 final items = snapshot.data?.plates;
@@ -159,7 +159,9 @@ class _RecommendationItemWidgetState extends State<RecommendationItemWidget> {
                     ),
                     const SizedBox(height: 10),
                     Text(
-                      (widget.itemData?.name)!.length > 15 ? '${(widget.itemData?.name??'').substring(0, 15)}...' : (widget.itemData?.name ??'') ,
+                      (widget.itemData?.name)!.length > 15
+                          ? '${(widget.itemData?.name ?? '').substring(0, 15)}...'
+                          : (widget.itemData?.name ?? ''),
                       style: const TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 18,

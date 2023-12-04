@@ -64,8 +64,7 @@ class FirestoreService {
         .get();
 
     if (querySnapshot.docs.isNotEmpty) {
-      SharedPreferences.getInstance()
-          .then((v) => {
+      SharedPreferences.getInstance().then((v) => {
             v.setInt('user', querySnapshot.docs[0]['id']),
             v.setString('name', querySnapshot.docs[0]['name']),
             v.setString('number', querySnapshot.docs[0]['number'].toString()),

@@ -64,12 +64,12 @@ class _PlateOfferPageState extends State<PlateOfferPage> {
 
     if (result == ConnectivityResult.none) {
       _showToast(
-        'No internet connection: Showing possible old information.',
+        'Sin conexión an Internet: mostrando datos antiguos.',
         0xFFFFD2D2, // Red color
       );
     } else {
       _showToast(
-        'Connected to the internet: Showing the latest information.',
+        'Conectado a Internet: Mostrando la información más reciente.',
         0xFFC2FFC2, // Green color
       );
     }
@@ -122,7 +122,8 @@ class _PlateOfferPageState extends State<PlateOfferPage> {
                     ],
                   );
                 } else if (restaurantSnapshot.hasError) {
-                  return const Text("Error loading restaurant data");
+                  return const Text(
+                      "Error al cargar los datos del restaurante");
                 } else {
                   return const Center(
                     child: CircularProgressIndicator(),
@@ -131,7 +132,7 @@ class _PlateOfferPageState extends State<PlateOfferPage> {
               },
             );
           } else if (snapshot.hasError) {
-            return const Text("Error loading plate data");
+            return const Text("Error al cargar los datos del plato");
           } else {
             return const Center(
               child: CircularProgressIndicator(),

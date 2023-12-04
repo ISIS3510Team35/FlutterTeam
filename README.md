@@ -9,3 +9,9 @@ Before run the flutter project put this commands in the terminal:
 - Get the flutter packages: flutter pub get  flutter packages get
 - Delete build file and execute this: flutter build apk --split-per-abi
 
+- cd ~/development 
+- unzip ~/Downloads/flutter_macos_3.16.0-stable.zip 
+- export PATH="$PATH:`pwd`/flutter/bin" 
+- dart pub cache repair
+- which flutter
+
