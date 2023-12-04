@@ -1,11 +1,14 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:fud/services/models/plate_model.dart';
 import 'package:fud/services/blocs/restaurant_bloc.dart';
 import 'package:fud/services/blocs/plate_bloc.dart';
 import 'package:fud/services/models/restaurant_model.dart';
 import 'package:fud/services/resources/google_maps.dart';
 import 'package:fud/services/blocs/user_bloc.dart';
+import 'package:fud/services/ui/detail/plateOffer.dart';
 
 class RestaurantPage extends StatefulWidget {
   static const routeName = '/restaurant';
@@ -46,8 +49,44 @@ class _RestaurantPageState extends State<RestaurantPage> {
     super.dispose();
   }
 
+  // Function to check the current connectivity status
+  Future<ConnectivityResult> checkConnectivity() async {
+    final ConnectivityResult result = await Connectivity().checkConnectivity();
+    return result;
+  }
+
+  void _showConnectivityToast() async {
+    ConnectivityResult result = await checkConnectivity();
+
+    if (result == ConnectivityResult.none) {
+      _showToast(
+        'No internet connection: Showing possible old information.',
+        0xFFFFD2D2, // Red color
+      );
+    } else {
+      _showToast(
+        'Connected to the internet: Showing the latest information.',
+        0xFFC2FFC2, // Green color
+      );
+    }
+  }
+
+// Function to show toast notifications
+  void _showToast(String message, int backgroundColorHex) {
+    Fluttertoast.showToast(
+      msg: message,
+      toastLength: Toast.LENGTH_SHORT,
+      gravity: ToastGravity.BOTTOM,
+      timeInSecForIosWeb: 3,
+      fontSize: 16.0,
+      backgroundColor: Color(backgroundColorHex),
+      textColor: Colors.white,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
+    _showConnectivityToast();
     return Scaffold(
       appBar: AppBar(
         title: const Text(""),
@@ -218,6 +257,7 @@ class RestaurantRecommendationsSection extends StatelessWidget {
                 } else {
                   final items = snapshot.data?.plates;
                   return GridView.builder(
+                    //cacheExtent: 10,
                     gridDelegate:
                         const SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 2,
@@ -256,6 +296,7 @@ class ItemWidget extends StatefulWidget {
   final RestaurantBloc restaurantBloc;
 
   @override
+  // ignore: library_private_types_in_public_api
   _ItemWidgetState createState() => _ItemWidgetState();
 }
 
@@ -278,13 +319,21 @@ class _ItemWidgetState extends State<ItemWidget> {
 
   @override
   void dispose() {
-    widget.restaurantBloc.dispose();
+    //widget.restaurantBloc.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => PlateOfferPage(plateId: widget.itemData!.id),
+          ),
+        );
+      },
       child: Container(
         margin: const EdgeInsets.all(12.0),
         child: Material(
@@ -301,7 +350,7 @@ class _ItemWidgetState extends State<ItemWidget> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     CircleAvatar(
-                      radius: 42,
+                      radius: 38,
                       backgroundImage: CachedNetworkImageProvider(
                         widget.itemData?.getPhoto ?? '',
                       ),
@@ -311,7 +360,7 @@ class _ItemWidgetState extends State<ItemWidget> {
                       widget.itemData?.name ?? '',
                       style: const TextStyle(
                         fontWeight: FontWeight.bold,
-                        fontSize: 16,
+                        fontSize: 14,
                         fontFamily: 'Manrope',
                       ),
                       textAlign: TextAlign.center,
@@ -319,7 +368,7 @@ class _ItemWidgetState extends State<ItemWidget> {
                     Text(
                       '${widget.itemData?.price} K',
                       style: const TextStyle(
-                        fontSize: 12,
+                        fontSize: 11,
                         fontWeight: FontWeight.bold,
                         fontFamily: 'Manrope',
                         color: Color.fromRGBO(255, 146, 45, 1),
@@ -337,7 +386,7 @@ class _ItemWidgetState extends State<ItemWidget> {
                         Text(
                           widget.itemData?.rating.toString() ?? '',
                           style: const TextStyle(
-                            fontSize: 12,
+                            fontSize: 11,
                             fontFamily: 'Manrope',
                             color: Colors.black,
                           ),

@@ -1,5 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:fud/services/blocs/plate_bloc.dart';
 import 'package:fud/services/blocs/restaurant_bloc.dart';
 import 'package:fud/services/models/plate_model.dart';
@@ -37,7 +39,7 @@ class _PlateOfferPageState extends State<PlateOfferPage> {
   }
 
   @override
-  void dispose()async {
+  void dispose() async {
     // Calcular la duración al salir de la vista
     Duration duration = DateTime.now().difference(entryTime);
 
@@ -51,8 +53,44 @@ class _PlateOfferPageState extends State<PlateOfferPage> {
     super.dispose();
   }
 
+  // Function to check the current connectivity status
+  Future<ConnectivityResult> checkConnectivity() async {
+    final ConnectivityResult result = await Connectivity().checkConnectivity();
+    return result;
+  }
+
+  void _showConnectivityToast() async {
+    ConnectivityResult result = await checkConnectivity();
+
+    if (result == ConnectivityResult.none) {
+      _showToast(
+        'No internet connection: Showing possible old information.',
+        0xFFFFD2D2, // Red color
+      );
+    } else {
+      _showToast(
+        'Connected to the internet: Showing the latest information.',
+        0xFFC2FFC2, // Green color
+      );
+    }
+  }
+
+// Function to show toast notifications
+  void _showToast(String message, int backgroundColorHex) {
+    Fluttertoast.showToast(
+      msg: message,
+      toastLength: Toast.LENGTH_SHORT,
+      gravity: ToastGravity.BOTTOM,
+      timeInSecForIosWeb: 3,
+      fontSize: 16.0,
+      backgroundColor: Color(backgroundColorHex),
+      textColor: Colors.white,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
+    _showConnectivityToast();
     return Scaffold(
       appBar: AppBar(
         title: const Text("Detail"),
