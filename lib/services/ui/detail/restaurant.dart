@@ -127,11 +127,11 @@ class RestaurantImageWithCaptionSection extends StatelessWidget {
           );
         } else if (snapshot.hasError) {
           return const Center(
-            child: Text('Error al cargar los datos del restaurante'),
+            child: Text('Error al cargar los datos del restaurante.'),
           );
         } else if (!snapshot.hasData) {
           return const Center(
-            child: Text('No hay datos de restaurante disponibles'),
+            child: Text('No hay datos de restaurante disponibles.'),
           );
         } else {
           final restaurant = snapshot.data!;
