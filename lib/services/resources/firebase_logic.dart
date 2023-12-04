@@ -1,5 +1,4 @@
 import 'dart:ui';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
@@ -293,6 +292,88 @@ class FirestoreService {
     }
   }
 
+  Future<RestaurantList> getMostInteracted() async {
+    
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    int userId = pref.getInt('user')!;
+    QuerySnapshot querySnapshot = await _db
+        .collection('User_Interact')
+        .where('user_id', isEqualTo: userId)
+        .get();
+    List<Restaurant> restaurants = [];
+    if(querySnapshot.docs.isNotEmpty){
+      //Obtener 3 más interactuados por usuario
+      var list = querySnapshot.docs.map((e) => e['restaurant_id']);
+
+      final folded = list.fold({}, (acc, curr) {
+      acc[curr] = (acc[curr] ?? 0) + 1;
+      return acc;
+    });
+      List sortedValues = folded.keys
+        .toList()
+        ..sort((a, b) => folded[b].compareTo(folded[a]));
+      print(sortedValues);
+      var top3 = sortedValues.take(3);
+      print(top3);
+      // Save most interacted
+      pref.setInt('mostInteracted1', sortedValues[0]);
+      if(sortedValues.length>=2){
+        pref.setInt('mostInteracted2', sortedValues[1]);
+        if(sortedValues.length>=3){
+          pref.setInt('mostInteracted3', sortedValues[2]);
+        }
+        else{
+          pref.setInt('mostInteracted3', -1);
+        }
+      }
+      else{
+        pref.setInt('mostInteracted2', -1);
+        pref.setInt('mostInteracted3', -1);
+      }
+      
+      QuerySnapshot collectionRestaurants =
+          await _db.collection('Restaurant').where('id', whereIn: top3).get();
+      restaurants = collectionRestaurants.docs.map((documentSnapshot) {
+      Map<String, dynamic>? data =
+            documentSnapshot.data() as Map<String, dynamic>?;
+
+        if (data != null) {
+          return Restaurant.fromJson(data);
+        } else {
+          return Restaurant.empty();
+        }
+      }).toList();
+      //Mapear a RestaurantList
+    
+    }
+    RestaurantList restaurantList = RestaurantList();
+    restaurantList.setRestaurants(restaurants);
+
+    return restaurantList;
+  }
+
+  Future<bool> addInteraction(num id)async{
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    try {
+      Map<String, dynamic> data = {
+        'provider': 'FlutterTeam',
+        'user_id': pref.getInt('user'),
+        'restaurant_id': id,
+      };
+
+      await _db.collection('User_Interact').add(data);
+      
+      // Operación exitosa
+      return true;
+    } catch (error) {
+      // Manejar errores de Firestore
+      if (kDebugMode) {
+        print("Error: $error");
+      }
+      logger.e("Error: $error");
+      return false;
+    }
+  }
   // PLATES
 
   /// Fetches a list of plates available as offers.
@@ -665,6 +746,43 @@ class FirestoreService {
     return plateList;
   }
 
+  Future<PlateList> fetchMinMaxPrice(num id)async{
+    QuerySnapshot querySnapshot = await _db
+        .collection('Product')
+        .where('restaurantId', isEqualTo: id)
+        .orderBy('price')
+        .get();
+    List<Plate> plates = [];
+    if(querySnapshot.docs.isNotEmpty){
+      if(querySnapshot.docs.length>1){
+        Map<String, dynamic>? data1 = querySnapshot.docs[0].data() as Map<String, dynamic>?;
+        if (data1 != null) {
+          plates.add(Plate.fromJson(data1));
+        } else {
+          plates.add(Plate.empty());
+        }
+        Map<String, dynamic>? data2 = querySnapshot.docs[querySnapshot.docs.length-1].data() as Map<String, dynamic>?;
+        if (data2 != null) {
+          plates.add(Plate.fromJson(data2));
+        } else {
+          plates.add(Plate.empty());
+        }
+      }
+      else{
+        Map<String, dynamic>? data1 = querySnapshot.docs[0].data() as Map<String, dynamic>?;
+        if (data1 != null) {
+          plates.add(Plate.fromJson(data1));
+        } else {
+          plates.add(Plate.empty());
+        }
+      }
+    }
+    
+    PlateList plateList = PlateList();
+    plateList.setPlates(plates);
+
+    return plateList;
+  }
   // ERRORES
 
   /// Records the app startup time and duration.
