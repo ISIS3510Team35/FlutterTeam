@@ -20,11 +20,26 @@ class _LoginPageState extends State<LoginPage> {
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   bool _isLoading = false;
+  late DateTime entryTime;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    entryTime = DateTime.now();
+  }
+
   @override
   void dispose() {
     _usernameController.dispose();
     _passwordController.dispose();
     _userBloc.dispose();
+
+    // Calcular la duración al salir de la vista
+    Duration duration = DateTime.now().difference(entryTime);
+
+    // Enviar la duración a Firebase o realizar cualquier acción necesaria
+    _userBloc.timeView(duration.inMilliseconds, 'Login Screen');
+
     super.dispose();
   }
 
