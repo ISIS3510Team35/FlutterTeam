@@ -52,8 +52,8 @@ class _DiscountSectionState extends State<DiscountSection> {
                   snapshot.data!.isEmpty()) {
                 return Center(
                   child: Text(snapshot.hasError
-                      ? 'Error loading data'
-                      : 'No data available'),
+                      ? 'Error al cargar datos'
+                      : 'No hay datos disponibles'),
                 );
               } else {
                 final items = snapshot.data!.plates;
@@ -154,7 +154,9 @@ class _ItemWidgetOffersState extends State<ItemWidgetOffers> {
                   ),
                   const SizedBox(height: 10),
                   Text(
-                    widget.itemData.name.length > 15 ? widget.itemData.name.substring(0, 15)+'...' : widget.itemData.name ,
+                    widget.itemData.name.length > 15
+                        ? widget.itemData.name.substring(0, 15) + '...'
+                        : widget.itemData.name,
                     style: const TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 18,

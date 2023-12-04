@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fud/services/blocs/user_bloc.dart';
 import 'package:fud/services/ui/login/login.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class ForgotPage extends StatefulWidget {
   static const routeName = '/forgot';
@@ -18,6 +20,8 @@ class _ForgotPageState extends State<ForgotPage> {
       TextEditingController();
   bool _isLoading = false;
   late DateTime entryTime;
+  late bool _isConnected;
+  bool _hasShownConnectivityToast = false;
 
   @override
   void didChangeDependencies() {
@@ -41,8 +45,57 @@ class _ForgotPageState extends State<ForgotPage> {
     super.dispose();
   }
 
+  // Function to check the current connectivity status
+  Future<ConnectivityResult> checkConnectivity() async {
+    final ConnectivityResult result = await Connectivity().checkConnectivity();
+    return result;
+  }
+
+  void _showConnectivityToast() async {
+    if (_hasShownConnectivityToast) {
+      return; // Si ya se mostró el toast, no hacer nada
+    }
+
+    ConnectivityResult result = await checkConnectivity();
+
+    setState(() {
+      _isConnected = result != ConnectivityResult.none;
+    });
+
+    if (!_isConnected) {
+      _showToast(
+        'Sin conexión an Internet: ingresar más tarde',
+        0xFFFFD2D2, // Red color
+      );
+    } else {
+      _showToast(
+        'Conectado a Internet: continue disfrutando de nuestros servicios.',
+        0xFFC2FFC2, // Green color
+      );
+
+      // Cambiar el valor de la variable para que no se muestre el toast la próxima vez
+      setState(() {
+        _hasShownConnectivityToast = true;
+      });
+    }
+  }
+
+// Function to show toast notifications
+  void _showToast(String message, int backgroundColorHex) {
+    Fluttertoast.showToast(
+      msg: message,
+      toastLength: Toast.LENGTH_SHORT,
+      gravity: ToastGravity.TOP,
+      timeInSecForIosWeb: 3,
+      fontSize: 16.0,
+      backgroundColor: Color(backgroundColorHex),
+      textColor: Colors.white,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
+    _showConnectivityToast();
     return Material(
       child: Scaffold(
         backgroundColor: const Color.fromRGBO(255, 247, 235, 1),
@@ -148,7 +201,7 @@ class _ForgotPageState extends State<ForgotPage> {
       children: [
         const SizedBox(height: 10), // Espaciado entre el enlace y el botón
         ElevatedButton(
-          onPressed: _isLoading
+          onPressed: _isLoading || !_isConnected
               ? null
               : () async {
                   String username = _usernameController.text;

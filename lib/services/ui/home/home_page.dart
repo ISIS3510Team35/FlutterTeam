@@ -54,12 +54,12 @@ class _HomePageState extends State<HomePage> {
 
     if (result == ConnectivityResult.none) {
       _showToast(
-        'No internet connection: Showing possible old information.',
+        'Sin conexión an Internet: mostrando datos antiguos.',
         0xFFFFD2D2, // Red color
       );
     } else {
       _showToast(
-        'Connected to the internet: Showing the latest information.',
+        'Conectado a Internet: Mostrando la información más reciente.',
         0xFFC2FFC2, // Green color
       );
     }

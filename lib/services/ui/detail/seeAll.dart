@@ -56,12 +56,12 @@ class _AllPlatesState extends State<AllPlates> {
 
     if (result == ConnectivityResult.none) {
       _showToast(
-        'No internet connection: Showing possible old information.',
+        'Sin conexión an Internet: mostrando datos antiguos',
         0xFFFFD2D2, // Red color
       );
     } else {
       _showToast(
-        'Connected to the internet: Showing the latest information.',
+        'Conectado a Internet: Mostrando la información más reciente.',
         0xFFC2FFC2, // Green color
       );
     }
@@ -108,9 +108,9 @@ class _AllPlatesState extends State<AllPlates> {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return const Center(child: CircularProgressIndicator());
                 } else if (snapshot.hasError) {
-                  return const Center(child: Text('Error loading data'));
+                  return const Center(child: Text('Error al cargar datos'));
                 } else if (!snapshot.hasData || snapshot.data!.isEmpty()) {
-                  return const Center(child: Text('No data available'));
+                  return const Center(child: Text('No hay datos disponibles'));
                 } else {
                   final items = snapshot.data?.plates;
                   return Expanded(
