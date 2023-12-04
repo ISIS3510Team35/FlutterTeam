@@ -6,10 +6,13 @@ import '../resources/repository.dart';
 class RestaurantBloc {
   final _repository = Repository();
   final _restaurantFetcher = PublishSubject<Restaurant>();
+  
+  final _mostInteractedR = PublishSubject<RestaurantList>();
 
   /// Stream for accessing the details of a specific restaurant by ID.
   Stream<Restaurant> get restaurantDetails => _restaurantFetcher.stream;
-
+  Stream<RestaurantList> get offerMostInt => _mostInteractedR.stream;
+  
   /// Fetches the details of a specific restaurant by ID.
   Future<void> fetchRestaurantDetails(num id) async {
     try {
@@ -22,6 +25,25 @@ class RestaurantBloc {
     }
   }
 
+  Future<void> fetchRestaurantMostInteracted() async {
+    try {
+      RestaurantList? restaurantList = await _repository.fetchRestaurantMostInteracted();
+       _mostInteractedR.sink.add(restaurantList!);
+      
+    } catch (error) {
+      print(error);
+      _mostInteractedR.addError(error.toString());
+    }
+  }
+
+  Future<void> addInteraction(num id) async{
+    try {
+      await _repository.addInteraction(id);
+    }
+    catch(error){
+      print(error);
+    }
+  }
   /// Disposes the BLoC by closing the stream.
   void dispose() {
     _restaurantFetcher.close();

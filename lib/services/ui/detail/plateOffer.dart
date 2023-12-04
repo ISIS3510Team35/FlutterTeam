@@ -107,6 +107,7 @@ class _PlateOfferPageState extends State<PlateOfferPage> {
           if (snapshot.hasData) {
             Plate plate = snapshot.data!;
             restaurantBloc.fetchRestaurantDetails(plate.restaurant);
+            restaurantBloc.addInteraction(plate.restaurant);
 
             return StreamBuilder<Restaurant>(
               stream: restaurantBloc.restaurantDetails,

@@ -1,4 +1,4 @@
-#Sun Dec 03 23:33:09 COT 2023
+#Mon Dec 04 10:06:21 COT 2023
 base.0=C\:\\Users\\Usuario\\Documents\\Universidad\\Semestre 11\\Moviles\\Proyecto\\_\\v9\\FlutterTeam\\build\\app\\intermediates\\dex\\debug\\mergeDexDebug\\classes.dex
 base.1=C\:\\Users\\Usuario\\Documents\\Universidad\\Semestre 11\\Moviles\\Proyecto\\_\\v9\\FlutterTeam\\build\\app\\intermediates\\dex\\debug\\mergeDexDebug\\classes2.dex
 base.2=C\:\\Users\\Usuario\\Documents\\Universidad\\Semestre 11\\Moviles\\Proyecto\\_\\v9\\FlutterTeam\\build\\app\\intermediates\\dex\\debug\\mergeDexDebug\\classes3.dex
