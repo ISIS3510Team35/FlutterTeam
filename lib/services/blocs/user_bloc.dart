@@ -45,11 +45,19 @@ class UserBloc {
       bool registrationSuccessful =
           await _repository.addUser(username, name, phone, password);
       _userFetcher.sink.add(registrationSuccessful);
-      logger.d("Despues del sink");
     } catch (error) {
       _userFetcher.addError(error.toString());
     }
-    logger.d("registerUser");
+  }
+
+  Future<void> timeView(int duration, String view) async {
+    try {
+      bool registrationSuccessful =
+          await _repository.addTimeView(duration, view);
+      _userFetcher.sink.add(registrationSuccessful);
+    } catch (error) {
+      _userFetcher.addError(error.toString());
+    }
   }
 
   Future<void> changeUserInfo(String newUser, String newNumber) async {

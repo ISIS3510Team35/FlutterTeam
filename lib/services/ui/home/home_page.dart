@@ -6,6 +6,7 @@ import 'package:fud/services/ui/home/discount_section.dart';
 import 'package:fud/services/ui/home/favority_section.dart';
 import 'package:fud/services/ui/home/recomendation_section.dart';
 import 'package:fud/services/ui/home/top3_section.dart';
+import 'package:fud/services/blocs/user_bloc.dart';
 
 class HomePage extends StatefulWidget {
   static const routeName = '/home';
@@ -19,10 +20,25 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  late DateTime entryTime;
+  final UserBloc _userBloc = UserBloc();
+
   @override
   void initState() {
     super.initState();
+    entryTime = DateTime.now();
     widget.plateBloc.fetchOfferPlates();
+  }
+
+  @override
+  void dispose() {
+    // Calcular la duración al salir de la vista
+    Duration duration = DateTime.now().difference(entryTime);
+
+    // Enviar la duración a Firebase o realizar cualquier acción necesaria
+    _userBloc.timeView(duration.inMilliseconds, 'Home Screen');
+
+    super.dispose();
   }
 
   @override
