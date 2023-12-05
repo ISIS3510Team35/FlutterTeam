@@ -50,7 +50,7 @@ class Restaurant {
       : id = json['id'] as num? ?? 0,
         name = json['name'] as String? ?? '',
         photo = json['image'] as String? ?? '',
-        location = json['location'] as GeoPoint? ?? GeoPoint(0, 0);
+        location = json['location'] as GeoPoint? ?? const GeoPoint(0, 0);
 
   /// Creates a Restaurant from database data.
   Restaurant.fromDatabase({

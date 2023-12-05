@@ -7,7 +7,8 @@ import 'package:fud/services/models/restaurant_model.dart';
 import 'package:fud/services/ui/detail/restaurant.dart';
 
 class MostInteractedSection extends StatefulWidget {
-  const MostInteractedSection({Key? key, required this.restaurantBloc, required this.plateBloc})
+  const MostInteractedSection(
+      {Key? key, required this.restaurantBloc, required this.plateBloc})
       : super(key: key);
 
   final RestaurantBloc restaurantBloc;
@@ -15,7 +16,8 @@ class MostInteractedSection extends StatefulWidget {
 
   @override
   // ignore: library_private_types_in_public_api
-  _MostInteractedSectionSectionState createState() => _MostInteractedSectionSectionState();
+  _MostInteractedSectionSectionState createState() =>
+      _MostInteractedSectionSectionState();
 }
 
 class _MostInteractedSectionSectionState extends State<MostInteractedSection> {
@@ -75,7 +77,7 @@ class _MostInteractedSectionSectionState extends State<MostInteractedSection> {
                             context,
                             MaterialPageRoute(
                               builder: (context) =>
-                                 RestaurantPage(restaurantId: itemData!.id),
+                                  RestaurantPage(restaurantId: itemData!.id),
                             ),
                           );
                         },
@@ -95,13 +97,13 @@ class _MostInteractedSectionSectionState extends State<MostInteractedSection> {
 }
 
 class ItemWidget extends StatefulWidget {
-  const ItemWidget({
-    Key? key,
-    required this.itemData,
-    required this.onPressed,
-    required this.restaurantBloc,
-    required this.plateBloc
-  }) : super(key: key);
+  const ItemWidget(
+      {Key? key,
+      required this.itemData,
+      required this.onPressed,
+      required this.restaurantBloc,
+      required this.plateBloc})
+      : super(key: key);
 
   final Restaurant? itemData;
   final VoidCallback onPressed;
@@ -127,8 +129,6 @@ class _ItemWidgetState extends State<ItemWidget> {
     if (widget.itemData != null) {
       widget.plateBloc.fetchMinMaxPrice(widget.itemData!.id);
     }
-    
-    
   }
 
   @override
@@ -156,18 +156,22 @@ class _ItemWidgetState extends State<ItemWidget> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                      CachedNetworkImage(
+                    CachedNetworkImage(
                       key: UniqueKey(),
                       imageUrl: widget.itemData!.getPhoto,
-                      placeholder: (context, url) => const CircularProgressIndicator(),
-                      errorWidget: (context, url, error) => const Icon(Icons.error),
+                      placeholder: (context, url) =>
+                          const CircularProgressIndicator(),
+                      errorWidget: (context, url, error) =>
+                          const Icon(Icons.error),
                       width: double.infinity,
                       height: 120,
                       fit: BoxFit.cover,
                     ),
                     const SizedBox(height: 10),
                     Text(
-                      (widget.itemData?.name)!.length > 15 ? '${(widget.itemData?.name??'').substring(0, 15)}...' : (widget.itemData?.name ??'') ,
+                      (widget.itemData?.name)!.length > 15
+                          ? '${(widget.itemData?.name ?? '').substring(0, 15)}...'
+                          : (widget.itemData?.name ?? ''),
                       style: const TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 18,
@@ -175,8 +179,8 @@ class _ItemWidgetState extends State<ItemWidget> {
                       ),
                       textAlign: TextAlign.center,
                     ),
-                    const SizedBox(height: 10),                   
-                        Text(
+                    const SizedBox(height: 10),
+                    Text(
                       '${platesList?.plates[0].getPrice} K - ${platesList?.plates[1].getPrice} K',
                       style: const TextStyle(
                         fontSize: 20,
@@ -185,8 +189,7 @@ class _ItemWidgetState extends State<ItemWidget> {
                         color: Color.fromRGBO(255, 146, 45, 1),
                       ),
                       textAlign: TextAlign.center,
-                    )
-                    ,
+                    ),
                   ],
                 ),
               ),

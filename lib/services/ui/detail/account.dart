@@ -10,7 +10,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 class AccountPage extends StatefulWidget {
   static const routeName = '/account';
 
-  
   const AccountPage({Key? key}) : super(key: key);
 
   @override
@@ -19,9 +18,9 @@ class AccountPage extends StatefulWidget {
 
 class _AccountPageState extends State<AccountPage> {
   final UserBloc _userBloc = UserBloc();
-  
-  final TextEditingController  number = TextEditingController();
-  final TextEditingController  user =TextEditingController();
+
+  final TextEditingController number = TextEditingController();
+  final TextEditingController user = TextEditingController();
   bool edit = false;
 
   @override
@@ -44,56 +43,70 @@ class _AccountPageState extends State<AccountPage> {
           child: Center(
             child: Column(
               children: [
-                 Row(
+                Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    IconButton(icon: const Icon(Icons.arrow_back,size: 30,
-                    color:  Color.fromARGB(255, 146, 146, 146)),
-                    onPressed: (){
-                      Navigator.pop(context);
-                    },),
-                    const Icon(Icons.account_circle,size: 80,color:  Color.fromARGB(255, 146, 146, 146)),
-                    IconButton(onPressed: (){
-                      if(!edit){
-                      setState(() {
-                        edit=!edit;
-                      });}
-                      else{
-                        showDialog(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return AlertDialog(
-                              title: const Text('Borrar cuenta!😨'),
-                              content: const Text(
-                                  'Oh no, vas a eliminar tu cuenta por completo 😥. ¿Estás seguro?'),
-                              actions: [
-                                TextButton(
-                                  onPressed: () {
-                                    Navigator.of(context).pop();
-                                  },
-                                  child: const Text('Cancelar'),
-                                ),
-                                TextButton(
-                                  onPressed: () async {
-                                    Navigator.of(context).pop();
-                                    Navigator.of(context).pushNamedAndRemoveUntil(LoginPage.routeName, (Route<dynamic> route) => false);
-                                    await _userBloc.deleteAccount();
-                                    //Funcion de eliminar cuenta
-                                  },
-                                  child: const Text('Eliminar Cuenta'),
-                                ),
-                              ],
+                    IconButton(
+                      icon: const Icon(Icons.arrow_back,
+                          size: 30, color: Color.fromARGB(255, 146, 146, 146)),
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                    ),
+                    const Icon(Icons.account_circle,
+                        size: 80, color: Color.fromARGB(255, 146, 146, 146)),
+                    IconButton(
+                        onPressed: () {
+                          if (!edit) {
+                            setState(() {
+                              edit = !edit;
+                            });
+                          } else {
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                  title: const Text('Borrar cuenta!😨'),
+                                  content: const Text(
+                                      'Oh no, vas a eliminar tu cuenta por completo 😥. ¿Estás seguro?'),
+                                  actions: [
+                                    TextButton(
+                                      onPressed: () {
+                                        Navigator.of(context).pop();
+                                      },
+                                      child: const Text('Cancelar'),
+                                    ),
+                                    TextButton(
+                                      onPressed: () async {
+                                        Navigator.of(context).pop();
+                                        Navigator.of(context)
+                                            .pushNamedAndRemoveUntil(
+                                                LoginPage.routeName,
+                                                (Route<dynamic> route) =>
+                                                    false);
+                                        await _userBloc.deleteAccount();
+                                        //Funcion de eliminar cuenta
+                                      },
+                                      child: const Text('Eliminar Cuenta'),
+                                    ),
+                                  ],
+                                );
+                              },
                             );
-                          },
-                        );
-                      }
-                    }, icon: Icon(!edit?Icons.edit:Icons.delete_forever ,size: 30,
-                    color:  !edit?Color.fromARGB(255, 146, 146, 146):Colors.red,))
-                    ],
-                  ),
-                  const SizedBox(height: 30),
-                  SizedBox(
+                          }
+                        },
+                        icon: Icon(
+                          !edit ? Icons.edit : Icons.delete_forever,
+                          size: 30,
+                          color: !edit
+                              ? const Color.fromARGB(255, 146, 146, 146)
+                              : Colors.red,
+                        ))
+                  ],
+                ),
+                const SizedBox(height: 30),
+                SizedBox(
                     width: MediaQuery.of(context).size.width * 0.8,
                     child: FutureBuilder(
                       future: SharedPreferences.getInstance(),
@@ -361,68 +374,4 @@ class _AccountPageState extends State<AccountPage> {
       textColor: Colors.white,
     );
   }
-
-  Widget _buildTextField(
-      String label, IconData icon, TextEditingController controller,
-      {bool obscureText = false}) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        Align(
-          alignment: Alignment.topLeft,
-          child: Text(
-            '                 $label',
-            style: const TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 11.5,
-            ),
-          ),
-        ),
-        const SizedBox(height: 5),
-        Container(
-          width: MediaQuery.of(context).size.width * 0.8,
-          height: 50,
-          padding: const EdgeInsets.all(8),
-          margin: const EdgeInsets.symmetric(horizontal: 25),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(10),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.grey.withOpacity(0.5),
-                spreadRadius: 3,
-                blurRadius: 3,
-                offset: const Offset(0, 3),
-              ),
-            ],
-          ),
-          child: TextField(
-            controller: controller,
-            autocorrect: true,
-            obscureText: obscureText,
-            decoration: InputDecoration(
-              hintStyle: const TextStyle(color: Colors.grey),
-              filled: true,
-              fillColor: Colors.white,
-              contentPadding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
-              enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(7.0),
-                borderSide:
-                    const BorderSide(color: Colors.transparent, width: 2),
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(7.0),
-                borderSide: const BorderSide(color: Colors.red),
-              ),
-              prefixIcon: Icon(
-                icon,
-                color: Colors.black,
-              ),
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-  
 }

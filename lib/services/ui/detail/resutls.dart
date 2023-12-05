@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:fud/services/blocs/plate_bloc.dart';
 import 'package:fud/services/ui/detail/plateOffer.dart';
 import 'package:fud/services/ui/detail/restaurant.dart';
-import 'package:fud/services/ui/detail/seeAll.dart'; // Import the PlateBloc class
+import 'package:fud/services/ui/detail/seeAll.dart';
 import 'package:fud/services/blocs/user_bloc.dart';
 
 class ResultsPage extends StatefulWidget {
