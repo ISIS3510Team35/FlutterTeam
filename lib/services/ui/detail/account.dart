@@ -1,6 +1,9 @@
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:fud/services/blocs/user_bloc.dart';
 import 'package:fud/services/ui/detail/appHeaderNoFilter.dart';
+import 'package:fud/services/ui/login/forgot_password.dart';
 import 'package:fud/services/ui/login/login.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -184,9 +187,17 @@ class _AccountPageState extends State<AccountPage> {
                               ),
                             )
                           ),
-                          const SizedBox(height: 170),
+                          const SizedBox(height: 120),
                           edit? Column(children : 
-                          [ElevatedButton(
+                          [Align(
+                        alignment: Alignment.center,
+                        child: FutureBuilder(
+                            future: Connectivity().checkConnectivity(),
+                            builder: (BuildContext context,
+                                AsyncSnapshot<ConnectivityResult> snapshot) {
+                              if (snapshot.hasData) {
+                                if (snapshot.data != ConnectivityResult.none) {
+                                  return ElevatedButton(
                             style: ElevatedButton.styleFrom(
                               backgroundColor: const Color.fromRGBO(255, 146, 45, 1),
                               shape: RoundedRectangleBorder(
@@ -205,7 +216,61 @@ class _AccountPageState extends State<AccountPage> {
                               'GUARDAR CAMBIOS',
                               style: TextStyle(fontSize: 18, color: Colors.white),
                             )
-                          ),
+                          );
+                                } else {
+                                  return ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: const Color.fromARGB(255, 253, 179, 110),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(20.0),
+                              ),
+                              minimumSize: const Size(190, 50),
+                            ),
+                            onPressed: ()async{
+                              
+                              setState(() {
+                                edit=!edit;
+                              });
+                              _showToast('No se guardaron los cambios, no hay conexión', 0xFFFFD2D2);
+                            }, 
+                            child: const Text(
+                                    'No hay conexión 😨',
+                                    style: TextStyle(
+                                        fontSize: 18,
+                                        fontFamily: "Manrope",
+                                        color: Colors
+                                            .white), // Cambia el tamaño del texto
+                                  ),
+                            );
+                                }
+                              } else {
+                                return ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Color.fromARGB(255, 253, 179, 110),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(20.0),
+                              ),
+                              minimumSize: const Size(190, 50),
+                              maximumSize: const Size(300, 100)
+                            ),
+                            onPressed: ()async{
+                              
+                              setState(() {
+                                edit=!edit;
+                              });
+                            }, 
+                            child: const Text(
+                                    'No hay conexión 😨',
+                                    style: TextStyle(
+                                        fontSize: 18,
+                                        fontFamily: "Manrope",
+                                        color: Colors
+                                            .white), // Cambia el tamaño del texto
+                                  ),
+                            );
+                              }
+                            })),
+                            
                           const SizedBox(height: 10),
                           ElevatedButton(
                             style: ElevatedButton.styleFrom(
@@ -216,7 +281,11 @@ class _AccountPageState extends State<AccountPage> {
                               minimumSize: const Size(190, 50),
                             ),
                             onPressed: (){
-                              // El navigator a la vista acá plis
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => const ForgotPage()),
+                              );
                             }, 
                             child: const Text(
                               'CAMBIAR CONTRASEÑA',
@@ -279,6 +348,17 @@ class _AccountPageState extends State<AccountPage> {
           ),
         ),
       ),
+    );
+  }
+  void _showToast(String message, int backgroundColorHex) {
+    Fluttertoast.showToast(
+      msg: message,
+      toastLength: Toast.LENGTH_SHORT,
+      gravity: ToastGravity.BOTTOM,
+      timeInSecForIosWeb: 3,
+      fontSize: 16.0,
+      backgroundColor: Color(backgroundColorHex),
+      textColor: Colors.white,
     );
   }
 
