@@ -55,11 +55,11 @@ class LocalStorage {
     );
   }
 
-    Future<void> insertRestaurants(Future<RestaurantList> restaurants) async {
-    final db = await database;
+  Future<void> insertRestaurants(Future<RestaurantList> restaurants) async {
     var list = await restaurants;
-    for(Restaurant restaurant in list.restaurants){
-    insertRestaurant(restaurant);}
+    for (Restaurant restaurant in list.restaurants) {
+      insertRestaurant(restaurant);
+    }
   }
 
   Future<Restaurant> getRestaurant(num id) async {
@@ -74,18 +74,20 @@ class LocalStorage {
     );
   }
 
-  Future<RestaurantList> getRestaurantsMostInt(num id1,num id2,num id3) async {
+  Future<RestaurantList> getRestaurantsMostInt(
+      num id1, num id2, num id3) async {
     final db = await database;
     final List<Map<String, dynamic>> maps =
         await db.query('restaurants', where: '"id" IN ($id1,$id2,$id3)');
     RestaurantList restaurantList = RestaurantList();
     List<Restaurant> restaurants = List.generate(maps.length, (i) {
       return Restaurant(
-      id: maps[i]['id'],
-      name: maps[i]['name'],
-      photo: maps[i]['photo'],
-      location: GeoPoint(maps[i]['lat'] as double, maps[i]['lon'] as double),
-    );});
+        id: maps[i]['id'],
+        name: maps[i]['name'],
+        photo: maps[i]['photo'],
+        location: GeoPoint(maps[i]['lat'] as double, maps[i]['lon'] as double),
+      );
+    });
     restaurantList.setRestaurants(restaurants);
     return restaurantList;
   }
@@ -233,38 +235,34 @@ class LocalStorage {
         where: 'restaurant == $id', orderBy: 'price ASC');
 
     PlateList plateList = PlateList();
-    List<Plate> plates =[];
-    plates.add(
-       Plate(
-        id: q[0]['id'] as num,
-        name: q[0]['name'] as String,
-        category: q[0]['category'] as String,
-        description: q[0]['description'] as String,
-        discount: (q[0]['discount'] == 0 ? true : false),
-        offerPrice: q[0]['offerPrice'] as double,
-        photo: q[0]['photo'] as String,
-        price: q[0]['price'] as double,
-        rating: q[0]['rating'] as double,
-        restaurant: q[0]['restaurant'] as num,
-        type: q[0]['type'] as String,
-      )
-    );
-    if(q.length>1){
-      plates.add(
-       Plate(
-        id: q[q.length-1]['id'] as num,
-        name: q[q.length-1]['name'] as String,
-        category: q[q.length-1]['category'] as String,
-        description: q[q.length-1]['description'] as String,
-        discount: (q[q.length-1]['discount'] == 0 ? true : false),
-        offerPrice: q[q.length-1]['offerPrice'] as double,
-        photo: q[q.length-1]['photo'] as String,
-        price: q[q.length-1]['price'] as double,
-        rating: q[q.length-1]['rating'] as double,
-        restaurant: q[q.length-1]['restaurant'] as num,
-        type: q[q.length-1]['type'] as String,
-      )
-    );
+    List<Plate> plates = [];
+    plates.add(Plate(
+      id: q[0]['id'] as num,
+      name: q[0]['name'] as String,
+      category: q[0]['category'] as String,
+      description: q[0]['description'] as String,
+      discount: (q[0]['discount'] == 0 ? true : false),
+      offerPrice: q[0]['offerPrice'] as double,
+      photo: q[0]['photo'] as String,
+      price: q[0]['price'] as double,
+      rating: q[0]['rating'] as double,
+      restaurant: q[0]['restaurant'] as num,
+      type: q[0]['type'] as String,
+    ));
+    if (q.length > 1) {
+      plates.add(Plate(
+        id: q[q.length - 1]['id'] as num,
+        name: q[q.length - 1]['name'] as String,
+        category: q[q.length - 1]['category'] as String,
+        description: q[q.length - 1]['description'] as String,
+        discount: (q[q.length - 1]['discount'] == 0 ? true : false),
+        offerPrice: q[q.length - 1]['offerPrice'] as double,
+        photo: q[q.length - 1]['photo'] as String,
+        price: q[q.length - 1]['price'] as double,
+        rating: q[q.length - 1]['rating'] as double,
+        restaurant: q[q.length - 1]['restaurant'] as num,
+        type: q[q.length - 1]['type'] as String,
+      ));
     }
     plateList.setPlates(plates);
     return plateList;

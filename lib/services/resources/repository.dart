@@ -1,6 +1,6 @@
+// ignore_for_file: avoid_print
+
 import 'dart:async';
-import 'dart:isolate';
-import 'dart:ui';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:fud/services/models/plate_model.dart';
 import 'package:fud/services/models/restaurant_model.dart';
@@ -129,7 +129,7 @@ class Repository {
     }
   }
 
-  Future<PlateList> fetchMinMaxPrice(num restaurant)async{
+  Future<PlateList> fetchMinMaxPrice(num restaurant) async {
     var connectivityResult = await (Connectivity().checkConnectivity());
     if (connectivityResult != ConnectivityResult.none) {
       var r = _firebaseProvider.fetchMinMaxPrice(restaurant);
@@ -137,7 +137,7 @@ class Repository {
       print(r);
       return r;
     } else {
-        return localStorage.getMinMax(restaurant);
+      return localStorage.getMinMax(restaurant);
     }
   }
   // RESTAURANTS
@@ -158,20 +158,22 @@ class Repository {
     var connectivityResult = await (Connectivity().checkConnectivity());
     if (connectivityResult != ConnectivityResult.none) {
       var r = _firebaseProvider.getMostInteracted();
-      localStorage.insertRestaurants( r );
+      localStorage.insertRestaurants(r);
       return r;
     } else {
       var sp = await SharedPreferences.getInstance();
       int? id1 = sp.getInt('mostInteracted1');
       int? id2 = sp.getInt('mostInteracted2');
       int? id3 = sp.getInt('mostInteracted3');
-      return localStorage.getRestaurantsMostInt(id1 as num, id2 as num, id3 as num);
+      return localStorage.getRestaurantsMostInt(
+          id1 as num, id2 as num, id3 as num);
     }
   }
 
-  Future<void> addInteraction(num id)async {
+  Future<void> addInteraction(num id) async {
     var r = _firebaseProvider.addInteraction(id);
   }
+
   // ERRORS
   /// Records the app startup time and duration.
   void fetchTime(DateTime now, Duration startTime) =>

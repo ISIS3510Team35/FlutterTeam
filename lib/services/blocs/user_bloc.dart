@@ -1,7 +1,6 @@
 import 'package:logger/logger.dart';
 import 'package:rxdart/rxdart.dart';
 import '../resources/repository.dart';
-import 'package:logger/logger.dart';
 
 final logger = Logger();
 
@@ -46,10 +45,10 @@ class UserBloc {
           await _repository.addTimeView(duration, view);
       _userFetcher.sink.add(registrationSuccessful);
     } catch (error) {
-      try{
-      _userFetcher.addError(error.toString());}
-      catch(error){
-        print(error);
+      try {
+        _userFetcher.addError(error.toString());
+      } catch (error) {
+        logger.d(error);
       }
     }
   }
@@ -58,7 +57,7 @@ class UserBloc {
     try {
       await _repository.changeUserInfo(newUser, newNumber);
     } catch (error) {
-      print(error);
+      logger.d(error);
       _userFetcher.addError(error.toString());
     }
   }
@@ -67,7 +66,7 @@ class UserBloc {
     try {
       await _repository.changePassword(username, newPassword);
     } catch (error) {
-      print(error);
+      logger.d(error);
       _userFetcher.addError(error.toString());
     }
   }
@@ -76,7 +75,7 @@ class UserBloc {
     try {
       await _repository.deleteInfo();
     } catch (error) {
-      print(error);
+      logger.d(error);
       _userFetcher.addError(error.toString());
     }
   }
