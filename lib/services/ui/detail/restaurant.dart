@@ -319,7 +319,7 @@ class _ItemWidgetState extends State<ItemWidget> {
 
   @override
   void dispose() {
-    //widget.restaurantBloc.dispose();
+    widget.restaurantBloc.dispose();
     super.dispose();
   }
 

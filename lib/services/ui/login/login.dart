@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:fud/services/blocs/plate_bloc.dart';
 import 'package:fud/services/blocs/user_bloc.dart';
 import 'package:fud/services/ui/home/home_page.dart';
 import 'package:fud/services/resources/gps_service.dart';
@@ -9,8 +8,7 @@ import 'package:fud/services/ui/login/register.dart';
 
 class LoginPage extends StatefulWidget {
   static const routeName = '/login';
-  final PlateBloc plateBloc;
-  const LoginPage({Key? key, required this.plateBloc}) : super(key: key);
+  const LoginPage({Key? key,}) : super(key: key);
   @override
   State<LoginPage> createState() => _LoginPageState();
 }

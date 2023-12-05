@@ -1,3 +1,4 @@
+// ignore_for_file: avoid_print
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fud/services/models/plate_model.dart';
 import 'package:fud/services/models/restaurant_model.dart';
@@ -263,6 +264,9 @@ class LocalStorage {
         restaurant: q[q.length - 1]['restaurant'] as num,
         type: q[q.length - 1]['type'] as String,
       ));
+      print(id);
+      print(q[0]);
+      print(q[q.length - 1]);
     }
     plateList.setPlates(plates);
     return plateList;

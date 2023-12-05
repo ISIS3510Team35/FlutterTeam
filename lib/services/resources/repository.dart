@@ -171,7 +171,7 @@ class Repository {
   }
 
   Future<void> addInteraction(num id) async {
-    var r = _firebaseProvider.addInteraction(id);
+    _firebaseProvider.addInteraction(id);
   }
 
   // ERRORS

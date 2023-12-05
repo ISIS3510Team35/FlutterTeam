@@ -174,5 +174,6 @@ class PlateBloc {
     _favoritiesFetcher.close();
     _filterFetcher.close();
     _categoryOrRestaurantFetcher.close();
+    _MinMaxPriceRestaurant.close();
   }
 }
