@@ -56,7 +56,6 @@ class LocalStorage {
   }
 
     Future<void> insertRestaurants(Future<RestaurantList> restaurants) async {
-    final db = await database;
     var list = await restaurants;
     for(Restaurant restaurant in list.restaurants){
     insertRestaurant(restaurant);}
@@ -265,6 +264,9 @@ class LocalStorage {
         type: q[q.length-1]['type'] as String,
       )
     );
+    print(id);
+    print(q[0]);
+    print(q[q.length-1]);
     }
     plateList.setPlates(plates);
     return plateList;

@@ -1,6 +1,4 @@
 import 'dart:async';
-import 'dart:isolate';
-import 'dart:ui';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:fud/services/models/plate_model.dart';
 import 'package:fud/services/models/restaurant_model.dart';
@@ -170,7 +168,7 @@ class Repository {
   }
 
   Future<void> addInteraction(num id)async {
-    var r = _firebaseProvider.addInteraction(id);
+    _firebaseProvider.addInteraction(id);
   }
   // ERRORS
   /// Records the app startup time and duration.

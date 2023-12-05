@@ -1,7 +1,6 @@
 import 'package:logger/logger.dart';
 import 'package:rxdart/rxdart.dart';
 import '../resources/repository.dart';
-import 'package:logger/logger.dart';
 
 final logger = Logger();
 

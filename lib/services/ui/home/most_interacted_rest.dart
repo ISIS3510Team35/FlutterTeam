@@ -4,7 +4,6 @@ import 'package:fud/services/blocs/plate_bloc.dart';
 import 'package:fud/services/blocs/restaurant_bloc.dart';
 import 'package:fud/services/models/plate_model.dart';
 import 'package:fud/services/models/restaurant_model.dart';
-import 'package:fud/services/ui/detail/plateOffer.dart';
 import 'package:fud/services/ui/detail/restaurant.dart';
 
 class MostInteractedSection extends StatefulWidget {

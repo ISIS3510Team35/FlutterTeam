@@ -115,7 +115,7 @@ class _AllPlatesState extends State<AllPlates> {
                   final items = snapshot.data?.plates;
                   return Expanded(
                     child: GridView.builder(
-                      //cacheExtent: 10,
+                      cacheExtent: 10,
                       gridDelegate:
                           const SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 2,

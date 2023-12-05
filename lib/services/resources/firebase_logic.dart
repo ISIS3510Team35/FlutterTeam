@@ -1,11 +1,7 @@
-import 'dart:ui';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter/services.dart';
 import 'package:fud/services/models/plate_model.dart';
 import 'package:fud/services/models/restaurant_model.dart';
-import 'package:fud/services/resources/firebase_options.dart';
 import 'package:fud/services/resources/gps_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:collection/collection.dart';
@@ -32,6 +28,10 @@ class FirestoreService {
 
   //TIME
   Future<bool> postDuration(int duration, String view) async {
+    _db.settings =const Settings(
+      persistenceEnabled: true,
+      cacheSizeBytes: 1048576
+    );
     try {
       Map<String, dynamic> data = {
         'provider': 'FlutterTeam',
@@ -57,6 +57,10 @@ class FirestoreService {
 
   /// Checks if a user with the provided [username] and [password] exists.
   Future<bool> doesUserExist(String username, String password) async {
+    _db.settings =const Settings(
+      persistenceEnabled: true,
+      cacheSizeBytes: 1048576,
+    );
     QuerySnapshot querySnapshot = await _db
         .collection('User')
         .where('username', isEqualTo: username)
@@ -78,6 +82,10 @@ class FirestoreService {
   }
 
   Future<bool> doesOnlyUserExist(String username) async {
+    _db.settings =const Settings(
+      persistenceEnabled: true,
+      cacheSizeBytes: 1048576
+    );
     QuerySnapshot querySnapshot = await _db
         .collection('User')
         .where('username', isEqualTo: username)
@@ -92,6 +100,10 @@ class FirestoreService {
   }
 
   Future<bool> changeUserInfo(String newUserName, String newNumber) async {
+    _db.settings =const Settings(
+      persistenceEnabled: true,
+      cacheSizeBytes: 1048576
+    );
     var sp = await SharedPreferences.getInstance();
     var user = sp.getString('username');
     QuerySnapshot querySnapshotUser = await _db
@@ -133,6 +145,10 @@ class FirestoreService {
   }
 
   Future<bool> deleteAccount() async {
+    _db.settings =const Settings(
+      persistenceEnabled: true,
+      cacheSizeBytes: 1048576
+    );
     print('------');
     SharedPreferences pref = await SharedPreferences.getInstance();
     int userId = pref.getInt('user')!;
@@ -158,6 +174,10 @@ class FirestoreService {
   }
 
   Future<int?> getNextAvailableId() async {
+    _db.settings =const Settings(
+      persistenceEnabled: true,
+      cacheSizeBytes: 1048576
+    );
     try {
       QuerySnapshot querySnapshot = await _db
           .collection('User')
@@ -182,6 +202,10 @@ class FirestoreService {
   }
 
   String generateDocumentId(String username, String password) {
+    _db.settings =const Settings(
+      persistenceEnabled: true,
+      cacheSizeBytes: 1048576
+    );
     // Concatena el username y password para crear un string único
     String dataToHash = '$username$password';
     // Calcula el hash SHA-256
@@ -193,6 +217,10 @@ class FirestoreService {
 
   Future<bool> postUser(
       String username, String name, String phone, String password) async {
+        _db.settings =const Settings(
+      persistenceEnabled: true,
+      cacheSizeBytes: 1048576
+    );
     try {
       // Obtén el próximo ID disponible
       int? nextId = await getNextAvailableId();
@@ -237,6 +265,10 @@ class FirestoreService {
   }
 
   Future<bool> updatePassword(String username, String newPassword) async {
+    _db.settings =const Settings(
+      persistenceEnabled: true,
+      cacheSizeBytes: 1048576
+    );
     try {
       // Busca el documento del usuario por el nombre de usuario
       QuerySnapshot querySnapshot = await _db
@@ -271,6 +303,10 @@ class FirestoreService {
 
   /// Fetches details of a specific restaurant by its [id].
   Future<Restaurant?> getPRestaurant(num id) async {
+    _db.settings =const Settings(
+      persistenceEnabled: true,
+      cacheSizeBytes: 1048576
+    );
     try {
       QuerySnapshot querySnapshot =
           await _db.collection('Restaurant').where('id', isEqualTo: id).get();
@@ -292,6 +328,10 @@ class FirestoreService {
   }
 
   Future<RestaurantList> getMostInteracted() async {
+    _db.settings =const Settings(
+      persistenceEnabled: true,
+      cacheSizeBytes: 1048576
+    );
     
     SharedPreferences pref = await SharedPreferences.getInstance();
     int userId = pref.getInt('user')!;
@@ -352,6 +392,10 @@ class FirestoreService {
   }
 
   Future<bool> addInteraction(num id)async{
+    _db.settings =const Settings(
+      persistenceEnabled: true,
+      cacheSizeBytes: 1048576
+    );
     SharedPreferences pref = await SharedPreferences.getInstance();
     try {
       Map<String, dynamic> data = {
@@ -377,6 +421,10 @@ class FirestoreService {
 
   /// Fetches a list of plates available as offers.
   Future<PlateList> getPlatesOfferFromFirestore() async {
+    _db.settings =const Settings(
+      persistenceEnabled: true,
+      cacheSizeBytes: 1048576
+    );
     QuerySnapshot querySnapshot = await _db
         .collection('Product')
         .where('inOffer', isEqualTo: true)
@@ -402,6 +450,10 @@ class FirestoreService {
 
   /// Fetches the top 3 plates.
   Future<PlateList> getPlatesTop3FromFirestore() async {
+    _db.settings =const Settings(
+      persistenceEnabled: true,
+      cacheSizeBytes: 1048576
+    );
     QuerySnapshot querySnapshot = await _db
         .collection('Product')
         .orderBy('rating', descending: true)
@@ -428,6 +480,10 @@ class FirestoreService {
 
   /// Fetches details of a specific plate by its [id].
   Future<Plate?> getPlate(num id) async {
+    _db.settings =const Settings(
+      persistenceEnabled: true,
+      cacheSizeBytes: 1048576
+    );
     try {
       QuerySnapshot querySnapshot =
           await _db.collection('Product').where('id', isEqualTo: id).get();
@@ -450,6 +506,10 @@ class FirestoreService {
 
   /// Checks if a plate with the specified [id] is marked as a favorite.
   Future<bool> isFavourite(num plateId) async {
+    _db.settings =const Settings(
+      persistenceEnabled: true,
+      cacheSizeBytes: 1048576
+    );
     SharedPreferences pref = await SharedPreferences.getInstance();
     int userId = pref.getInt('user')!;
     QuerySnapshot querySnapshot = await _db
@@ -463,6 +523,10 @@ class FirestoreService {
 
   /// Adds or removes a plate with the specified [id] to/from favorites.
   Future<bool> addFavourites(num plateId) async {
+    _db.settings =const Settings(
+      persistenceEnabled: true,
+      cacheSizeBytes: 1048576
+    );
     SharedPreferences pref = await SharedPreferences.getInstance();
     int userId = pref.getInt('user')!;
     QuerySnapshot querySnapshot = await _db
@@ -484,6 +548,10 @@ class FirestoreService {
 
   /// Fetches a list of favorite plates for the current user.
   Future<PlateList> listFavorities() async {
+    _db.settings =const Settings(
+      persistenceEnabled: true,
+      cacheSizeBytes: 1048576
+    );
     SharedPreferences pref = await SharedPreferences.getInstance();
     int userId = pref.getInt('user')!;
     List<Plate> favPlates = [];
@@ -517,6 +585,10 @@ class FirestoreService {
     bool isPromotion,
     bool isFavorite,
   ) async {
+    _db.settings =const Settings(
+      persistenceEnabled: true,
+      cacheSizeBytes: 1048576
+    );
     try {
       // Creating a Map containing analytics data
       Map<String, dynamic> data = {
@@ -542,6 +614,10 @@ class FirestoreService {
     bool vegano,
   ) async {
     FirebaseFirestore db = FirebaseFirestore.instance;
+    _db.settings =const Settings(
+      persistenceEnabled: true,
+      cacheSizeBytes: 1048576
+    );
     List test = [];
     List cont = [''];
     if (vegetariano) {
@@ -636,6 +712,10 @@ class FirestoreService {
   }
 
   Future<PlateList> listRecimendations() async {
+    _db.settings =const Settings(
+      persistenceEnabled: true,
+      cacheSizeBytes: 1048576
+    );
     SharedPreferences pref = await SharedPreferences.getInstance();
     int userId = pref.getInt('user')!;
 
@@ -710,6 +790,10 @@ class FirestoreService {
   /// Fetches a list of plates available as offers.
   Future<PlateList> getPlatesCategoryOrRestaurant(
       String category, num idR) async {
+        _db.settings =const Settings(
+      persistenceEnabled: true,
+      cacheSizeBytes: 1048576
+    );
     QuerySnapshot querySnapshot;
 
     if (idR == 0) {
@@ -746,6 +830,10 @@ class FirestoreService {
   }
 
   Future<PlateList> fetchMinMaxPrice(num id)async{
+    _db.settings =const Settings(
+      persistenceEnabled: true,
+      cacheSizeBytes: 1048576
+    );
     QuerySnapshot querySnapshot = await _db
         .collection('Product')
         .where('restaurantId', isEqualTo: id)
